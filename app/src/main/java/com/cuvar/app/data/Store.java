@@ -2,6 +2,7 @@ package com.cuvar.app.data;
 
 import com.cuvar.app.rules.AppRule;
 import com.cuvar.app.rules.ItemKey;
+import com.cuvar.app.rules.NameList;
 import com.cuvar.app.rules.DailyCode;
 import com.cuvar.app.rules.DayLimit;
 import com.cuvar.app.rules.DailySchedule;
@@ -985,9 +986,12 @@ public final class Store {
             if (d.enabled && periodRemoved) out.add("Režim „" + d.name + "“: " + d.label() + " " + d.daysLabel()
                     + " umesto " + String.join(", ", periods));
             if (code && !d.code) out.add("Režim „" + d.name + "“ bez dnevne šifre van perioda");
-            int apps = removedApps.size(), sites = removedSites.size();
-            if (apps + sites > 0) out.add("Režim „" + d.name + "“: uklanja se " + (apps > 0 ? Ui.count(apps, "aplikacija", "aplikacije", "aplikacija") : "")
-                    + (apps > 0 && sites > 0 ? " i " : "") + (sites > 0 ? Ui.count(sites, "sajt", "sajta", "sajtova") : ""));
+            if (!removedApps.isEmpty() || !removedSites.isEmpty()) {
+                List<String> names = new ArrayList<>();
+                for (String a : removedApps) names.add(AppLabels.of(pm, a));
+                names.addAll(removedSites);
+                out.add("Režim „" + d.name + "“: uklanja se " + NameList.join(names, " i ", " i još "));
+            }
         }
         return out;
     }
