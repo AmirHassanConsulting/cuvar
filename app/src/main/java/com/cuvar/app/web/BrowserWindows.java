@@ -77,16 +77,14 @@ public final class BrowserWindows {
      * Ostali vidljivi prozori aplikacija; root se zadržava da bi se proverila i pravila sajtova.
      * Preskače se samo prozor koji je check() već pročitao (frontWindowId); -1: nijedan.
      * Na MIUI aktivan može biti početni ekran dok je fokusirana aplikacija sa pravilom, pa se fokus ne gleda.
+     * Jedini prozor aplikacije se čita samo kad nije pročitan (napred sistemski prozor preko nje, Xiaomi).
      */
     public List<AppWindow> otherAppWindows(int frontWindowId) {
         List<AppWindow> out = new ArrayList<>();
         try {
-            List<AccessibilityWindowInfo> apps = new ArrayList<>();
-            for (AccessibilityWindowInfo w : svc.getWindows()) {
-                if (w != null && w.getType() == AccessibilityWindowInfo.TYPE_APPLICATION) apps.add(w);
-            }
-            // Samo jedna aplikacija na ekranu (uobičajeno): ne pita se aplikacija za sadržaj bez potrebe.
-            if (apps.size() < 2) return out;
+            List<AccessibilityWindowInfo> apps = appWindows();
+            // Samo pročitana aplikacija na ekranu (uobičajeno): ne pita se aplikacija za sadržaj bez potrebe.
+            if (!AppWindowScan.hasOther(apps.size(), frontWindowId, apps.size() == 1 ? apps.get(0).getId() : -1)) return out;
             for (AccessibilityWindowInfo w : apps) {
                 if (frontWindowId == FOCUSED ? (w.isActive() || w.isFocused()) : w.getId() == frontWindowId) continue;
                 AccessibilityNodeInfo r = w.getRoot();
@@ -124,6 +122,45 @@ public final class BrowserWindows {
             GuardDiagnostics.report("windowBounds", error);
         }
         return null;
+    }
+
+    /** Da li otherAppWindows(frontWindowId) ima šta da pročita; samo id i tip prozora, bez sadržaja. */
+    public boolean hasOtherAppWindow(int frontWindowId) {
+        try {
+            List<AccessibilityWindowInfo> apps = appWindows();
+            return AppWindowScan.hasOther(apps.size(), frontWindowId, apps.size() == 1 ? apps.get(0).getId() : -1);
+        } catch (Throwable error) {
+            GuardDiagnostics.report("otherWindows", error);
+            return false;
+        }
+    }
+
+    private List<AccessibilityWindowInfo> appWindows() {
+        List<AccessibilityWindowInfo> apps = new ArrayList<>();
+        for (AccessibilityWindowInfo w : svc.getWindows()) {
+            if (w != null && w.getType() == AccessibilityWindowInfo.TYPE_APPLICATION) apps.add(w);
+        }
+        return apps;
+    }
+
+    /** Šifra tipa aktivnog prozora za dijagnostiku (bez paketa): app|sys|ime|acc|split|none|other. */
+    public String activeWindowType() {
+        try {
+            for (AccessibilityWindowInfo w : svc.getWindows()) {
+                if (w == null || !w.isActive()) continue;
+                switch (w.getType()) {
+                    case AccessibilityWindowInfo.TYPE_APPLICATION: return "app";
+                    case AccessibilityWindowInfo.TYPE_SYSTEM: return "sys";
+                    case AccessibilityWindowInfo.TYPE_INPUT_METHOD: return "ime";
+                    case AccessibilityWindowInfo.TYPE_ACCESSIBILITY_OVERLAY: return "acc";
+                    case AccessibilityWindowInfo.TYPE_SPLIT_SCREEN_DIVIDER: return "split";
+                    default: return "other";
+                }
+            }
+        } catch (Throwable ignored) {
+            // samo beleška: bez spiska prozora piše se "none"
+        }
+        return "none";
     }
 
     /** Broj prozora aplikacija na ekranu (podeljen ekran, plutajući prozor); ne čita sadržaj aplikacija. */

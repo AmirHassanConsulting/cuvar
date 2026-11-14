@@ -16,6 +16,7 @@ app/src/main/java/com/cuvar/app/web/Hosts.java
 app/src/main/java/com/cuvar/app/i18n/Lang.java
 app/src/main/java/com/cuvar/app/web/WebAddress.java
 app/src/main/java/com/cuvar/app/web/Browsers.java
+app/src/main/java/com/cuvar/app/web/AppWindowScan.java
 app/src/main/java/com/cuvar/app/rules/UnlockStreak.java
 app/src/main/java/com/cuvar/app/rules/UnlockTimer.java
 app/src/main/java/com/cuvar/app/rules/QuickCover.java

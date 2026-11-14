@@ -567,7 +567,7 @@ public class GuardService extends AccessibilityService {
             // Beleška za dijagnostiku (Xiaomi): samo šifre, bez naziva paketa.
             String seen = seenPkg == null ? "none" : seenPkg.equals(coverPkg) ? "same" : "other";
             GuardDiagnostics.note("cover", "lifted", "seen=" + seen + " w=" + windows.appWindowCount()
-                    + " u=" + (usageOk ? 1 : 0) + " t=" + (held < QuickCover.LAG_MS ? "fast" : held < QuickCover.MAX_MS ? "mid" : "max"));
+                    + " a=" + windows.activeWindowType() + " u=" + (usageOk ? 1 : 0) + " t=" + (held < QuickCover.LAG_MS ? "fast" : held < QuickCover.MAX_MS ? "mid" : "max"));
         }
     }
 
@@ -961,7 +961,8 @@ public class GuardService extends AccessibilityService {
      * Vraća true kad je prikazana blokada. frontId: već pročitan prozor (vidi otherAppWindows).
      */
     private boolean blockOtherWindows(int frontId) {
-        if (windows.appWindowCount() < 2) return false;
+        // Uobičajeno (jedini prozor aplikacije je već pročitan): bez čitanja sadržaja.
+        if (!windows.hasOtherAppWindow(frontId)) return false;
         visibleHosts.clear();
         secondaryContentPackages.clear();
         windowHosts.clear();
