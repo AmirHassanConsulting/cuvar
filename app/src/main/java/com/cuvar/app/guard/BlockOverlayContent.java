@@ -83,13 +83,8 @@ public final class BlockOverlayContent {
         } else if (kind == GuardService.KIND_SCHEDULE && rule != null) {
             title = "Režim „" + rule.name + "“ je aktivan";
             sub = name + " je blokiran " + rule.daysLabel() + ", od " + DailySchedule.label(rule.start)
-                    + " do " + DailySchedule.label(rule.end) + "."
-                    + (rule.code ? " Posle toga se otključava dnevnom šifrom." : "");
+                    + " do " + DailySchedule.label(rule.end) + ".";
             joke = Jokes.pick(Jokes.SCHEDULE);
-        } else if (kind == GuardService.KIND_CODE) {
-            title = name + " je zaključan";
-            sub = "Unesi dnevnu šifru. Važi od " + DailyCode.CHANGE_HOUR + ":00 do " + DailyCode.LOCK_HOUR + ":00 i vidi se u Čuvaru.";
-            joke = Jokes.pick(Jokes.LOCK);
         } else if (kind == GuardService.KIND_BROWSER) {
             title = name + " je zaključan";
             sub = "U ovom pregledaču Čuvar ne vidi koji je sajt otvoren, pa je zaključan dok imaš pravila za sajtove. "
@@ -212,7 +207,7 @@ public final class BlockOverlayContent {
             unlock.setGravity(Gravity.CENTER_HORIZONTAL);
             box.addView(unlock, Ui.fill(c, 22));
             // Zaključana aplikacija odmah traži odgovor pa PIN; kod isteklog vremena i blokiranog sajta prvo pitamo.
-            if (kind == GuardService.KIND_LOCK || kind == GuardService.KIND_CODE || kind == GuardService.KIND_BROWSER || kind == GuardService.KIND_CLONER) {
+            if (kind == GuardService.KIND_LOCK || kind == GuardService.KIND_BROWSER || kind == GuardService.KIND_CLONER) {
                 showChallenge(unlock, () -> showPinPad(unlock, key, code), null);
             } else {
                 TextView ask = overlayButton(c, "Ipak želim da otključam");
@@ -359,7 +354,7 @@ public final class BlockOverlayContent {
         }
     }
 
-    /** Tastatura za PIN, ili za dnevnu šifru kod režima sa šifrom. */
+    /** Tastatura za dnevnu šifru. */
     private void showPinPad(final LinearLayout area, final String key, final boolean code) {
         area.removeAllViews();
         if (code) area.addView(codeNote(host), Ui.fill(host, 0));

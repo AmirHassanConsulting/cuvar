@@ -260,11 +260,11 @@ Svaki dan dobijaš jednu novu šifru u 	Every day you get one new code at
 Današnja šifra. Jedino ona otključava zaključane aplikacije i sajtove, i to samo do 	Today's code. Only it unlocks locked apps and sites, and only until 
  Sutra u 	 Tomorrow at 
 :00 dobijaš novu.	:00 you get a new one.
-Zajedničko vreme za aplikacije i sajtove sa sopstvenim pravilom (ne samo u režimu bez šifre); kad ga potrošiš, zaključani su do ponoći	Shared time for apps and sites with their own rule (not only in a mode without a code); when it's used up, they're locked until midnight
+Zajedničko vreme za aplikacije i sajtove sa sopstvenim pravilom (ne samo u režimu); kad ga potrošiš, zaključani su do ponoći	Shared time for apps and sites with their own rule (not only in a mode); when it's used up, they're locked until midnight
  za aplikacije i sajtove sa sopstvenim pravilom, posle toga ništa ne otključava	 for apps and sites with their own rule, after that nothing unlocks
  · isključuje se od sutra	 · turns off from tomorrow
 Računa se samo vreme u aplikacijama i na sajtovima sa sopstvenim pravilom 	Only time in apps and sites with their own rule counts 
-(zaključani, ograničeni, otvaranja, u komadu ili u režimu sa dnevnom šifrom). Ono što je samo u režimu bez šifre, mape, pozivi i sve ostalo ne troši limit. 	(locked, limited, max opens, longest session or in a mode with the daily code). What is only in a mode without a code, maps, calls and everything else don't use the limit. 
+(zaključani, ograničeni, otvaranja, u komadu). Ono što je samo u režimu, mape, pozivi i sve ostalo ne troši limit. 	(locked, limited, max opens, longest session). What is only in a mode, maps, calls and everything else don't use the limit. 
 Kad se limit potroši, sve zaključane i ograničene aplikacije i sajtovi ostaju zaključani 	When the limit is used up, all locked and limited apps and sites stay locked 
 do ponoći: bez dnevne šifre i hitnog otključavanja. Upozorenje stiže 	until midnight: no daily code and no emergency unlock. A warning comes 
  min ranije.\n\n	 min before.\n\n
@@ -428,12 +428,13 @@ stavke	items
 Sve na jednom mestu. Aplikacija i njen sajt su jedna stavka.	Everything in one place. An app and its site are one item.
 Kako se pravila slažu  ›	How rules combine  ›
 Kako se pravila slažu	How rules combine
-1. Režim je najjači: u svom periodu blokira i ne može da se otključa.\n	1. A mode is the strongest: in its period it blocks and can't be unlocked.\n
-2. Ostatak dana: zaključano se otvara samo dnevnom šifrom (17:00 do 22:00), a potrošen limit se ne otvara do ponoći.\n	2. Rest of the day: locked items open only with the daily code (17:00 to 22:00), and a used-up limit doesn't open until midnight.\n
-3. Ukupni dnevni limit broji samo vreme u stavkama sa sopstvenim pravilom (zaključaj, limit, otvaranja...) ili u režimu sa dnevnom šifrom, ne u onima koje su samo u režimu bez šifre; kad se potroši, zaključava ih do ponoći.\n	3. The total daily limit counts only time in items with their own rule (lock, limit, opens...) or in a mode with the daily code, not in those that are only in a mode without a code; when used up, it locks them until midnight.\n
+1. Režim blokira samo u svom periodu i tada ne može da se otključa.\n	1. A mode blocks only during its period, and then it can't be unlocked.\n
+2. Van režima važi samo ono što je podešeno pod „Ceo dan“: zaključano se otvara dnevnom šifrom (17:00 do 22:00), a potrošen limit se ne otvara do ponoći.\n	2. Outside modes only what is set under “All day” applies: locked items open with the daily code (17:00 to 22:00), and a used-up limit doesn't open until midnight.\n
+3. Ukupni dnevni limit broji samo vreme u stavkama sa pravilom pod „Ceo dan“ (zaključaj, limit, otvaranja...), ne u onima koje su samo u režimu; kad se potroši, zaključava ih do ponoći.\n	3. The total daily limit counts only time in items with a rule under “All day” (lock, limit, opens...), not in those that are only in a mode; when used up, it locks them until midnight.\n
 4. Strože pravilo važi odmah, a blaže tek sutra od 06:00.\n	4. A stricter rule applies now, a looser one only from 06:00 tomorrow.\n
 5. Od 22:00 do 06:00 sve ovo je zaključano (noćna blokada).\n	5. From 22:00 to 06:00 all of this is locked (night block).\n
-6. Ručni Fokus je zaseban: dok traje, dozvoljene su samo izabrane aplikacije i sajtovi.	6. Manual Focus is separate: while it lasts, only the chosen apps and sites are allowed.
+6. Ručni Fokus je zaseban: dok traje, dozvoljene su samo izabrane aplikacije i sajtovi.\n	6. Manual Focus is separate: while it lasts, only the chosen apps and sites are allowed.\n
+7. Kod svake stavke pod „Ceo dan“ piše šta važi sada i ceo današnji dan, od 06:00 do 06:00.	7. Each item under “All day” shows what applies now and for the whole day today, from 06:00 to 06:00.
 + Dodaj aplikaciju ili sajt	+ Add app or site
 ⛔ Noćna blokada do 06:00: sve ispod je zaključano	⛔ Night block until 06:00: everything below is locked
 : blokirano 	: blocked 
@@ -806,3 +807,18 @@ Svaka šifra važi za jedno otključavanje; posle njega se ovde pojavi nova. Otk
 :00.	:00.
 Pogrešna šifra. Posle svakog otključavanja Čuvar pokazuje novu.	Wrong code. After every unlock Čuvar shows a new one.
 Vreme na njemu ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Jedna stavka dnevno odmah, ostale od sutra u 06:00	Time on it does not use the total limit and it does not lock when that runs out; other rules still apply. One item per day right away, others from 06:00 tomorrow
+ blokira 	 blocked by 
+ otvara se šifrom	 opens with the code
+ zaključano	 locked
+ slobodno	 free
+Sada: slobodno	Now: free
+Sada: limit potrošen, do ponoći	Now: limit used up, until midnight
+Sada: blokira 	Now: blocked by 
+Sada: otvara se šifrom do 	Now: opens with the code until 
+Sada: zaključano, šifra od 	Now: locked, code from 
+Sada: zaključano do sutra	Now: locked until tomorrow
+Sada: slobodno do 	Now: free until 
+Režim blokira samo u svom vremenu. Ispod „Ceo dan“ je ono što važi i van režima.	A mode blocks only during its time. Under “All day” is what applies outside modes too.
+Režim blokira samo u svom periodu. Da aplikacija bude zaključana i ostatak dana, 	A mode blocks only during its period. To keep an app locked for the rest of the day too, 
+uključi joj „Zaključaj“ na ekranu Pravila.	turn on “Lock” for it on the Rules screen.
+09:00–17:00 · svakog dana	09:00–17:00 · every day

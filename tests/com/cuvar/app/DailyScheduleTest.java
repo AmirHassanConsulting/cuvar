@@ -88,11 +88,10 @@ public final class DailyScheduleTest {
         check(DailySchedule.blockingApp(Arrays.asList(), "com.game", 0, 0) == null, "Bez režima", 0);
     }
 
-    /** Dani u nedelji (0 = ponedeljak) i dnevna šifra van perioda. */
+    /** Dani u nedelji (0 = ponedeljak). */
     private static void weekDays() {
         DailySchedule.Rule work = rule("posao", true, 9 * 60, 17 * 60, "com.game", "youtube.com");
         work.days = DailySchedule.WORK_DAYS;
-        work.code = true;
         DailySchedule.Rule fridayNight = rule("petak", true, 22 * 60, 6 * 60, "com.chat", "tiktok.com");
         fridayNight.days = 1 << 4;
         List<DailySchedule.Rule> rules = Arrays.asList(work, fridayNight);
@@ -107,11 +106,6 @@ public final class DailyScheduleTest {
         }
         check("radnim danima".equals(work.daysLabel()), "Oznaka radnih dana", 0);
         check("pet".equals(fridayNight.daysLabel()), "Oznaka jednog dana", 0);
-        check(is(DailySchedule.codeApp(rules, "com.game"), work), "Aplikacija sa šifrom", 0);
-        check(DailySchedule.codeApp(rules, "com.chat") == null, "Aplikacija bez šifre", 0);
-        check(is(DailySchedule.codeSite(rules, "www.youtube.com"), work), "Sajt sa šifrom", 0);
-        work.enabled = false;
-        check(DailySchedule.codeApp(rules, "com.game") == null, "Isključen režim nema šifru", 0);
     }
 
     private static void dailyCode() {
@@ -184,7 +178,9 @@ public final class DailyScheduleTest {
         DailySchedule.Rule code = DailySchedule.copy(early);
         code.code = true;
         List<DailySchedule.Rule> withCode = DailySchedule.tighten(Arrays.asList(code), Arrays.asList(overnight));
-        check(DailySchedule.codeApp(withCode, "com.game") != null, "Stara šifra ostaje", 0);
+        boolean kept = false;
+        for (DailySchedule.Rule r : withCode) kept |= r.code && r.apps.contains("com.game");
+        check(kept, "Stara šifra ostaje do migracije", 0);
 
         java.util.Random random = new java.util.Random(271828);
         for (int i = 0; i < 24; i++) {

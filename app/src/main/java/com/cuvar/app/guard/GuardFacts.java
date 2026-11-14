@@ -32,8 +32,6 @@ public final class GuardFacts implements BlockRules.Facts {
     @Override public boolean onBreak(String pkg) { return svc.store.sessions.sessionBreakLeft(pkg) > 0; }
     @Override public DailySchedule.Rule scheduleApp(String pkg) { return svc.store.modes.scheduleBlockingApp(pkg); }
     @Override public DailySchedule.Rule scheduleSite(String host) { return svc.store.modes.scheduleBlockingSite(host); }
-    @Override public DailySchedule.Rule codeApp(String pkg) { return svc.store.modes.codeRuleForApp(pkg); }
-    @Override public DailySchedule.Rule codeSite(String host) { return svc.store.modes.codeRuleForSite(host); }
     @Override public boolean appLock(String pkg) { return svc.store.appLockNow(pkg); }
     @Override public int appLimit(String pkg) { return svc.store.appLimitNow(pkg); }
     @Override public long usedApp(String pkg) { return svc.store.usedShared(pkg); }

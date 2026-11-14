@@ -35,8 +35,6 @@ public final class BlockRules {
         boolean onBreak(String pkg);
         DailySchedule.Rule scheduleApp(String pkg);
         DailySchedule.Rule scheduleSite(String host);
-        DailySchedule.Rule codeApp(String pkg);
-        DailySchedule.Rule codeSite(String host);
         boolean appLock(String pkg);
         int appLimit(String pkg);
         long usedApp(String pkg);
@@ -128,20 +126,12 @@ public final class BlockRules {
             int limit = f.appLimit(pkg);
             boolean timeUp = limit > 0 && f.usedApp(pkg) >= limit * 60000L;
             if (limit > 0 && !timeUp) f.warnApp(pkg, limit, f.usedApp(pkg));
-            // Van perioda režim sa dnevnom šifrom drži svoje aplikacije zaključane, a umesto PIN-a traži šifru.
-            DailySchedule.Rule codeRule = f.codeApp(pkg);
-            if (f.appLock(pkg) || timeUp || codeRule != null) {
-                out.add(new Block(appKey, timeUp ? BlockKind.TIME : codeRule != null ? BlockKind.CODE : BlockKind.LOCK, null, true));
+            if (f.appLock(pkg) || timeUp) {
+                out.add(new Block(appKey, timeUp ? BlockKind.TIME : BlockKind.LOCK, null, true));
             }
         }
         if (f.unknownBrowser(pkg)) out.add(new Block(appKey, unseen(f, BlockKind.BROWSER), null, true));
         if (f.cloner(pkg)) out.add(new Block(appKey, BlockKind.CLONER, null, true));
-        if (web && siteRule == null) {
-            DailySchedule.Rule codeRule = f.codeSite(s.host);
-            if (codeRule != null) {
-                out.add(new Block(ItemKey.site(DailySchedule.matchDomain(s.host, codeRule.sites)), BlockKind.CODE, null, true));
-            }
-        }
         if (s.embedded && s.host == null && f.hasSiteRules()) {
             // Adresa se ne vidi, a postoje pravila za sajtove: bez ovoga bi se blokiran sajt otvorio preko linka u aplikaciji.
             out.add(new Block(appKey, unseen(f, BlockKind.INAPP), null, true));
@@ -188,9 +178,8 @@ public final class BlockRules {
             } else {
                 int limit = f.appLimit(p);
                 boolean timeUp = limit > 0 && f.usedApp(p) >= limit * 60000L;
-                DailySchedule.Rule codeRule = f.codeApp(p);
-                if (f.appLock(p) || timeUp || codeRule != null) {
-                    b = new Block(k, timeUp ? BlockKind.TIME : codeRule != null ? BlockKind.CODE : BlockKind.LOCK, null, true);
+                if (f.appLock(p) || timeUp) {
+                    b = new Block(k, timeUp ? BlockKind.TIME : BlockKind.LOCK, null, true);
                 } else if (f.unknownBrowser(p)) {
                     b = new Block(k, unseen(f, BlockKind.BROWSER), null, true);
                 } else if (f.cloner(p)) {
@@ -209,7 +198,7 @@ public final class BlockRules {
         return new Block(ItemKey.app(pkg), BlockKind.FOCUS, null, false);
     }
 
-    /** Sajt u drugom prozoru: dnevni limit, noć, režim ili šifra, pa limit sajta. */
+    /** Sajt u drugom prozoru: dnevni limit, noć, režim, pa limit sajta. */
     static void windowSite(Facts f, List<Block> out, String pkg, String host) {
         if (!f.exempt(pkg)) {
             String daySite = f.dayLimitReached() ? f.daySite(host) : null;
@@ -220,11 +209,6 @@ public final class BlockRules {
         DailySchedule.Rule rule = f.scheduleSite(host);
         if (rule != null) {
             out.add(new Block(ItemKey.site(DailySchedule.matchDomain(host, rule.sites)), BlockKind.SCHEDULE, rule, false));
-        } else {
-            DailySchedule.Rule codeRule = f.codeSite(host);
-            if (codeRule != null) {
-                out.add(new Block(ItemKey.site(DailySchedule.matchDomain(host, codeRule.sites)), BlockKind.CODE, null, true));
-            }
         }
         siteLimits(f, out, host, false);
     }

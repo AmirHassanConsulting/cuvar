@@ -11,7 +11,7 @@ ne čita poruke ni sadržaj stranica. Detalji su u [PRIVACY.md](PRIVACY.md).
 ## Šta Čuvar radi (sva pravila)
 
 Ovo je izvor istine za pravila; kad se pravilo u kodu promeni, menja se i ovde.
-Stanje: 11. 11. 2026. Većina pravila nije proverena na pravom telefonu.
+Stanje: 14. 11. 2026. Većina pravila nije proverena na pravom telefonu.
 
 ### 1. Šta je "pod pravilom"
 
@@ -25,9 +25,8 @@ je pod pravilom, **i van perioda režima**.
 
 Ukupni dnevni limit drži samo stavke sa **sopstvenim** pravilom: aplikaciju sa
 zaključavanjem, limitom, otvaranjima ili "u komadu" (i aplikaciju čiji povezani
-sajt ima pravilo) i sajt sa liste sajtova. Režim sa dnevnom šifrom drži stavku
-ceo dan, pa se računa kao sopstveno pravilo. Ono što je samo u režimu bez šifre
-ne troši ukupni limit i ne zaključava se kad on istekne; drži ga režim u svom periodu.
+sajt ima pravilo) i sajt sa liste sajtova. Ono što je samo u režimu ne troši
+ukupni limit i ne zaključava se kad on istekne; drži ga režim u svom periodu.
 
 Nikad se ne blokiraju: telefon (dialer), SMS aplikacija, početni ekran i sam Čuvar.
 
@@ -40,6 +39,11 @@ Pravila → "Aplikacije, sajtovi i režimi" je jedini ekran za ovo:
   režim" i gotovi "Noćno zaključavanje" i "Radno vreme".
 - **Ceo dan**: zaključavanje, dnevni limit, broj otvaranja i "najduže u komadu",
   bez obzira na režime. Kartica aplikacije samo pokazuje u kojim je režimima.
+  Kod svake stavke (i na vrhu kartice aplikacije) piše **"Sada: ..."** (npr.
+  "blokira Radno vreme do 17:00", "zaključano, šifra od 17:00", "limit potrošen,
+  do ponoći") i **"Danas: ..."**, ceo dan pravila od 06:00 do 06:00, npr.
+  "06–09 zaključano · 09–17 blokira Radno vreme · 17–22 otvara se šifrom · ...".
+  Računa se iz pravila koja sada važe (`rules/DayPlan`).
 
 ### 2a. Pravila za aplikaciju i sajt
 
@@ -50,16 +54,19 @@ Pravila → "Aplikacije, sajtovi i režimi" je jedini ekran za ovo:
 | Dnevni limit (min) | kad se potroši, do ponoći | **ne** |
 | Najviše otvaranja dnevno | posle poslednjeg dozvoljenog otvaranja, do ponoći | **ne** |
 | Najduže u komadu | posle toliko minuta, obavezna pauza 15 min | **ne** |
-| Vremenski režim | u periodu i izabranim danima | **ne** |
-| Režim sa "van perioda traži dnevnu šifru" | sve vreme **van** perioda | da, dnevnom šifrom |
+| Vremenski režim | **samo** u periodu i izabranim danima | **ne** |
+
+Režim van svog perioda ne blokira ništa. Da aplikacija bude zaključana i ostatak
+dana, uključi joj "Zaključaj". Ranija opcija režima "Van perioda traži dnevnu
+šifru" (i "Van režima bez dnevne šifre" po aplikaciji) je uklonjena 14. 11. 2026:
+pri prvom pokretanju nove verzije svaka stavka takvog uključenog režima dobija
+"Zaključaj" (sajt "uvek blokiran"), osim oslobođenih, pa ništa nije postalo blaže.
 
 - Izlazak iz aplikacije kraći od 15 min ne prekida "komad".
 - Upozorenje stiže 5 i 1 min pre isteka limita.
 - Aplikacija i njen sajt (Instagram i instagram.com) su jedna stavka: zajedničko
   vreme, važi strožije zaključavanje i limit. Broj otvaranja i "najduže u komadu"
   važe samo za aplikaciju, ne i za njen sajt.
-- "Van režima bez dnevne šifre" (po aplikaciji): aplikacija iz režima sa šifrom
-  je van perioda slobodna. Važi od sledećih 06:00.
 - Sajt bez instalirane aplikacije (npr. facebook.com) ima iste opcije: režimi,
   "Zaključaj", "Van ukupnog dnevnog limita" i dnevni limit. "Najviše otvaranja",
   "Najduže u komadu" i "Pozivi uvek prolaze" postoje samo za aplikaciju.
@@ -74,7 +81,7 @@ Pravila → "Aplikacije, sajtovi i režimi" je jedini ekran za ovo:
   otključava se ničim. Opšta "Noćna blokada" koja je zaključavala sve iz pravila
   ukinuta je 11. 11. 2026 (poslednji put je važila te noći do 06:00).
 - **Ukupni dnevni limit**: zbir vremena u stavkama sa sopstvenim pravilom (ne
-  onih koje su samo u režimu bez šifre, vidi 1.; ni aplikacija i sajtova označenih "Van ukupnog
+  onih koje su samo u režimu, vidi 1.; ni aplikacija i sajtova označenih "Van ukupnog
   dnevnog limita"). Kad se potroši, te stavke su zaključane do ponoći, bez otključavanja. Može da se poveća
   jednom dnevno i samo dok nije potrošen (do 1 h za 30 %, 2 h za 20 %, od 4 h za
   10 %); povećanje ostaje i sledećih dana. Smanjenje važi odmah, isključivanje od
@@ -90,7 +97,7 @@ Pravila → "Aplikacije, sajtovi i režimi" je jedini ekran za ovo:
 ### 4. Redosled (šta se prikazuje kad važi više pravila)
 
 Ukupni limit → fokus → otvaranja → pauza u komadu → režim → dnevni limit
-aplikacije / zaključavanje / šifra van perioda → pregledač bez adrese i
+aplikacije / zaključavanje → pregledač bez adrese i
 aplikacije za kloniranje → pravila sajta. Prikazuje se prva blokada koja važi;
 otključavanje jedne stavke ne otvara druge.
 
@@ -116,8 +123,8 @@ Strožije pravilo važi odmah. Svako popuštanje (veći limit, skinuto zaključa
 isključen ili skraćen režim, aplikacija izbačena iz režima, isključena zaštita) važi tek od **sledećih 06:00**. Kartica
 "Zakazane promene" pokazuje šta čeka i može da se otkaže.
 
-Dok režim traje, ne može da se isključi, obriše, skrati, promene mu se dani ili
-šifra, ni da se iz njega izbaci aplikacija ili sajt. Dodavanje može.
+Dok režim traje, ne može da se isključi, obriše, skrati, promene mu se dani,
+ni da se iz njega izbaci aplikacija ili sajt. Dodavanje može.
 
 ### 7. "Ukloni iz pravila"
 
@@ -214,7 +221,7 @@ iz koda, bez XML rasporeda. Zašto baš ovako i gde ide nova klasa:
 | `ScheduleActivity.java`, `FocusActivity.java` | Vremenski režimi, ručni fokus |
 | `StatsActivity.java` | Statistika |
 | `data/` | `Store` (sva podešavanja, "popuštanje od sutra") i njegovi delovi: `Clock` (pouzdan sat), `Unlocks`, `Modes` (režimi), `DayLimits`, `UsageLog`, `Sessions`, `Focus`, `GuardLog`, `AppLabels` (naziv aplikacije) |
-| `rules/` | Čista pravila bez Android-a, sa testovima: `BlockKind` (vrste blokade), `UnlockTimer`, `UnlockCost`, `CodeAttempts`, `TrustedClock`, `SessionLimit`, `RuleMerge`, `LimitWarnings`, `DailySchedule` (režimi), `DailyCode` (dnevna šifra), `DayLimit`, `DomainRules`, `UsageTracker`, `UsageCalendar`, `UnlockStreak`, `ForegroundTime` |
+| `rules/` | Čista pravila bez Android-a, sa testovima: `BlockKind` (vrste blokade), `UnlockTimer`, `UnlockCost`, `CodeAttempts`, `TrustedClock`, `SessionLimit`, `RuleMerge`, `LimitWarnings`, `DailySchedule` (režimi), `DayPlan` (red "Danas"/"Sada"), `CodeRegimeMigration`, `DailyCode` (dnevna šifra), `DayLimit`, `DomainRules`, `UsageTracker`, `UsageCalendar`, `UnlockStreak`, `ForegroundTime` |
 | `guard/` | Delovi servisa: `BlockScreen` (prikaz blokade), `AppKinds` (vrsta aplikacije napred), `UsageAccounting` (upis vremena), `BlockOverlayContent` (ekran blokade i otključavanje), `PauseOverlayContent` (pauza 6 s), `GuardOverlayWindow` (prozor preko svega, muzika), `AndroidUsage` (statistika iz Androidovih zapisa), `ForegroundApp`, `SystemScreens`, `Clones`, `MusicOwner`, `LoadMeter`, `GuardDiagnostics` i `ErrorLog` (uhvaćene greške, bez ličnih podataka) |
 | `web/` | Pregledači: `BrowserMonitor`, `BrowserWindows`, `BrowserAddressState`, `WebAddress` (pravi sajt), `Hosts`, `Links` (aplikacija ↔ sajt) |
 | `unlock/` | `Quiz`, `QuizBank`, `Jokes`, `NumberGame`, `NumberGameView`, `PinPad` |

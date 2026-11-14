@@ -251,8 +251,6 @@ public class MainActivity extends Activity {
     }
 
     private String codeState() {
-        DailySchedule.Rule active = store.modes.activeCodeRule();
-        if (active != null) return "hidden:" + active.id + ":" + active.name + ":" + active.end;
         return store.unlock.dailyCodeVisible() ? "visible:" + store.unlock.dailyCode() : "unavailable";
     }
 
@@ -458,19 +456,12 @@ public class MainActivity extends Activity {
         return card;
     }
 
-    /** Dnevna šifra za aplikacije režima sa šifrom; vidi se samo od 17:00 do 22:00 i dok takav režim ne traje. */
+    /** Dnevna šifra za zaključane aplikacije i sajtove; vidi se samo od 17:00 do 22:00. */
     private View codeCard() {
         LinearLayout card = Ui.card(this);
         TextView eyebrow = Ui.text(this, "DNEVNA ŠIFRA", 12, Ui.MUTED, true);
         eyebrow.setLetterSpacing(0.15f);
         card.addView(eyebrow);
-        DailySchedule.Rule active = store.modes.activeCodeRule();
-        if (active != null) {
-            card.addView(Ui.text(this, "Skrivena", 30, Ui.INK, true), Ui.fill(this, 4));
-            card.addView(Ui.text(this, "Režim „" + active.name + "“ traje do " + DailySchedule.label(active.end)
-                    + ". Šifra se vidi tek posle toga.", 14, Ui.MUTED, false), Ui.fill(this, 6));
-            return card;
-        }
         if (!store.unlock.dailyCodeVisible()) {
             card.addView(Ui.text(this, "Stiže u " + DailyCode.CHANGE_HOUR + ":00", 30, Ui.INK, true), Ui.fill(this, 4));
             card.addView(Ui.text(this, "Šifra stiže u " + DailyCode.CHANGE_HOUR

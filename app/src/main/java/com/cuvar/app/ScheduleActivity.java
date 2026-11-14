@@ -84,7 +84,7 @@ public class ScheduleActivity extends SubActivity {
         if (work || night) {
             content.addView(Ui.section(this, "Gotovi režimi"), Ui.fill(this, 26));
             if (work) {
-                content.addView(presetCard("Radno vreme", "09:00–17:00 · svakog dana · posle toga dnevnom šifrom",
+                content.addView(presetCard("Radno vreme", "09:00–17:00 · svakog dana",
                         () -> open(store.modes.addWorkSchedule().id)), Ui.fill(this, 10));
             }
             if (night) {
@@ -142,15 +142,14 @@ public class ScheduleActivity extends SubActivity {
         if (desired == null || effective.size() != 1) return true;
         DailySchedule.Rule current = effective.get(0);
         return current.enabled != desired.enabled || current.start != desired.start || current.end != desired.end
-                || current.days != desired.days || current.code != desired.code
+                || current.days != desired.days
                 || !current.apps.equals(desired.apps) || !current.sites.equals(desired.sites);
     }
 
     private String description(DailySchedule.Rule r) {
         return (r.enabled ? "" : "Isključen · ") + r.label() + " · " + r.daysLabel()
                 + " · " + Ui.count(r.apps.size(), "aplikacija", "aplikacije", "aplikacija")
-                + " · " + Ui.count(r.sites.size(), "sajt", "sajta", "sajtova")
-                + (r.code ? " · dnevna šifra" : "");
+                + " · " + Ui.count(r.sites.size(), "sajt", "sajta", "sajtova");
     }
 
     private String effectiveDescription(List<DailySchedule.Rule> rules) {
@@ -210,14 +209,8 @@ public class ScheduleActivity extends SubActivity {
         action("Period: " + rule.label(), () -> editTime(rule));
         action("Dani: " + rule.daysLabel(), () -> editDays(rule));
         content.addView(Ui.text(this, "Po vremenu telefona; pomeranje sata ne skraćuje režim. Period može da prelazi ponoć i tada pripada danu u kome počinje. Blokada traje do kraja perioda.", 14, Ui.MUTED, false), Ui.fill(this, 8));
-        CheckRow code = new CheckRow(this, null, "Van perioda traži dnevnu šifru",
-                "Aplikacije i sajtovi ovog režima su i van perioda zaključani i otvaraju se samo dnevnom šifrom, od 17:00 do 22:00. Šifra se vidi na početnom ekranu Čuvara.");
-        code.setChecked(rule.code);
-        code.setListener(checked -> {
-            if (!store.modes.setScheduleCode(id, checked)) refused();
-            else render();
-        });
-        content.addView(code, Ui.fill(this, 12));
+        content.addView(Ui.text(this, "Režim blokira samo u svom periodu. Da aplikacija bude zaključana i ostatak dana, "
+                + "uključi joj „Zaključaj“ na ekranu Pravila.", 14, Ui.MUTED, false), Ui.fill(this, 8));
         content.addView(Ui.text(this, "Aplikacije", 20, Ui.INK, true), Ui.fill(this, 24));
         action("Dodaj / izaberi aplikacije", () -> chooseApps(rule));
         if (rule.apps.isEmpty()) empty("Još nema aplikacija u režimu.");

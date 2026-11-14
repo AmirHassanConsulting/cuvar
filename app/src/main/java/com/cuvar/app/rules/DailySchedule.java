@@ -24,7 +24,10 @@ public final class DailySchedule {
         public int start;
         public int end;
         public int days = ALL_DAYS;
-        /** Van perioda aplikacije i sajtovi ovog režima otključavaju se samo dnevnom šifrom. */
+        /**
+         * Stari režim „van perioda traži dnevnu šifru“. Više se ne podešava: Store ga pri učitavanju
+         * pretvara u zaključavanje (CodeRegimeMigration), pa je posle toga uvek false.
+         */
         public boolean code;
         public final Set<String> apps = new LinkedHashSet<>();
         public final Set<String> sites = new LinkedHashSet<>();
@@ -85,18 +88,6 @@ public final class DailySchedule {
     /** Prvi uključen režim koji u datom minutu i danu blokira host (i poddomene), ili null. */
     public static Rule blockingSite(List<Rule> rules, String host, int minute, int day) {
         for (Rule r : rules) if (r.active(minute, day) && matchDomain(host, r.sites) != null) return r;
-        return null;
-    }
-
-    /** Uključen režim sa dnevnom šifrom koji sadrži aplikaciju, ili null. */
-    public static Rule codeApp(List<Rule> rules, String pkg) {
-        for (Rule r : rules) if (r.enabled && r.code && r.apps.contains(pkg)) return r;
-        return null;
-    }
-
-    /** Uključen režim sa dnevnom šifrom koji sadrži host (i poddomene), ili null. */
-    public static Rule codeSite(List<Rule> rules, String host) {
-        for (Rule r : rules) if (r.enabled && r.code && matchDomain(host, r.sites) != null) return r;
         return null;
     }
 

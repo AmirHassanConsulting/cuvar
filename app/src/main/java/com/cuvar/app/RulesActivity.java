@@ -6,6 +6,7 @@ import com.cuvar.app.data.Store;
 import com.cuvar.app.data.Sessions;
 import com.cuvar.app.rules.DailySchedule;
 import com.cuvar.app.rules.DayLimit;
+import com.cuvar.app.rules.DayPlan;
 import com.cuvar.app.ui.AppPicker;
 import com.cuvar.app.ui.CheckRow;
 import com.cuvar.app.ui.Sheet;
@@ -51,7 +52,7 @@ public class RulesActivity extends SubActivity {
         ScrollView scroll = new ScrollView(this);
         scroll.setBackgroundColor(Ui.BG);
         LinearLayout root = Ui.column(this);
-        root.addView(header("Aplikacije, sajtovi i režimi", "Svaki režim ima svoje vreme i svoje aplikacije. Ispod je ono što važi ceo dan."));
+        root.addView(header("Aplikacije, sajtovi i režimi", "Režim blokira samo u svom vremenu. Ispod „Ceo dan“ je ono što važi i van režima."));
         content = Ui.column(this);
         int p = Ui.dp(this, 20);
         content.setPadding(p, 0, p, p);
@@ -62,12 +63,13 @@ public class RulesActivity extends SubActivity {
         TextView how = Ui.text(this, "Kako se pravila slažu  ›", 14, Ui.ACCENT, true);
         how.setPadding(Ui.dp(this, 4), Ui.dp(this, 6), 0, Ui.dp(this, 6));
         how.setOnClickListener(v -> new Sheet(this, "Kako se pravila slažu").message(
-                "1. Režim je najjači: u svom periodu blokira i ne može da se otključa.\n"
-                + "2. Ostatak dana: zaključano se otvara samo dnevnom šifrom (17:00 do 22:00), a potrošen limit se ne otvara do ponoći.\n"
-                + "3. Ukupni dnevni limit broji samo vreme u stavkama sa sopstvenim pravilom (zaključaj, limit, otvaranja...) ili u režimu sa dnevnom šifrom, ne u onima koje su samo u režimu bez šifre; kad se potroši, zaključava ih do ponoći.\n"
+                "1. Režim blokira samo u svom periodu i tada ne može da se otključa.\n"
+                + "2. Van režima važi samo ono što je podešeno pod „Ceo dan“: zaključano se otvara dnevnom šifrom (17:00 do 22:00), a potrošen limit se ne otvara do ponoći.\n"
+                + "3. Ukupni dnevni limit broji samo vreme u stavkama sa pravilom pod „Ceo dan“ (zaključaj, limit, otvaranja...), ne u onima koje su samo u režimu; kad se potroši, zaključava ih do ponoći.\n"
                 + "4. Strože pravilo važi odmah, a blaže tek sutra od 06:00.\n"
                 + "5. Noću je zaključano samo ono što je u režimu „Noćno zaključavanje“.\n"
-                + "6. Ručni Fokus je zaseban: dok traje, dozvoljene su samo izabrane aplikacije i sajtovi.")
+                + "6. Ručni Fokus je zaseban: dok traje, dozvoljene su samo izabrane aplikacije i sajtovi.\n"
+                + "7. Kod svake stavke pod „Ceo dan“ piše šta važi sada i ceo današnji dan, od 06:00 do 06:00.")
                 .secondary("Zatvori", null).show());
         content.addView(how, Ui.fill(this, 4));
 
@@ -131,9 +133,6 @@ public class RulesActivity extends SubActivity {
         apps.addAll(store.appList());
         Set<String> sites = new LinkedHashSet<>(store.siteListNow());
         sites.addAll(store.siteList());
-        for (DailySchedule.Rule r : rules) {
-            if (r.enabled && r.code) { apps.addAll(r.apps); sites.addAll(r.sites); }
-        }
         // Sajt povezan sa instaliranom aplikacijom ide u isti red kao aplikacija.
         for (String dom : new ArrayList<>(sites)) {
             String pkg = installedApp(pm, dom);
@@ -145,6 +144,10 @@ public class RulesActivity extends SubActivity {
         }
         if (apps.isEmpty() && sites.isEmpty()) empty("Van režima ništa nije zaključano ni ograničeno.");
         LinearLayout group = null;
+        boolean dayReached = DayLimit.reached(store.dayLimits.dayLimit(), store.dayLimits.guardedToday());
+        Set<String> appsSpent = new HashSet<>(store.appsOverLimit());
+        Set<String> sitesSpent = new HashSet<>(store.sitesOverLimit());
+        int[] clock = store.modes.minuteAndDay();
         List<String[]> sorted = new ArrayList<>();
         for (String pkg : apps) sorted.add(new String[]{pkg, AppLabels.of(pm, pkg)});
         sorted.sort((x, y) -> x[1].compareToIgnoreCase(y[1]));
@@ -153,17 +156,20 @@ public class RulesActivity extends SubActivity {
             try { icon = pm.getApplicationIcon(x[0]); } catch (Exception ignored) { /* ikona nije obavezna */ }
             String dom = store.linkedSite(x[0]);
             Has has = r -> r.apps.contains(x[0]) || covers(dom, r.sites);
-            List<String> cur = appChips(x[0], true, hasCode(rules, has));
-            List<String> nxt = appChips(x[0], false, hasCode(next, has));
+            List<String> cur = appChips(x[0], true);
+            List<String> nxt = appChips(x[0], false);
             String title = dom == null ? x[1] : x[1] + "  +  " + dom;
-            group = addRow(group, title, icon, cur, nxt, v -> editApp(x[0], x[1]));
+            boolean spent = appsSpent.contains(x[0]) || (dayReached && store.dayLimitApp(x[0]));
+            List<Line> day = dayLines(rules, has, store.appLockNow(x[0]), spent, clock);
+            group = addRow(group, title, icon, cur, nxt, day, v -> editApp(x[0], x[1]));
         }
         List<String> siteSorted = new ArrayList<>(sites);
         siteSorted.sort(String::compareTo);
         for (String dom : siteSorted) {
-            Has has = r -> r.sites.contains(dom);
-            group = addRow(group, dom, null, siteChips(dom, true, hasCode(rules, has)),
-                    siteChips(dom, false, hasCode(next, has)), v -> editSite(dom));
+            Has has = r -> DailySchedule.matchDomain(dom, r.sites) != null;
+            boolean spent = sitesSpent.contains(dom) || (dayReached && store.dayLimitSite(dom) != null);
+            List<Line> day = dayLines(rules, has, store.siteLimitNow(dom) == 0, spent, clock);
+            group = addRow(group, dom, null, siteChips(dom, true), siteChips(dom, false), day, v -> editSite(dom));
         }
         empty("Tapni režim da mu menjaš vreme i stavke, a aplikaciju ili sajt da mu menjaš zaključavanje i limit.");
     }
@@ -200,10 +206,6 @@ public class RulesActivity extends SubActivity {
             card.addView(Ui.text(this, "Ukida se sutra u 06:00: " + android.text.TextUtils.join(", ", going),
                     13, Ui.ACCENT, false), Ui.fill(this, 4));
         }
-        if (r.code) {
-            card.addView(Ui.text(this, "Posle perioda ostaje zaključano, otvara se šifrom", 13, Ui.MUTED, false),
-                    Ui.fill(this, 4));
-        }
         card.setOnClickListener(Safe.click("regimeCard", v -> openRule(r.id)));
         if (d != null) {
             TextView add = Ui.text(this, "+ Dodaj aplikaciju ili sajt", 14, Ui.ACCENT, true);
@@ -216,7 +218,7 @@ public class RulesActivity extends SubActivity {
 
     /** Red u grupi „Ostatak dana“: ikona, naziv, kratka pravila i, ako ih ima, popuštanje od sutra. */
     private LinearLayout addRow(LinearLayout group, String title, Drawable icon, List<String> cur, List<String> nxt,
-                                View.OnClickListener onClick) {
+                                List<Line> day, View.OnClickListener onClick) {
         if (cur.isEmpty() && nxt.isEmpty()) return group;
         if (group == null) {
             group = Ui.column(this);
@@ -232,6 +234,7 @@ public class RulesActivity extends SubActivity {
         }
         List<Line> lines = new ArrayList<>();
         restLines(lines, cur, nxt);
+        lines.addAll(day);
         View row = itemCard(title, icon, lines, onClick);
         row.setBackground(Ui.pressable(Ui.CARD, Ui.SOFT, 0));
         group.addView(row);
@@ -255,9 +258,21 @@ public class RulesActivity extends SubActivity {
         boolean test(DailySchedule.Rule r);
     }
 
-    private static boolean hasCode(List<DailySchedule.Rule> rules, Has has) {
-        for (DailySchedule.Rule r : rules) if (r.enabled && r.code && has.test(r)) return true;
-        return false;
+    /**
+     * Redovi „Sada“ i „Danas“ iz važećih režima stavke i njenog zaključavanja (DayPlan). Prazno kad je ceo
+     * dan slobodna i limit nije potrošen. clock: {minut, dan u nedelji} po pouzdanom satu.
+     */
+    private static List<Line> dayLines(List<DailySchedule.Rule> rules, Has has, boolean locked, boolean spent, int[] clock) {
+        List<DailySchedule.Rule> in = new ArrayList<>();
+        for (DailySchedule.Rule r : rules) if (r.enabled && has.test(r)) in.add(r);
+        List<DayPlan.Segment> plan = DayPlan.plan(in, locked, DayPlan.rulesDay(clock[0], clock[1]));
+        String today = DayPlan.today(plan);
+        List<Line> out = new ArrayList<>();
+        if (today == null && !spent) return out;
+        boolean strong = spent || DayPlan.kindAt(plan, clock[0]) == DayPlan.BLOCKED;
+        out.add(new Line(DayPlan.now(plan, clock[0], spent), strong));
+        if (today != null) out.add(new Line(today, false));
+        return out;
     }
 
     /** Nazivi stavki režima; aplikacija i njen povezan sajt su jedna stavka. */
@@ -324,9 +339,9 @@ public class RulesActivity extends SubActivity {
         }
     }
 
-    private List<String> appChips(String pkg, boolean effective, boolean code) {
+    private List<String> appChips(String pkg, boolean effective) {
         List<String> parts = new ArrayList<>();
-        if (code || (effective ? store.appLockNow(pkg) : store.appLockLinked(pkg))) parts.add("🔒 šifrom");
+        if (effective ? store.appLockNow(pkg) : store.appLockLinked(pkg)) parts.add("🔒 šifrom");
         int limit = effective ? store.appLimitNow(pkg) : store.appLimitLinked(pkg);
         if (limit > 0) parts.add(limit + " min/dan" + used(store.usedShared(pkg), effective));
         int opens = effective ? store.appOpensNow(pkg) : store.appOpens(pkg);
@@ -336,11 +351,10 @@ public class RulesActivity extends SubActivity {
         return parts;
     }
 
-    private List<String> siteChips(String domain, boolean effective, boolean code) {
+    private List<String> siteChips(String domain, boolean effective) {
         List<String> parts = new ArrayList<>();
         int limit = effective ? store.siteLimitNow(domain) : store.siteLimitLinked(domain);
         if (limit == 0) parts.add("🔒 uvek, šifrom");
-        else if (code) parts.add("🔒 šifrom");
         if (limit > 0) parts.add(limit + " min/dan" + used(store.usedShared(ItemKey.site(domain)), effective));
         return parts;
     }
@@ -430,11 +444,19 @@ public class RulesActivity extends SubActivity {
         Set<String> in = new HashSet<>();
         for (DailySchedule.Rule r : rules) if (r.apps.contains(pkg) || covers(dom, r.sites)) in.add(r.id);
         Set<String> now = new HashSet<>();
-        for (DailySchedule.Rule r : store.modes.schedulesNow()) {
+        List<DailySchedule.Rule> rulesNow = store.modes.schedulesNow();
+        for (DailySchedule.Rule r : rulesNow) {
             if (r.enabled && (r.apps.contains(pkg) || covers(dom, r.sites))) now.add(r.id);
         }
 
         LinearLayout box = Ui.column(this);
+        // Na vrhu: šta važi sada i ceo današnji dan, kao u listi „Ceo dan“.
+        boolean spent = store.appsOverLimit().contains(pkg) || (store.dayLimitApp(pkg)
+                && DayLimit.reached(store.dayLimits.dayLimit(), store.dayLimits.guardedToday()));
+        List<Line> day = dayLines(rulesNow, r -> r.apps.contains(pkg) || covers(dom, r.sites), store.appLockNow(pkg), spent,
+                store.modes.minuteAndDay());
+        for (Line l : day) box.addView(Ui.text(this, l.text, 14, l.strong ? Ui.ACCENT : Ui.MUTED, l.strong), Ui.fill(this, 4));
+        if (!day.isEmpty()) box.addView(new View(this), Ui.fill(this, 10));
         box.addView(Sheet.label(this, "Sajt ove aplikacije (pravila i vreme su zajednički)"));
         EditText siteBox = Sheet.input(this, "npr. linkedin.com, prazno = bez sajta", false);
         if (dom != null) siteBox.setText(dom);
@@ -444,16 +466,6 @@ public class RulesActivity extends SubActivity {
         CheckRow lock = new CheckRow(this, null, "Zaključaj", "Otvara se samo dnevnom šifrom, od 17:00 do 22:00");
         lock.setChecked(store.appLockLinked(pkg));
         box.addView(lock, Ui.fill(this, 6));
-        // Režim sa šifrom zaključava aplikaciju i van perioda; ovde može da se oslobodi samo ona.
-        String codeRegime = null;
-        for (DailySchedule.Rule r : rules) if (r.enabled && r.code && in.contains(r.id)) { codeRegime = r.name; break; }
-        final boolean wasCodeFree = store.codeFree().contains(pkg);
-        final CheckRow codeFree = codeRegime == null ? null : new CheckRow(this, null, "Van režima bez dnevne šifre",
-                "Režim „" + codeRegime + "“ van svog vremena traži dnevnu šifru. Uključeno: ova aplikacija je tada slobodna (važi od sutra u 06:00)");
-        if (codeFree != null) {
-            codeFree.setChecked(wasCodeFree);
-            box.addView(codeFree, Ui.fill(this, 10));
-        }
         final boolean wasDayFree = store.dayFree().contains(pkg);
         final CheckRow dayFree = new CheckRow(this, null, "Van ukupnog dnevnog limita",
                 "Vreme u njoj ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Jedna aplikacija dnevno odmah, ostale od sutra u 06:00");
@@ -503,14 +515,8 @@ public class RulesActivity extends SubActivity {
                     }
                     boolean ownRule = wantLock || wantLimit > 0 || wantOpens > 0 || wantSession > 0;
                     boolean adding = ownRule;
-                    for (int i = 0; i < rows.size(); i++) {
-                        adding |= rows.get(i).isChecked();
-                        // Režim sa dnevnom šifrom drži aplikaciju ceo dan, pa je i on pod ukupnim limitom.
-                        DailySchedule.Rule r = rules.get(i);
-                        ownRule |= rows.get(i).isChecked() && r.enabled && r.code;
-                    }
+                    for (int i = 0; i < rows.size(); i++) adding |= rows.get(i).isChecked();
                     if (calls.isChecked() != store.callsPass(pkg)) store.setCallsPass(pkg, calls.isChecked());
-                    if (codeFree != null && codeFree.isChecked() != wasCodeFree) store.setCodeFree(pkg, codeFree.isChecked());
                     if (dayFree.isChecked() != wasDayFree) {
                         boolean freeNow = store.setDayFree(pkg, dayFree.isChecked());
                         if (dayFree.isChecked()) {

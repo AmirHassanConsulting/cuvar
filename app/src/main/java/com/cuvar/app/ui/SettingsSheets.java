@@ -170,7 +170,7 @@ public final class SettingsSheets {
 
     public String dayLimitSummary() {
         int limit = store.dayLimits.dayLimit();
-        if (limit <= 0) return "Zajedničko vreme za aplikacije i sajtove sa sopstvenim pravilom (ne samo u režimu bez šifre); kad ga potrošiš, zaključani su do ponoći";
+        if (limit <= 0) return "Zajedničko vreme za aplikacije i sajtove sa sopstvenim pravilom (ne samo u režimu); kad ga potrošiš, zaključani su do ponoći";
         String s = DayLimit.label(limit) + " za aplikacije i sajtove sa sopstvenim pravilom, posle toga ništa ne otključava";
         if (store.dayLimits.dayLimitNext() == 0) s += " · isključuje se od sutra";
         return s;
@@ -188,7 +188,7 @@ public final class SettingsSheets {
         boolean offTomorrow = store.dayLimits.dayLimitNext() == 0;
         LinearLayout box = Ui.column(a);
         String intro = "Računa se samo vreme u aplikacijama i na sajtovima sa sopstvenim pravilom "
-                + "(zaključani, ograničeni, otvaranja, u komadu ili u režimu sa dnevnom šifrom). Ono što je samo u režimu bez šifre, mape, pozivi i sve ostalo ne troši limit. "
+                + "(zaključani, ograničeni, otvaranja, u komadu). Ono što je samo u režimu, mape, pozivi i sve ostalo ne troši limit. "
                 + "Kad se limit potroši, sve zaključane i ograničene aplikacije i sajtovi ostaju zaključani "
                 + "do ponoći: bez dnevne šifre i hitnog otključavanja. Upozorenje stiže "
                 + DayLimit.WARN_MS / 60000L + " min ranije.\n\n";

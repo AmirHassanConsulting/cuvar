@@ -74,19 +74,17 @@ public final class EnforcedRulesTest {
 
     private static void exemptions() {
         Set<String> yt = set("yt");
-        EnforcedRules freeNow = with(yt, set(), set()), freeWanted = with(set(), set(), set());
+        EnforcedRules freeNow = with(yt, set()), freeWanted = with(set(), set());
         check(tight(freeNow, freeWanted).nightFree.isEmpty(), "Vraćanje noćne blokade aplikaciji odmah");
         check(tight(freeWanted, freeNow).nightFree.isEmpty(), "Novi izuzetak od noći čeka");
         check(tight(freeNow, freeNow).nightFree.equals(yt), "Postojeći izuzetak ostaje");
-        check(tight(with(set(), yt, set()), with(set(), set(), set())).codeFree.isEmpty(), "Vraćanje šifre odmah");
-        check(tight(with(set(), set(), set()), with(set(), yt, set())).codeFree.isEmpty(), "Oslobađanje od šifre čeka");
         check(tight(dayFree(set()), dayFree(yt)).dayFree.isEmpty(), "Novi izuzetak od ukupnog limita čeka");
         check(tight(dayFree(yt), dayFree(set())).dayFree.isEmpty(), "Skidanje izuzetka od ukupnog limita odmah");
         check(tight(dayFree(yt), dayFree(yt)).dayFree.equals(yt), "Postojeći izuzetak od ukupnog limita ostaje");
     }
 
     private static void links() {
-        EnforcedRules r = tight(with(set(), set(), set("yt|youtube.com")), with(set(), set(), set("ig|instagram.com")));
+        EnforcedRules r = tight(with(set(), set("yt|youtube.com")), with(set(), set("ig|instagram.com")));
         check(r.links.equals(set("yt|youtube.com", "ig|instagram.com")), "Novo povezivanje odmah, razdvajanje čeka");
     }
 
@@ -126,7 +124,7 @@ public final class EnforcedRulesTest {
         Map<String, Integer> s = new HashMap<>();
         s.put("youtube.com", 0);
         EnforcedRules now = new EnforcedRules(map("yt", new AppRule(true, 0, 0, 0)), s, list(work),
-                false, false, set(), set(), set(), set());
+                false, false, set(), set(), set());
         DailySchedule.Rule emptied = rule("m1", true, 9 * 60, 17 * 60, set(), set());
         EnforcedRules r = tight(now, mode(emptied));
         check(r.apps.containsKey("yt") && r.apps.get("yt").lock, "Uklonjena aplikacija ostaje zaključana do 06:00");
@@ -140,7 +138,7 @@ public final class EnforcedRulesTest {
     private static void inputsUnchanged() {
         DailySchedule.Rule work = rule("m1", true, 9 * 60, 17 * 60, set("yt"), set());
         EnforcedRules now = new EnforcedRules(map("yt", new AppRule(false, 30, 0, 0)), new HashMap<>(), list(work),
-                true, false, set(), set(), set(), set());
+                true, false, set(), set(), set());
         DailySchedule.Rule fewer = rule("m1", true, 9 * 60, 17 * 60, set(), set());
         EnforcedRules wanted = mode(fewer);
         EnforcedRules.tighten(now, wanted, true);
@@ -174,29 +172,29 @@ public final class EnforcedRulesTest {
     }
 
     private static EnforcedRules rules(boolean night, boolean protect) {
-        return new EnforcedRules(new HashMap<>(), new HashMap<>(), new ArrayList<>(), night, protect, set(), set(), set(), set());
+        return new EnforcedRules(new HashMap<>(), new HashMap<>(), new ArrayList<>(), night, protect, set(), set(), set());
     }
 
     private static EnforcedRules apps(String pkg, AppRule r) {
-        return new EnforcedRules(map(pkg, r), new HashMap<>(), new ArrayList<>(), false, false, set(), set(), set(), set());
+        return new EnforcedRules(map(pkg, r), new HashMap<>(), new ArrayList<>(), false, false, set(), set(), set());
     }
 
     private static EnforcedRules sites(String dom, int limit) {
         Map<String, Integer> s = new HashMap<>();
         s.put(dom, limit);
-        return new EnforcedRules(new HashMap<>(), s, new ArrayList<>(), false, false, set(), set(), set(), set());
+        return new EnforcedRules(new HashMap<>(), s, new ArrayList<>(), false, false, set(), set(), set());
     }
 
-    private static EnforcedRules with(Set<String> nightFree, Set<String> codeFree, Set<String> links) {
-        return new EnforcedRules(new HashMap<>(), new HashMap<>(), new ArrayList<>(), false, false, nightFree, codeFree, set(), links);
+    private static EnforcedRules with(Set<String> nightFree, Set<String> links) {
+        return new EnforcedRules(new HashMap<>(), new HashMap<>(), new ArrayList<>(), false, false, nightFree, set(), links);
     }
 
     private static EnforcedRules dayFree(Set<String> dayFree) {
-        return new EnforcedRules(new HashMap<>(), new HashMap<>(), new ArrayList<>(), false, false, set(), set(), dayFree, set());
+        return new EnforcedRules(new HashMap<>(), new HashMap<>(), new ArrayList<>(), false, false, set(), dayFree, set());
     }
 
     private static EnforcedRules mode(DailySchedule.Rule r) {
-        return new EnforcedRules(new HashMap<>(), new HashMap<>(), list(r), false, false, set(), set(), set(), set());
+        return new EnforcedRules(new HashMap<>(), new HashMap<>(), list(r), false, false, set(), set(), set());
     }
 
     private static DailySchedule.Rule rule(String id, boolean enabled, int start, int end, Set<String> apps, Set<String> sites) {

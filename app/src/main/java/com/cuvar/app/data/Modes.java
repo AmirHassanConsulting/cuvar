@@ -2,7 +2,6 @@ package com.cuvar.app.data;
 
 import com.cuvar.app.rules.ItemKey;
 import com.cuvar.app.rules.DailySchedule;
-import com.cuvar.app.web.Links;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,7 +63,7 @@ public final class Modes {
                     o.optString("name", "Režim " + (i + 1)), o.optBoolean("enabled", false),
                     o.optInt("start", 21 * 60), o.optInt("end", 9 * 60));
             r.days = o.optInt("days", DailySchedule.ALL_DAYS);
-            r.code = o.optBoolean("code", false);
+            r.code = o.optBoolean("code", false); // stari režim sa šifrom, samo za migraciju (Store.migrateCodeRegimes)
             JSONArray a = o.optJSONArray("apps");
             for (int k = 0; a != null && k < a.length(); k++) r.apps.add(a.optString(k));
             JSONArray s = o.optJSONArray("sites");
@@ -162,13 +161,12 @@ public final class Modes {
         }
     }
 
-    /** Gotovo radno vreme: svakog dana 09:00–17:00 bez otključavanja, posle toga dnevnom šifrom. */
+    /** Gotovo radno vreme: svakog dana 09:00–17:00 bez otključavanja; van perioda ne blokira. */
     public static final String WORK_NAME = "Radno vreme";
 
     public DailySchedule.Rule addWorkSchedule() {
         synchronized (store) {
             DailySchedule.Rule r = new DailySchedule.Rule(newScheduleId(), WORK_NAME, true, 9 * 60, 17 * 60);
-            r.code = true;
             schedules.add(r);
             saveSchedules();
             return copy(r);
@@ -213,7 +211,7 @@ public final class Modes {
     }
 
     /**
-     * Dok je režim aktivan ne može da se oslabi: isključi, obriše, promeni mu se period, dani ili šifra,
+     * Dok je režim aktivan ne može da se oslabi: isključi, obriše, promeni mu se period ili dani,
      * niti da se iz njega uklone aplikacije i sajtovi. Dodavanje i promena naziva su dozvoljeni.
      */
     public boolean scheduleActive(String id) {
@@ -263,17 +261,6 @@ public final class Modes {
         }
     }
 
-    public boolean setScheduleCode(String id, boolean code) {
-        synchronized (store) {
-            DailySchedule.Rule r = rule(id);
-            if (r == null) return true;
-            if (scheduleActive(id) && !code && r.code) return false;
-            r.code = code;
-            saveSchedules();
-            return true;
-        }
-    }
-
     public boolean setScheduleApp(String id, String pkg, boolean selected) {
         synchronized (store) {
             DailySchedule.Rule r = rule(id);
@@ -303,6 +290,14 @@ public final class Modes {
     /** 0 = ponedeljak … 6 = nedelja. */
     static int dayOf(Calendar c) {
         return (c.get(Calendar.DAY_OF_WEEK) + 5) % 7;
+    }
+
+    /** {minut u danu, dan u nedelji (0 = ponedeljak)} po pouzdanom satu. */
+    public int[] minuteAndDay() {
+        synchronized (store) {
+            Calendar now = store.clock.calendarNow();
+            return new int[]{minuteOf(now), dayOf(now)};
+        }
     }
 
     /** Režim koji trenutno blokira aplikaciju, ili null. */
@@ -340,29 +335,6 @@ public final class Modes {
         }
     }
 
-    /** Režim sa dnevnom šifrom koji sadrži aplikaciju, ili null. */
-    public DailySchedule.Rule codeRuleForApp(String pkg) {
-        synchronized (store) {
-            if (store.codeFreeNow().contains(pkg)) return null;
-            DailySchedule.Rule r = DailySchedule.codeApp(store.enforced(), pkg);
-            return r == null ? null : copy(r);
-        }
-    }
-
-    /** Režim sa dnevnom šifrom koji sadrži host (i poddomene), ili null. */
-    public DailySchedule.Rule codeRuleForSite(String host) {
-        synchronized (store) {
-            // Sajt aplikacije koja je van režima slobodna je slobodan i sam.
-            for (String pkg : store.codeFreeNow()) {
-                for (String d : Links.domainsOf(store.eLinks.isEmpty() ? store.linkPairs() : store.eLinks, pkg)) {
-                    if (Links.covers(d, host)) return null;
-                }
-            }
-            DailySchedule.Rule r = DailySchedule.codeSite(store.enforced(), host);
-            return r == null ? null : copy(r);
-        }
-    }
-
     /** Režimi koji upravo traju (bez obzira da li imaju aplikacije ili sajtove). */
     public List<DailySchedule.Rule> activeSchedules() {
         synchronized (store) {
@@ -372,17 +344,6 @@ public final class Modes {
                 if (r.active(minuteOf(now), dayOf(now))) out.add(copy(r));
             }
             return out;
-        }
-    }
-
-    /** Uključen režim sa dnevnom šifrom koji je upravo aktivan (tada se šifra ne prikazuje), ili null. */
-    public DailySchedule.Rule activeCodeRule() {
-        synchronized (store) {
-            Calendar now = store.clock.calendarNow();
-            for (DailySchedule.Rule r : store.enforced()) {
-                if (r.code && r.active(minuteOf(now), dayOf(now))) return copy(r);
-            }
-            return null;
         }
     }
 }

@@ -74,7 +74,6 @@ public class GuardService extends AccessibilityService {
     public static final int KIND_SITE = BlockKind.SITE;
     public static final int KIND_SITE_TIME = BlockKind.SITE_TIME;
     public static final int KIND_SCHEDULE = BlockKind.SCHEDULE;
-    public static final int KIND_CODE = BlockKind.CODE;
     public static final int KIND_NIGHT = BlockKind.NIGHT;
     public static final int KIND_DAY = BlockKind.DAY;
     public static final int KIND_OPENS = BlockKind.OPENS;

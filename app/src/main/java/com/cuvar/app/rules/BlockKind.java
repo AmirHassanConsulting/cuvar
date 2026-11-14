@@ -10,7 +10,7 @@ public final class BlockKind {
     public static final int SITE = 3;       // sajt uvek blokiran
     public static final int SITE_TIME = 4;  // istekao dnevni limit sajta
     public static final int SCHEDULE = 5;   // vremenski režim
-    public static final int CODE = 6;       // van perioda režima, otključava se dnevnom šifrom
+    // 6 je bio CODE (van perioda režima sa šifrom), uklonjen 14. 11. 2026; broj se ne koristi ponovo.
     public static final int DAY = 7;        // potrošen ukupni dnevni limit, ništa se ne otključava do ponoći
     public static final int NIGHT = 8;      // noćna blokada od 22:00, ništa se ne otključava do 06:00
     public static final int OPENS = 9;      // potrošena otvaranja aplikacije za danas
