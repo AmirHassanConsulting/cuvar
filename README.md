@@ -60,6 +60,9 @@ Pravila → "Aplikacije, sajtovi i režimi" je jedini ekran za ovo:
   važe samo za aplikaciju, ne i za njen sajt.
 - "Van režima bez dnevne šifre" (po aplikaciji): aplikacija iz režima sa šifrom
   je van perioda slobodna. Važi od sledećih 06:00.
+- Sajt bez instalirane aplikacije (npr. facebook.com) ima iste opcije: režimi,
+  "Zaključaj", "Van ukupnog dnevnog limita" i dnevni limit. "Najviše otvaranja",
+  "Najduže u komadu" i "Pozivi uvek prolaze" postoje samo za aplikaciju.
 - "Pozivi uvek prolaze" (po aplikaciji, podrazumevano WhatsApp, Viber, Telegram,
   Signal, Messenger): ekran poziva radi i noću i preko limita; poruke ostaju
   zaključane. Dok traje bilo koji internet poziv, sve ovakve aplikacije prolaze.
@@ -71,13 +74,13 @@ Pravila → "Aplikacije, sajtovi i režimi" je jedini ekran za ovo:
   otključava se ničim. Opšta "Noćna blokada" koja je zaključavala sve iz pravila
   ukinuta je 11. 11. 2026 (poslednji put je važila te noći do 06:00).
 - **Ukupni dnevni limit**: zbir vremena u stavkama sa sopstvenim pravilom (ne
-  onih koje su samo u režimu bez šifre, vidi 1.; ni aplikacija označenih "Van ukupnog
+  onih koje su samo u režimu bez šifre, vidi 1.; ni aplikacija i sajtova označenih "Van ukupnog
   dnevnog limita"). Kad se potroši, te stavke su zaključane do ponoći, bez otključavanja. Može da se poveća
   jednom dnevno i samo dok nije potrošen (do 1 h za 30 %, 2 h za 20 %, od 4 h za
   10 %); povećanje ostaje i sledećih dana. Smanjenje važi odmah, isključivanje od
-  sutra. "Van ukupnog dnevnog limita" (u pravilima aplikacije) važi odmah, i kad je
-  limit već potrošen, ali za samo jednu aplikaciju dnevno (dan po pouzdanom satu,
-  od ponoći); ostale izuzete aplikacije čekaju sutra 06:00. Vraćanje u limit važi odmah.
+  sutra. "Van ukupnog dnevnog limita" (u pravilima aplikacije ili sajta) važi odmah, i kad je
+  limit već potrošen, ali za samo jednu stavku dnevno (dan po pouzdanom satu,
+  od ponoći); ostale izuzete stavke čekaju sutra 06:00. Vraćanje u limit važi odmah.
 - **Fokus**: ručno pokrenut period u kome rade samo izabrane aplikacije i sajtovi
   (i telefon/SMS). Ne otključava se šifrom, ali može da se zaustavi u Čuvaru.
 - **Zaštita od isključivanja** (opciono): zatvara ekrane podešavanja na kojima bi

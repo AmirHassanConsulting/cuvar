@@ -587,33 +587,48 @@ public class RulesActivity extends SubActivity {
         for (DailySchedule.Rule r : store.modes.schedulesNow()) if (r.enabled && r.sites.contains(domain)) now.add(r.id);
         int current = store.siteLimit(domain);
 
+        String key = ItemKey.site(domain);
+
         LinearLayout box = Ui.column(this);
         List<CheckRow> rows = ruleChecks(box, rules, in, now);
         box.addView(Sheet.label(this, "Ceo dan"), Ui.fill(this, 18));
-        CheckRow listed = new CheckRow(this, null, "Ograniči ceo dan",
-                "Dnevni limit ispod; 0 znači uvek blokiran (otvara se dnevnom šifrom)");
-        listed.setChecked(current >= 0);
-        box.addView(listed, Ui.fill(this, 6));
-        box.addView(Sheet.label(this, "Dnevni limit u minutima"), Ui.fill(this, 14));
+        CheckRow lock = new CheckRow(this, null, "Zaključaj", "Otvara se samo dnevnom šifrom, od 17:00 do 22:00");
+        lock.setChecked(current == 0);
+        box.addView(lock, Ui.fill(this, 6));
+        final boolean wasDayFree = store.dayFree().contains(key);
+        final CheckRow dayFree = new CheckRow(this, null, "Van ukupnog dnevnog limita",
+                "Vreme na njemu ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Jedna stavka dnevno odmah, ostale od sutra u 06:00");
+        dayFree.setChecked(wasDayFree);
+        box.addView(dayFree, Ui.fill(this, 10));
+        box.addView(Sheet.label(this, "Dnevni limit u minutima (0 = bez limita)"), Ui.fill(this, 14));
         EditText limit = Sheet.input(this, "0", true);
         limit.setText(String.valueOf(Math.max(0, current)));
         box.addView(limit, Ui.fill(this, 6));
         if (current > 0) {
-            box.addView(Ui.text(this, "Danas: " + Ui.fmt(store.usedShared(ItemKey.site(domain))), 13, Ui.MUTED, false),
+            box.addView(Ui.text(this, "Danas: " + Ui.fmt(store.usedShared(key)), 13, Ui.MUTED, false),
                     Ui.fill(this, 8));
         }
 
         Sheet sheet = new Sheet(this, domain).view(box)
                 .secondary("Otkaži", null)
                 .primary("Sačuvaj", () -> {
-                    Integer want = -1;
-                    if (listed.isChecked()) want = Ui.nonNegativeNumber(limit);
-                    if (want == null) return false;
+                    Integer wantLimit = Ui.nonNegativeNumber(limit);
+                    if (wantLimit == null) return false;
+                    // Zaključaj: 0; limit > 0: limit; inače bez sopstvenog pravila (-1).
+                    int want = lock.isChecked() ? 0 : wantLimit > 0 ? wantLimit : -1;
                     // Poddomen do limita roditelja troši roditeljsko vreme, pa ne povećava zbir.
                     int parent = store.parentSiteLimit(domain);
                     boolean nested = parent > 0 && want > 0 && want <= parent;
-                    if (!nested && !limitFits(limit, want > 0 ? want : 0, Math.max(0, current), store.limitsTotal(null, domain))) {
+                    // Limit sajta van ukupnog limita se ne sabira u zbir (vidi Store.limitsTotal).
+                    if (!dayFree.isChecked() && !nested
+                            && !limitFits(limit, want > 0 ? want : 0, Math.max(0, current), store.limitsTotal(null, domain))) {
                         return false;
+                    }
+                    if (dayFree.isChecked() != wasDayFree) {
+                        boolean freeNow = store.setDayFree(key, dayFree.isChecked());
+                        if (dayFree.isChecked()) {
+                            Ui.toast(this, domain + (freeNow ? " je odmah van ukupnog limita" : " je van ukupnog limita od sutra u 06:00"));
+                        }
                     }
                     saveRules(rules, rows, domain, true);
                     if (want != current) {

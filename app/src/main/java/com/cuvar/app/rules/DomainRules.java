@@ -20,4 +20,9 @@ public final class DomainRules {
         });
         return matches;
     }
+    /** Prvi domen (od najužeg) čiji ključ "site:domen" nije među izuzetima (dayFree), ili null. */
+    public static String firstNotFree(List<String> matches, Collection<String> freeKeys) {
+        for (String d : matches) if (!freeKeys.contains(ItemKey.site(d))) return d;
+        return null;
+    }
 }

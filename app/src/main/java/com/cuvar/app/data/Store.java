@@ -342,7 +342,7 @@ public final class Store {
         return eApps == null ? codeFree() : eCodeFree;
     }
 
-    /** Podešene aplikacije van ukupnog dnevnog limita. */
+    /** Podešene aplikacije (paket) i sajtovi ("site:domen") van ukupnog dnevnog limita. */
     public synchronized Set<String> dayFree() {
         return new HashSet<>(sp.getStringSet("dayFree", Collections.emptySet()));
     }
@@ -515,11 +515,19 @@ public final class Store {
         return out;
     }
 
-    /** Sajtovi pod ukupnim dnevnim limitom: lista sajtova i režimi sa šifrom (za procenu). */
+    /** Sajtovi pod ukupnim dnevnim limitom: lista sajtova i režimi sa šifrom, bez sajtova van limita (za procenu). */
     Set<String> dayLimitSites() {
         Set<String> out = new HashSet<>(siteKeysNow());
         for (DailySchedule.Rule r : enforced()) if (r.enabled && r.code) out.addAll(r.sites);
+        Set<String> free = dayFreeSet();
+        out.removeIf(d -> free.contains(ItemKey.site(d)));
         return out;
+    }
+
+    /** Izuzeci od ukupnog limita kako sada važe, bez kopije (za proveru u servisu). */
+    private Set<String> dayFreeSet() {
+        roll();
+        return eApps == null ? dayFree() : eDayFree;
     }
 
     /**
@@ -527,10 +535,13 @@ public final class Store {
      * Sajt samo u režimu bez šifre nije.
      */
     public synchronized String dayLimitSite(String host) {
-        String listed = matchSiteNow(host);
+        // Sajt van ukupnog limita ("site:domen" u dayFree) ga ne troši i ne zaključava se; roditelj sa liste i dalje važi.
+        Set<String> free = dayFreeSet();
+        String listed = DomainRules.firstNotFree(matchingSitesNow(host), free);
         if (listed != null) return listed;
         DailySchedule.Rule code = modes.codeRuleForSite(host);
-        return code == null ? null : DailySchedule.matchDomain(host, code.sites);
+        String d = code == null ? null : DailySchedule.matchDomain(host, code.sites);
+        return d == null || free.contains(ItemKey.site(d)) ? null : d;
     }
 
     // ---------- Pravila koja važe sada (popuštanje od sutra) ----------
@@ -884,7 +895,7 @@ public final class Store {
     /**
      * Zbir podešenih dnevnih limita aplikacija i sajtova, svaka stavka jednom (aplikacija sa povezanim
      * sajtom je jedna stavka). Stavka skipPkg / skipDomain (ona koja se menja) i aplikacije van ukupnog
-     * limita (dayFree) se ne računaju.
+     * limita (dayFree, i sajtovi "site:domen") se ne računaju.
      */
     public synchronized int limitsTotal(String skipPkg, String skipDomain) {
         Set<String> pkgs = new HashSet<>(keysOf(apps));
@@ -905,9 +916,10 @@ public final class Store {
             if (l > 0) total += l;
         }
         for (String d : siteKeys) {
-            if (counted.contains(d) || d.equals(skipDomain)) continue;
+            if (counted.contains(d) || d.equals(skipDomain) || free.contains(ItemKey.site(d))) continue;
             boolean nested = false;
-            for (String parent : siteKeys) nested |= d.endsWith("." + parent);
+            // Poddomen izuzetog roditelja se broji sam.
+            for (String parent : siteKeys) nested |= d.endsWith("." + parent) && !free.contains(ItemKey.site(parent));
             if (nested) continue;
             int l = sites.optJSONObject(d) == null ? 0 : sites.optJSONObject(d).optInt("limit", 0);
             if (l > 0) total += l;
@@ -915,10 +927,15 @@ public final class Store {
         return total;
     }
 
-    /** Najmanji podešeni limit (> 0) roditeljskih sajtova domena, ili 0. */
+    /** Najmanji podešeni limit (> 0) roditeljskih sajtova domena koji nisu van ukupnog limita, ili 0. */
     public synchronized int parentSiteLimit(String domain) {
         Map<String, Integer> limits = new HashMap<>();
-        for (String d : keysOf(sites)) limits.put(d, sites.optJSONObject(d) == null ? 0 : sites.optJSONObject(d).optInt("limit", 0));
+        Set<String> free = dayFree();
+        for (String d : keysOf(sites)) {
+            // Roditelj van ukupnog limita se ne sabira (limitsTotal), pa poddomen ispod njega nije "u njemu".
+            if (free.contains(ItemKey.site(d))) continue;
+            limits.put(d, sites.optJSONObject(d) == null ? 0 : sites.optJSONObject(d).optInt("limit", 0));
+        }
         return DayLimit.parentLimit(domain, limits);
     }
 
@@ -938,6 +955,11 @@ public final class Store {
         enforce();
     }
 
+    /** Naziv aplikacije, ili domen za ključ "site:domen". */
+    private static String itemName(android.content.pm.PackageManager pm, String key) {
+        return ItemKey.isSite(key) ? ItemKey.name(key) : AppLabels.of(pm, key);
+    }
+
     /** Popuštanja koja čekaju sutra, opisana rečima; prazno ako ih nema. */
     public synchronized List<String> pendingChanges(android.content.pm.PackageManager pm) {
         roll();
@@ -951,12 +973,12 @@ public final class Store {
         }
         for (String pkg : codeFree()) {
             if (eCodeFree.contains(pkg)) continue;
-            String name = AppLabels.of(pm, pkg);
+            String name = itemName(pm, pkg);
             out.add(name + ": van režima bez dnevne šifre");
         }
         for (String pkg : dayFree()) {
             if (eDayFree.contains(pkg)) continue;
-            String name = AppLabels.of(pm, pkg);
+            String name = itemName(pm, pkg);
             out.add(name + ": van ukupnog dnevnog limita");
         }
         List<String> want = linkPairs();

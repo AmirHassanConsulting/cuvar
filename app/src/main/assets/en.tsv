@@ -470,8 +470,6 @@ Glasovni i video pozivi rade i noću i preko limita, a poruke ostaju zaključane
 Unesi adresu sajta, npr. linkedin.com	Enter a site address, e.g. linkedin.com
 Ukloni iz pravila	Remove from rules
 Ograniči i van režima	Limit outside modes too
-Dnevni limit ispod; 0 znači uvek blokiran (otvara se dnevnom šifrom)	Daily limit below; 0 means always blocked (opens with the daily code)
-Dnevni limit u minutima	Daily limit in minutes
 Danas: 	Today: 
 Izaberi aplikaciju	Choose an app
 ili upiši sajt	or type a site
@@ -768,7 +766,6 @@ Ceo dan	All day
 Zaključavanje, dnevni limit i broj otvaranja, bez obzira na režime.	Lock, daily limit and number of opens, regardless of modes.
 Ni u jednom režimu.	Not in any mode.
 Dodaje se i skida u samom režimu, na ekranu Pravila.	Added and removed in the mode itself, on the Rules screen.
-Ograniči ceo dan	Limit all day
 Glasovni i video pozivi rade i u režimu i preko limita, a poruke ostaju zaključane	Voice and video calls work during modes and over the limit, while messages stay locked
 22:00–06:00 · svakog dana	22:00–06:00 · every day
 UPOZORENJE	WARNING
@@ -808,3 +805,4 @@ Uklanja se sutra u 06:00. Do tada pravilo važi.	Removed tomorrow at 06:00. Unti
 Svaka šifra važi za jedno otključavanje; posle njega se ovde pojavi nova. Otključava samo do 	Each code works for one unlock; after it a new one appears here. It unlocks only until 
 :00.	:00.
 Pogrešna šifra. Posle svakog otključavanja Čuvar pokazuje novu.	Wrong code. After every unlock Čuvar shows a new one.
+Vreme na njemu ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Jedna stavka dnevno odmah, ostale od sutra u 06:00	Time on it does not use the total limit and it does not lock when that runs out; other rules still apply. One item per day right away, others from 06:00 tomorrow
