@@ -48,7 +48,7 @@ public final class EnforcedRules {
     /**
      * Ono što važi posle izmene podešavanja: strožije od onoga što sada važi i novog podešavanja, deo po deo.
      * removeNow: aplikacija, sajt ili stavka režima potpuno skinuta iz podešavanja odmah prestaje da važi.
-     * Aplikacija prosleđuje false (uklanjanje ide kroz potvrdu, vidi Removals). Ulazi se ne menjaju.
+     * Aplikacija prosleđuje false: i „Ukloni iz pravila“ važi tek od 06:00. Ulazi se ne menjaju.
      */
     public static EnforcedRules tighten(EnforcedRules now, EnforcedRules wanted, boolean removeNow) {
         Map<String, AppRule> apps = new HashMap<>();

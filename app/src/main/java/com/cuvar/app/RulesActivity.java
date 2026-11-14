@@ -71,9 +71,6 @@ public class RulesActivity extends SubActivity {
                 .secondary("Zatvori", null).show());
         content.addView(how, Ui.fill(this, 4));
 
-        View removals = MainActivity.removalCard(this, store, this::render);
-        if (removals != null) content.addView(removals, Ui.fill(this, 14));
-
         List<DailySchedule.Rule> rules = store.modes.schedulesNow();
         List<DailySchedule.Rule> next = store.modes.schedules();
         PackageManager pm = getPackageManager();
@@ -409,10 +406,8 @@ public class RulesActivity extends SubActivity {
         }
     }
 
-    private void requestedToast() {
-        Ui.toast(this, store.removals.newRequestAsksToday()
-                ? "Danas od 08:00 Čuvar pita da li si siguran. Tek tada se uklanja."
-                : "Sutra od 08:00 Čuvar pita da li si siguran. Tek tada se uklanja.");
+    private void removedToast() {
+        Ui.toast(this, "Uklanja se sutra u 06:00. Do tada pravilo važi.");
     }
 
     private boolean saveRules(List<DailySchedule.Rule> rules, List<CheckRow> rows, String key, boolean site) {
@@ -555,8 +550,8 @@ public class RulesActivity extends SubActivity {
             sheet.danger("Ukloni iz pravila", () -> {
                 Set<String> doms = new HashSet<>(siteRules);
                 for (DailySchedule.Rule r : rules) for (String x : r.sites) if (dom != null && Links.covers(dom, x)) doms.add(x);
-                store.removals.request(pkg, doms);
-                requestedToast();
+                store.removeFromRules(pkg, doms);
+                removedToast();
                 render();
                 return true;
             });
@@ -630,8 +625,8 @@ public class RulesActivity extends SubActivity {
                 });
         if (current >= 0 || !in.isEmpty()) {
             sheet.danger("Ukloni iz pravila", () -> {
-                store.removals.request(null, java.util.Collections.singleton(domain));
-                requestedToast();
+                store.removeFromRules(null, java.util.Collections.singleton(domain));
+                removedToast();
                 render();
                 return true;
             });

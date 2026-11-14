@@ -52,7 +52,6 @@ public final class Store {
     public final DayLimits dayLimits = new DayLimits(this);
     public final GuardLog guardLog = new GuardLog(this);
     public final Sessions sessions = new Sessions(this);
-    public final Removals removals = new Removals(this);
     final SharedPreferences sp;
     final JSONObject apps;   // paket -> {lock, limit}
     final JSONObject sites;  // domen -> {limit}
@@ -97,6 +96,7 @@ public final class Store {
         modes.workEveryDay();
         usageLog.prune();
         loadEnforced();
+        migrateRemovals();
         dayLimits.countOnlyGuarded(c);
         if (sp.contains("pin")) sp.edit().remove("pin").apply(); // PIN više ne postoji, otključava samo dnevna šifra
         if (sp.contains("notifDays")) sp.edit().remove("notifDays").remove("notifSince").apply(); // brojanje notifikacija je uklonjeno
@@ -430,26 +430,38 @@ public final class Store {
         enforce();
     }
 
-    /** Skida aplikaciju i sajtove iz svih pravila i režima, i iz onoga što važi sada (i usred režima). Poziva se samo posle potvrde (Removals). */
-    public synchronized void removeNow(String pkg, java.util.Collection<String> domains) {
-        if (pkg != null) {
-            apps.remove(pkg);
-            if (eApps != null) eApps.remove(pkg);
-        }
-        for (String d : domains) {
-            sites.remove(d);
-            if (eSites != null) eSites.remove(d);
-        }
-        for (List<DailySchedule.Rule> list : java.util.Arrays.asList(modes.schedules, eSchedules)) {
-            for (DailySchedule.Rule r : list) {
-                if (pkg != null) r.apps.remove(pkg);
-                r.sites.removeAll(domains);
-            }
+    /**
+     * „Ukloni iz pravila“: skida aplikaciju i sajtove iz svih pravila i režima u podešavanju. Važeće stanje ih drži
+     * do sledećih 06:00 (enforce), kao svako popuštanje; vidi se u „Zakazane promene“ i može da se otkaže.
+     */
+    public synchronized void removeFromRules(String pkg, java.util.Collection<String> domains) {
+        if (pkg != null) apps.remove(pkg);
+        for (String d : domains) sites.remove(d);
+        for (DailySchedule.Rule r : modes.schedules) {
+            if (pkg != null) r.apps.remove(pkg);
+            r.sites.removeAll(domains);
         }
         sp.edit().putString("apps", apps.toString()).putString("sites", sites.toString())
                 .putString("schedules", modes.schedulesJson()).apply();
-        if (eApps != null) saveEnforced();
         enforce();
+    }
+
+    /** Prelaz: stari zahtevi za uklanjanje (čekali su potvrdu) postaju uklanjanje od sledećih 06:00. */
+    private void migrateRemovals() {
+        JSONArray a = parseArray(sp.getString("removals", null));
+        for (int i = 0; a != null && i < a.length(); i++) {
+            JSONObject o = a.optJSONObject(i);
+            if (o == null) continue;
+            Set<String> doms = new HashSet<>();
+            JSONArray s = o.optJSONArray("sites");
+            for (int j = 0; s != null && j < s.length(); j++) {
+                String d = s.optString(j, "");
+                if (!d.isEmpty()) doms.add(d);
+            }
+            String pkg = o.optString("pkg", "");
+            if (!pkg.isEmpty() || !doms.isEmpty()) removeFromRules(pkg.isEmpty() ? null : pkg, doms);
+        }
+        if (sp.contains("removals")) sp.edit().remove("removals").apply();
     }
 
     // ---------- Dan ----------

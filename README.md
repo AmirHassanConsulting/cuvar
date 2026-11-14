@@ -118,21 +118,16 @@ Dok režim traje, ne može da se isključi, obriše, skrati, promene mu se dani 
 
 ### 7. "Ukloni iz pravila"
 
-1. Klik samo snima zahtev. Ništa se ne skida, pravilo i dalje važi.
-2. Sledećeg dana (dan se menja u 06:00) **od 08:00 do 22:00** Čuvar pita
-   "Da li si siguran?". Pitanje iskače kad otvoriš Čuvar (nema obaveštenja),
-   a stoji i kao kartica na kartici Pravila.
-3. "Da, ukloni": stavka se odmah skida iz svih pravila i režima.
-   "Ne, ostavi" ili bez odgovora do 22:00: zahtev propada, pravilo ostaje.
-
-Zahtev dat između ponoći i 06:00 pita isti kalendarski dan od 08:00
-(npr. dat u 00:30 → pita u 08:00 tog jutra).
+Klik odmah skida aplikaciju ili sajt iz svih pravila i režima u podešavanju, bez pitanja.
+Kao svako popuštanje, pravilo i dalje važi do **sledećih 06:00**, pa nestaje samo. Do tada
+se stavka vidi u "Zakazane promene" i može da se vrati ("Odustani od ovih promena").
+Zahtevi iz starije verzije (čekali su potvrdu) pri prvom pokretanju postaju ovakvo uklanjanje.
 
 ### 8. Dani i satovi
 
 - Izmereno vreme, limiti, broj otvaranja, hitno otključavanje i broj
   otključavanja kreću iz početka u **ponoć**.
-- Zakazana popuštanja i zahtevi za uklanjanje računaju dan od **06:00**.
+- Zakazana popuštanja (i uklanjanje iz pravila) računaju dan od **06:00**.
 - Dnevna šifra se menja u **17:00**.
 - Sve se računa po "pouzdanom satu": pomeranje sata ili zone ne skraćuje režim,
   ne vraća limite i ne donosi novu šifru.
@@ -215,7 +210,7 @@ iz koda, bez XML rasporeda. Zašto baš ovako i gde ide nova klasa:
 | `RulesActivity.java` | "Aplikacije i sajtovi": lista pravila i prozor za izmenu jedne stavke |
 | `ScheduleActivity.java`, `FocusActivity.java` | Vremenski režimi, ručni fokus |
 | `StatsActivity.java` | Statistika |
-| `data/` | `Store` (sva podešavanja, "popuštanje od sutra") i njegovi delovi: `Clock` (pouzdan sat), `Unlocks`, `Modes` (režimi), `DayLimits`, `UsageLog`, `Sessions`, `Focus`, `Removals` (uklanjanje iz pravila uz potvrdu sutradan), `GuardLog`, `AppLabels` (naziv aplikacije) |
+| `data/` | `Store` (sva podešavanja, "popuštanje od sutra") i njegovi delovi: `Clock` (pouzdan sat), `Unlocks`, `Modes` (režimi), `DayLimits`, `UsageLog`, `Sessions`, `Focus`, `GuardLog`, `AppLabels` (naziv aplikacije) |
 | `rules/` | Čista pravila bez Android-a, sa testovima: `BlockKind` (vrste blokade), `UnlockTimer`, `UnlockCost`, `CodeAttempts`, `TrustedClock`, `SessionLimit`, `RuleMerge`, `LimitWarnings`, `DailySchedule` (režimi), `DailyCode` (dnevna šifra), `DayLimit`, `DomainRules`, `UsageTracker`, `UsageCalendar`, `UnlockStreak`, `ForegroundTime` |
 | `guard/` | Delovi servisa: `BlockScreen` (prikaz blokade), `AppKinds` (vrsta aplikacije napred), `UsageAccounting` (upis vremena), `BlockOverlayContent` (ekran blokade i otključavanje), `PauseOverlayContent` (pauza 6 s), `GuardOverlayWindow` (prozor preko svega, muzika), `AndroidUsage` (statistika iz Androidovih zapisa), `ForegroundApp`, `SystemScreens`, `Clones`, `MusicOwner`, `LoadMeter`, `GuardDiagnostics` i `ErrorLog` (uhvaćene greške, bez ličnih podataka) |
 | `web/` | Pregledači: `BrowserMonitor`, `BrowserWindows`, `BrowserAddressState`, `WebAddress` (pravi sajt), `Hosts`, `Links` (aplikacija ↔ sajt) |

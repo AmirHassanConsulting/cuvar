@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/** Srce pravila: pooštravanje važi odmah, popuštanje tek u 06:00; potpuno skidanje stavke (removeNow) odmah. */
+/** Srce pravila: pooštravanje važi odmah, popuštanje (i „Ukloni iz pravila“) tek u 06:00; removeNow skida odmah. */
 public final class EnforcedRulesTest {
     private static int checks;
 
@@ -23,6 +23,7 @@ public final class EnforcedRulesTest {
         exemptions();
         links();
         schedules();
+        removedFromRules();
         inputsUnchanged();
         siteRelaxation();
         System.out.println("EnforcedRulesTest: " + checks + " provera prošlo.");
@@ -119,6 +120,23 @@ public final class EnforcedRulesTest {
         check(anyEnabled(EnforcedRules.tighten(mode(work), none(), true).schedules, "m1"), "Brisanje režima čeka");
     }
 
+    /** „Ukloni iz pravila“ skida stavku samo iz podešavanja: aplikacija, sajt i stavka režima važe do 06:00. */
+    private static void removedFromRules() {
+        DailySchedule.Rule work = rule("m1", true, 9 * 60, 17 * 60, set("yt"), set("youtube.com"));
+        Map<String, Integer> s = new HashMap<>();
+        s.put("youtube.com", 0);
+        EnforcedRules now = new EnforcedRules(map("yt", new AppRule(true, 0, 0, 0)), s, list(work),
+                false, false, set(), set(), set(), set());
+        DailySchedule.Rule emptied = rule("m1", true, 9 * 60, 17 * 60, set(), set());
+        EnforcedRules r = tight(now, mode(emptied));
+        check(r.apps.containsKey("yt") && r.apps.get("yt").lock, "Uklonjena aplikacija ostaje zaključana do 06:00");
+        check(r.sites.containsKey("youtube.com") && r.sites.get("youtube.com") == 0, "Uklonjen sajt ostaje do 06:00");
+        check(anyHas(r.schedules, "m1", "yt"), "Uklonjena aplikacija ostaje u režimu do 06:00");
+        boolean site = false;
+        for (DailySchedule.Rule x : r.schedules) site |= x.id.equals("m1") && x.sites.contains("youtube.com");
+        check(site, "Uklonjen sajt ostaje u režimu do 06:00");
+    }
+
     private static void inputsUnchanged() {
         DailySchedule.Rule work = rule("m1", true, 9 * 60, 17 * 60, set("yt"), set());
         EnforcedRules now = new EnforcedRules(map("yt", new AppRule(false, 30, 0, 0)), new HashMap<>(), list(work),
@@ -147,7 +165,7 @@ public final class EnforcedRulesTest {
     // ---------- pomoćno ----------
 
     private static EnforcedRules tight(EnforcedRules now, EnforcedRules wanted) {
-        // Isto kao u aplikaciji: skidanje čeka (uklanjanje ide kroz potvrdu, Removals).
+        // Isto kao u aplikaciji: i potpuno skidanje („Ukloni iz pravila“) čeka 06:00.
         return EnforcedRules.tighten(now, wanted, false);
     }
 
