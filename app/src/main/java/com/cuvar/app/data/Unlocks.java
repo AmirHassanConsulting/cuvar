@@ -69,11 +69,12 @@ public final class Unlocks {
             if (dailyCode().equals(code)) {
                 codeTries.success();
                 saveCodeLockout();
+                saveCodeUse(DailyCode.nextUse(codeKey(), codeDay(), codeUse()));
                 return null;
             }
             boolean blocked = codeTries.fail(now);
             saveCodeLockout();
-            return blocked ? "Previše pokušaja. Sačekaj " + CodeAttempts.WAIT_MS / 1000 + " s" : "Pogrešna dnevna šifra";
+            return blocked ? "Previše pokušaja. Sačekaj " + CodeAttempts.WAIT_MS / 1000 + " s" : "Pogrešna šifra. Posle svakog otključavanja Čuvar pokazuje novu.";
         }
     }
 
@@ -361,7 +362,28 @@ public final class Unlocks {
     /** Šifra koja važi sada (od 17:00 do 17:00 sledećeg dana, po pouzdanom vremenu). */
     public String dailyCode() {
         synchronized (store) {
-            return DailyCode.code(codeKey(), DailyCode.dayKey(store.now(), store.clock.zone()));
+            return DailyCode.code(codeKey(), codeDay(), codeUse());
+        }
+    }
+
+    private String codeDay() {
+        return DailyCode.dayKey(store.now(), store.clock.zone());
+    }
+
+    /** Koliko je šifri tekućeg dana šifre već iskorišćeno; novi dan kreće od 0. */
+    private int codeUse() {
+        JSONObject o = Store.parse(store.sp.getString("codeUse", "{}"));
+        return codeDay().equals(o.optString("day")) ? Math.max(0, o.optInt("n", 0)) : 0;
+    }
+
+    private void saveCodeUse(int n) {
+        try {
+            JSONObject o = new JSONObject();
+            o.put("day", codeDay());
+            o.put("n", n);
+            store.sp.edit().putString("codeUse", o.toString()).apply();
+        } catch (JSONException ignored) {
+            // put sa ispravnim ključem i vrednošću ne baca grešku; ostaje prethodna šifra
         }
     }
 

@@ -31,15 +31,28 @@ public final class DailyCode {
     }
 
     public static String code(byte[] key, String dayKey) {
+        return code(key, dayKey, 0);
+    }
+
+    /** Šifra za n-to korišćenje tog dana; n == 0 daje istu šifru kao pre uvođenja jednokratnih šifri. */
+    public static String code(byte[] key, String dayKey, int n) {
         try {
             Mac mac = Mac.getInstance("HmacSHA256");
             mac.init(new SecretKeySpec(key, "HmacSHA256"));
-            byte[] h = mac.doFinal(("cuvar-dan:" + dayKey).getBytes(StandardCharsets.UTF_8));
+            byte[] h = mac.doFinal(("cuvar-dan:" + dayKey + (n > 0 ? ":" + n : "")).getBytes(StandardCharsets.UTF_8));
             int o = h[h.length - 1] & 0x0f;
-            int n = ((h[o] & 0x7f) << 24) | ((h[o + 1] & 0xff) << 16) | ((h[o + 2] & 0xff) << 8) | (h[o + 3] & 0xff);
-            return String.format(Locale.US, "%04d", n % 10000);
+            int v = ((h[o] & 0x7f) << 24) | ((h[o + 1] & 0xff) << 16) | ((h[o + 2] & 0xff) << 8) | (h[o + 3] & 0xff);
+            return String.format(Locale.US, "%04d", v % 10000);
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    /** Najmanje m > n čija se šifra razlikuje od šifre za n (nova nikad ne liči na upravo iskorišćenu). */
+    public static int nextUse(byte[] key, String dayKey, int n) {
+        String used = code(key, dayKey, n);
+        int m = n + 1;
+        while (code(key, dayKey, m).equals(used)) m++;
+        return m;
     }
 }

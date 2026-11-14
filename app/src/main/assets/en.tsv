@@ -802,3 +802,9 @@ Vreme u njoj ne troši ukupni limit i ne zaključava se kad on istekne; ostala p
  je van ukupnog limita od sutra u 06:00	 is outside the total limit from tomorrow at 06:00
  i još 	, plus 
 Uklanja se sutra u 06:00. Do tada pravilo važi.	Removed tomorrow at 06:00. Until then the rule applies.
+Šifra stiže u 	The code arrives at 
+:00, vidi se ovde do 	:00, it is shown here until 
+:00 i menja se posle svakog otključavanja.	:00 and changes after every unlock.
+Svaka šifra važi za jedno otključavanje; posle njega se ovde pojavi nova. Otključava samo do 	Each code works for one unlock; after it a new one appears here. It unlocks only until 
+:00.	:00.
+Pogrešna šifra. Posle svakog otključavanja Čuvar pokazuje novu.	Wrong code. After every unlock Čuvar shows a new one.

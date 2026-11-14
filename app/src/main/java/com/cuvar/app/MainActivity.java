@@ -473,15 +473,15 @@ public class MainActivity extends Activity {
         }
         if (!store.unlock.dailyCodeVisible()) {
             card.addView(Ui.text(this, "Stiže u " + DailyCode.CHANGE_HOUR + ":00", 30, Ui.INK, true), Ui.fill(this, 4));
-            card.addView(Ui.text(this, "Svaki dan dobijaš jednu novu šifru u " + DailyCode.CHANGE_HOUR
-                    + ":00 i vidi se ovde do " + DailyCode.LOCK_HOUR + ":00.", 14, Ui.MUTED, false), Ui.fill(this, 6));
+            card.addView(Ui.text(this, "Šifra stiže u " + DailyCode.CHANGE_HOUR
+                    + ":00, vidi se ovde do " + DailyCode.LOCK_HOUR + ":00 i menja se posle svakog otključavanja.", 14, Ui.MUTED, false), Ui.fill(this, 6));
             return card;
         }
         TextView code = Ui.text(this, store.unlock.dailyCode(), 38, Ui.INK, true);
         code.setLetterSpacing(0.2f);
         card.addView(code, Ui.fill(this, 4));
-        card.addView(Ui.text(this, "Današnja šifra. Jedino ona otključava zaključane aplikacije i sajtove, i to samo do " + DailyCode.LOCK_HOUR + ":00."
-                + " Sutra u " + DailyCode.CHANGE_HOUR + ":00 dobijaš novu.",
+        card.addView(Ui.text(this, "Svaka šifra važi za jedno otključavanje; posle njega se ovde pojavi nova. Otključava samo do "
+                + DailyCode.LOCK_HOUR + ":00.",
                 14, Ui.MUTED, false), Ui.fill(this, 6));
         return card;
     }

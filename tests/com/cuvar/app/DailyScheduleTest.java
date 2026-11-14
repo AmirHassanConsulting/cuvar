@@ -141,6 +141,14 @@ public final class DailyScheduleTest {
         }
         check(seen.size() >= 24, "Šifra se menja iz dana u dan", 0);
         check(differs >= 25, "Drugi ključ, druga šifra", 0);
+        check(DailyCode.code(key, "20260201").equals(DailyCode.code(key, "20260201", 0)), "n=0 isto kao stara šifra", 0);
+        java.util.Set<String> uses = new java.util.HashSet<>();
+        for (int n = 0; n < 20; n++) uses.add(DailyCode.code(key, "20260201", n));
+        check(uses.size() >= 17, "Različito n, različite šifre", 0);
+        for (int n = 0; n < 200; n++) {
+            int m = DailyCode.nextUse(key, "20260201", n);
+            check(m > n && !DailyCode.code(key, "20260201", m).equals(DailyCode.code(key, "20260201", n)), "nextUse daje drugačiju šifru", n);
+        }
     }
 
     private static void tightening() {
