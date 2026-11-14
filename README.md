@@ -39,7 +39,8 @@ Pravila → "Aplikacije, sajtovi i režimi" je jedini ekran za ovo:
   režim" i gotovi "Noćno zaključavanje" i "Radno vreme".
 - **Ceo dan**: zaključavanje, dnevni limit, broj otvaranja i "najduže u komadu",
   bez obzira na režime. Kartica aplikacije samo pokazuje u kojim je režimima.
-  Kod svake stavke (i na vrhu kartice aplikacije) piše **"Sada: ..."** (npr.
+  U listi stavka pokazuje samo svoja pravila, a crveni red "Sada: ..." samo kad je
+  sada blokira režim ili je limit potrošen. Na vrhu kartice aplikacije ili sajta piše **"Sada: ..."** (npr.
   "blokira Radno vreme do 17:00", "zaključano, šifra od 17:00", "limit potrošen,
   do ponoći") i **"Danas: ..."**, ceo dan pravila od 06:00 do 06:00, npr.
   "06–09 zaključano · 09–17 blokira Radno vreme · 17–22 otvara se šifrom · ...".

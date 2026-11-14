@@ -160,7 +160,7 @@ public class RulesActivity extends SubActivity {
             List<String> nxt = appChips(x[0], false);
             String title = dom == null ? x[1] : x[1] + "  +  " + dom;
             boolean spent = appsSpent.contains(x[0]) || (dayReached && store.dayLimitApp(x[0]));
-            List<Line> day = dayLines(rules, has, store.appLockNow(x[0]), spent, clock);
+            List<Line> day = alertOnly(dayLines(rules, has, store.appLockNow(x[0]), spent, clock));
             group = addRow(group, title, icon, cur, nxt, day, v -> editApp(x[0], x[1]));
         }
         List<String> siteSorted = new ArrayList<>(sites);
@@ -168,7 +168,7 @@ public class RulesActivity extends SubActivity {
         for (String dom : siteSorted) {
             Has has = r -> DailySchedule.matchDomain(dom, r.sites) != null;
             boolean spent = sitesSpent.contains(dom) || (dayReached && store.dayLimitSite(dom) != null);
-            List<Line> day = dayLines(rules, has, store.siteLimitNow(dom) == 0, spent, clock);
+            List<Line> day = alertOnly(dayLines(rules, has, store.siteLimitNow(dom) == 0, spent, clock));
             group = addRow(group, dom, null, siteChips(dom, true), siteChips(dom, false), day, v -> editSite(dom));
         }
         empty("Tapni režim da mu menjaš vreme i stavke, a aplikaciju ili sajt da mu menjaš zaključavanje i limit.");
@@ -272,6 +272,13 @@ public class RulesActivity extends SubActivity {
         boolean strong = spent || DayPlan.kindAt(plan, clock[0]) == DayPlan.BLOCKED;
         out.add(new Line(DayPlan.now(plan, clock[0], spent), strong));
         if (today != null) out.add(new Line(today, false));
+        return out;
+    }
+
+    /** U listi samo istaknut red „Sada“ (blokira režim ili potrošen limit); ceo „Danas“ je u kartici stavke. */
+    private static List<Line> alertOnly(List<Line> day) {
+        List<Line> out = new ArrayList<>();
+        for (Line l : day) if (l.strong) out.add(l);
         return out;
     }
 
@@ -596,6 +603,13 @@ public class RulesActivity extends SubActivity {
         String key = ItemKey.site(domain);
 
         LinearLayout box = Ui.column(this);
+        // Na vrhu: šta važi sada i ceo današnji dan.
+        boolean spent = store.sitesOverLimit().contains(domain) || (store.dayLimitSite(domain) != null
+                && DayLimit.reached(store.dayLimits.dayLimit(), store.dayLimits.guardedToday()));
+        List<Line> day = dayLines(store.modes.schedulesNow(), r -> DailySchedule.matchDomain(domain, r.sites) != null,
+                store.siteLimitNow(domain) == 0, spent, store.modes.minuteAndDay());
+        for (Line l : day) box.addView(Ui.text(this, l.text, 14, l.strong ? Ui.ACCENT : Ui.MUTED, l.strong), Ui.fill(this, 4));
+        if (!day.isEmpty()) box.addView(new View(this), Ui.fill(this, 10));
         List<CheckRow> rows = ruleChecks(box, rules, in, now);
         box.addView(Sheet.label(this, "Ceo dan"), Ui.fill(this, 18));
         CheckRow lock = new CheckRow(this, null, "Zaključaj", "Otvara se samo dnevnom šifrom, od 17:00 do 22:00");
