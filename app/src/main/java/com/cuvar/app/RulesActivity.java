@@ -66,7 +66,7 @@ public class RulesActivity extends SubActivity {
                 "1. Režim blokira samo u svom periodu i tada ne može da se otključa.\n"
                 + "2. Van režima važi samo ono što je podešeno pod „Ceo dan“: zaključano se otvara dnevnom šifrom (17:00 do 22:00), a potrošen limit se ne otvara do ponoći.\n"
                 + "3. Ukupni dnevni limit broji samo vreme u stavkama sa pravilom pod „Ceo dan“ (zaključaj, limit, otvaranja...), ne u onima koje su samo u režimu; kad se potroši, zaključava ih do ponoći.\n"
-                + "4. Strože pravilo važi odmah. Blaže se traži samo od 06:00 do 08:00 i važi posle 48 sati.\n"
+                + "4. Strože pravilo važi odmah. Blaže se traži samo od 06:00 do 10:00 i važi sutra u 06:00.\n"
                 + "5. Noću je zaključano samo ono što je u režimu „Noćno zaključavanje“.\n"
                 + "6. Ručni Fokus je zaseban: dok traje, dozvoljene su samo izabrane aplikacije i sajtovi.\n"
                 + "7. Kod svake stavke pod „Ceo dan“ piše šta važi sada i ceo današnji dan, od 06:00 do 06:00.")
@@ -421,16 +421,16 @@ public class RulesActivity extends SubActivity {
         return rows;
     }
 
-    /** Posle čuvanja: odbijeno popuštanje (van 06–08) ili podsetnik da popuštanje čeka. */
+    /** Posle čuvanja: odbijeno popuštanje (van 06–10) ili podsetnik da popuštanje čeka. */
     private void pendingToast(boolean ok) {
         if (!ok) busy();
         else if (!store.pendingChanges(getPackageManager()).isEmpty()) {
-            Ui.toast(this, "Pooštravanje važi odmah, a popuštanje posle 48 sati, prekosutra u 06:00.");
+            Ui.toast(this, "Pooštravanje važi odmah, a popuštanje sutra u 06:00.");
         }
     }
 
     private void removedToast() {
-        Ui.toast(this, "Uklanja se prekosutra u 06:00. Do tada pravilo važi.");
+        Ui.toast(this, "Uklanja se sutra u 06:00. Do tada pravilo važi.");
     }
 
     private boolean saveRules(List<DailySchedule.Rule> rules, List<CheckRow> rows, String key, boolean site) {
@@ -474,7 +474,7 @@ public class RulesActivity extends SubActivity {
         box.addView(lock, Ui.fill(this, 6));
         final boolean wasDayFree = store.dayFree().contains(pkg);
         final CheckRow dayFree = new CheckRow(this, null, "Van ukupnog dnevnog limita",
-                "Vreme u njoj ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Traži se samo od 06:00 do 08:00; jedna aplikacija dnevno važi odmah, ostale posle 48 sati");
+                "Vreme u njoj ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Traži se samo od 06:00 do 10:00; jedna aplikacija dnevno važi odmah, ostale sutra u 06:00");
         dayFree.setChecked(wasDayFree);
         box.addView(dayFree, Ui.fill(this, 10));
         box.addView(Sheet.label(this, "Dnevni limit u minutima (0 = bez limita)"), Ui.fill(this, 14));
@@ -528,7 +528,7 @@ public class RulesActivity extends SubActivity {
                         int free = store.setDayFree(pkg, dayFree.isChecked());
                         ok[0] = free != Store.REFUSED;
                         if (dayFree.isChecked() && ok[0]) {
-                            Ui.toast(this, label + (free == Store.NOW ? " je odmah van ukupnog limita" : " je van ukupnog limita od prekosutra u 06:00"));
+                            Ui.toast(this, label + (free == Store.NOW ? " je odmah van ukupnog limita" : " je van ukupnog limita od sutra u 06:00"));
                         }
                     }
                     saveGuarding(pkg, label, adding, ownRule, () -> {
@@ -589,7 +589,7 @@ public class RulesActivity extends SubActivity {
 
     /** Popuštanje je odbijeno: traži se samo ujutru. */
     private void busy() {
-        Ui.toast(this, "Popuštanje pravila može da se zatraži samo od 06:00 do 08:00, a važi posle 48 sati.");
+        Ui.toast(this, "Popuštanje pravila može da se zatraži samo od 06:00 do 10:00, a važi sutra u 06:00.");
     }
 
     private void editSite(String domain) {
@@ -622,7 +622,7 @@ public class RulesActivity extends SubActivity {
         box.addView(lock, Ui.fill(this, 6));
         final boolean wasDayFree = store.dayFree().contains(key);
         final CheckRow dayFree = new CheckRow(this, null, "Van ukupnog dnevnog limita",
-                "Vreme na njemu ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Traži se samo od 06:00 do 08:00; jedna stavka dnevno važi odmah, ostale posle 48 sati");
+                "Vreme na njemu ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Traži se samo od 06:00 do 10:00; jedna stavka dnevno važi odmah, ostale sutra u 06:00");
         dayFree.setChecked(wasDayFree);
         box.addView(dayFree, Ui.fill(this, 10));
         box.addView(Sheet.label(this, "Dnevni limit u minutima (0 = bez limita)"), Ui.fill(this, 14));
@@ -654,7 +654,7 @@ public class RulesActivity extends SubActivity {
                         int free = store.setDayFree(key, dayFree.isChecked());
                         ok = free != Store.REFUSED;
                         if (dayFree.isChecked() && ok) {
-                            Ui.toast(this, domain + (free == Store.NOW ? " je odmah van ukupnog limita" : " je van ukupnog limita od prekosutra u 06:00"));
+                            Ui.toast(this, domain + (free == Store.NOW ? " je odmah van ukupnog limita" : " je van ukupnog limita od sutra u 06:00"));
                         }
                     }
                     ok &= saveRules(rules, rows, domain, true);

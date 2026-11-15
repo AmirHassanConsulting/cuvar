@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-/** Izlazak iz režima: samo 06–08, važi prekosutra, a režim preko 06:00 ostaje do kraja perioda. */
+/** Izlazak iz režima: samo 06–10, važi sutra, a režim preko 06:00 ostaje do kraja perioda. */
 public final class ModeHoldsTest {
     private static int checks;
     private static final String YT = "com.google.android.youtube";
@@ -82,8 +82,8 @@ public final class ModeHoldsTest {
     private static void window() {
         check(!ModeHolds.inWindow(5 * 60 + 59), "05:59 van prozora");
         check(ModeHolds.inWindow(6 * 60), "06:00 u prozoru");
-        check(ModeHolds.inWindow(7 * 60 + 59), "07:59 u prozoru");
-        check(!ModeHolds.inWindow(8 * 60), "08:00 van prozora");
+        check(ModeHolds.inWindow(9 * 60 + 59), "09:59 u prozoru");
+        check(!ModeHolds.inWindow(10 * 60), "10:00 van prozora");
         check(!ModeHolds.inWindow(17 * 60 + 1), "17:01 van prozora");
     }
 
@@ -96,13 +96,15 @@ public final class ModeHoldsTest {
 
     private static void until() {
         TimeZone bg = TimeZone.getTimeZone("Europe/Belgrade");
-        eq(ModeHolds.until(at(bg, 2026, 11, 16, 6, 0), bg), "20261118", "06:00 -> prekosutra");
-        eq(ModeHolds.until(at(bg, 2026, 11, 16, 7, 59), bg), "20261118", "07:59 -> prekosutra");
+        eq(ModeHolds.until(at(bg, 2026, 11, 16, 6, 0), bg), "20261117", "06:00 -> sutra");
+        eq(ModeHolds.until(at(bg, 2026, 11, 16, 9, 59), bg), "20261117", "09:59 -> sutra");
         // 29.3.2026 traje 23 h, 25.10.2026 traje 25 h.
-        eq(ModeHolds.until(at(bg, 2026, 3, 28, 6, 0), bg), "20260330", "Dan od 23 h");
-        eq(ModeHolds.until(at(bg, 2026, 3, 29, 7, 59), bg), "20260331", "Zahtev na dan od 23 h");
-        eq(ModeHolds.until(at(bg, 2026, 10, 24, 6, 0), bg), "20261026", "Dan od 25 h");
-        eq(ModeHolds.until(at(bg, 2026, 10, 25, 6, 0), bg), "20261027", "Zahtev na dan od 25 h");
+        eq(ModeHolds.until(at(bg, 2026, 3, 28, 6, 0), bg), "20260329", "Dan od 23 h");
+        eq(ModeHolds.until(at(bg, 2026, 3, 29, 6, 0), bg), "20260330", "Zahtev na dan od 23 h");
+        eq(ModeHolds.until(at(bg, 2026, 3, 29, 9, 59), bg), "20260330", "Zahtev u 09:59 na dan od 23 h");
+        eq(ModeHolds.until(at(bg, 2026, 10, 24, 6, 0), bg), "20261025", "Dan od 25 h");
+        eq(ModeHolds.until(at(bg, 2026, 10, 25, 6, 0), bg), "20261026", "Zahtev na dan od 25 h");
+        eq(ModeHolds.until(at(bg, 2026, 10, 25, 9, 59), bg), "20261026", "Zahtev u 09:59 na dan od 25 h");
     }
 
     private static void carry() {
@@ -154,21 +156,21 @@ public final class ModeHoldsTest {
         Rule now = DailySchedule.copy(old);
         now.apps.remove(YT);
         now.sites.clear();
-        List<ModeHolds.Hold> holds = Collections.singletonList(hold("20261118", old));
+        List<ModeHolds.Hold> holds = Collections.singletonList(hold("20261117", old));
         List<Rule> desired = Collections.singletonList(now);
-        // Sutra u 06:00 (09–17 tada ne traje): zadržano staro pravilo i dalje blokira.
-        List<Rule> d1 = m(desired, Collections.singletonList(old), holds, "20261117", 6 * 60, 1);
-        check(DailySchedule.blockingApp(d1, YT, 10 * 60, 1) != null, "Sutra je YouTube i dalje u režimu");
-        check(ModeHolds.live(holds, "20261117").size() == 1, "Zadržano do prekosutra");
-        // Prekosutra u 06:00: oslobođen.
-        List<Rule> d2 = m(desired, d1, ModeHolds.live(holds, "20261117"), "20261118", 6 * 60, 2);
-        check(DailySchedule.blockingApp(d2, YT, 10 * 60, 2) == null, "Prekosutra je YouTube slobodan");
-        check(ModeHolds.live(holds, "20261118").isEmpty(), "Zadržano ističe na until");
+        // Dan zahteva u 06:00 (09–17 tada ne traje): zadržano staro pravilo i dalje blokira.
+        List<Rule> d1 = m(desired, Collections.singletonList(old), holds, "20261116", 6 * 60, 1);
+        check(DailySchedule.blockingApp(d1, YT, 10 * 60, 1) != null, "Danas je YouTube i dalje u režimu");
+        check(ModeHolds.live(holds, "20261116").size() == 1, "Zadržano do sutra");
+        // Sutra u 06:00: oslobođen.
+        List<Rule> d2 = m(desired, d1, ModeHolds.live(holds, "20261117"), "20261117", 6 * 60, 2);
+        check(DailySchedule.blockingApp(d2, YT, 10 * 60, 2) == null, "Sutra je YouTube slobodan");
+        check(ModeHolds.live(holds, "20261117").isEmpty(), "Zadržano ističe na until");
         check(d2.size() == 1, "Ostaje samo podešen režim");
 
         // Obrisan režim ostaje do until.
-        List<Rule> gone = m(new ArrayList<>(), Collections.singletonList(old), holds, "20261117", 6 * 60, 1);
-        check(DailySchedule.blockingApp(gone, YT, 10 * 60, 1) != null, "Obrisan režim važi do prekosutra");
+        List<Rule> gone = m(new ArrayList<>(), Collections.singletonList(old), holds, "20261116", 6 * 60, 1);
+        check(DailySchedule.blockingApp(gone, YT, 10 * 60, 1) != null, "Obrisan režim važi do sutra");
     }
 
     private static void morningOverSix() {
@@ -278,20 +280,20 @@ public final class ModeHoldsTest {
         List<Rule> none = new ArrayList<>();
         EnforcedRules old = er(app(lock), site(0), none, true, set(), set("p|d"));
         EnforcedRules desired = er(app(null), site(null), none, false, set("a"), set());
-        List<ModeHolds.Hold> holds = Collections.singletonList(new ModeHolds.Hold("20261118", old));
-        EnforcedRules d1 = ModeHolds.morning(desired, none, holds, "20261117", 6 * 60, 1);
-        check(d1.apps.get(YT) != null && d1.apps.get(YT).lock, "Sutra je i dalje zaključana");
-        check(Integer.valueOf(0).equals(d1.sites.get("youtube.com")), "Sutra je sajt i dalje blokiran");
+        List<ModeHolds.Hold> holds = Collections.singletonList(new ModeHolds.Hold("20261117", old));
+        EnforcedRules d1 = ModeHolds.morning(desired, none, holds, "20261116", 6 * 60, 1);
+        check(d1.apps.get(YT) != null && d1.apps.get(YT).lock, "Danas je i dalje zaključana");
+        check(Integer.valueOf(0).equals(d1.sites.get("youtube.com")), "Danas je sajt i dalje blokiran");
         check(d1.protect && d1.dayFree.isEmpty() && d1.links.contains("p|d"), "Sutra zaštita, bez izuzetka, par ostaje");
-        EnforcedRules d2 = ModeHolds.morning(desired, none, holds, "20261118", 6 * 60, 2);
-        check(d2.apps.isEmpty() && d2.sites.isEmpty() && !d2.protect, "Prekosutra važi podešeno");
-        check(d2.dayFree.contains("a") && d2.links.isEmpty(), "Prekosutra izuzetak i razdvajanje");
-        check(ModeHolds.morning(desired, none, new ArrayList<>(), "20261117", 6 * 60, 1) == desired, "Bez zadržanog: podešeno");
+        EnforcedRules d2 = ModeHolds.morning(desired, none, holds, "20261117", 6 * 60, 2);
+        check(d2.apps.isEmpty() && d2.sites.isEmpty() && !d2.protect, "Sutra važi podešeno");
+        check(d2.dayFree.contains("a") && d2.links.isEmpty(), "Sutra izuzetak i razdvajanje");
+        check(ModeHolds.morning(desired, none, new ArrayList<>(), "20261116", 6 * 60, 1) == desired, "Bez zadržanog: podešeno");
         // Izuzetak od ukupnog limita koji je odmah važio (freeNow) ostaje i sledećeg jutra.
         EnforcedRules before = er(app(null), site(null), none, false, set(), set());
         EnforcedRules wanted = er(app(null), site(null), none, false, set("a"), set());
-        List<ModeHolds.Hold> fh = Collections.singletonList(new ModeHolds.Hold("20261118", ModeHolds.withDayFree(before, "a")));
-        check(ModeHolds.morning(wanted, none, fh, "20261117", 6 * 60, 1).dayFree.contains("a"), "freeNow ostaje sutra");
+        List<ModeHolds.Hold> fh = Collections.singletonList(new ModeHolds.Hold("20261117", ModeHolds.withDayFree(before, "a")));
+        check(ModeHolds.morning(wanted, none, fh, "20261116", 6 * 60, 1).dayFree.contains("a"), "freeNow ostaje sutra");
         check(!before.dayFree.contains("a"), "withDayFree ne menja ulaz");
     }
 

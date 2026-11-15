@@ -203,7 +203,7 @@ public class MainActivity extends Activity {
         nowBox = null;
         todaySlot = null;
         codeSlot = null;
-        LinearLayout col = titled("Pravila", "Pooštravanje važi odmah. Popuštanje se traži samo od 06:00 do 08:00 i važi posle 48 sati.");
+        LinearLayout col = titled("Pravila", "Pooštravanje važi odmah. Popuštanje se traži samo od 06:00 do 10:00 i važi sutra u 06:00.");
 
         View pending = pendingCard(this, store, this::showDashboard);
         if (pending != null) col.addView(pending, Ui.fill(this, 18));
@@ -416,7 +416,7 @@ public class MainActivity extends Activity {
         if (store.protectNow()) {
             return setupCard("UPOZORENJE", "Prečica može da isključi Čuvara",
                     body + "Zaštita od isključivanja je uključena, pa Čuvar zatvara svoj ekran u Pristupačnosti i prečicu "
-                            + "tamo ne možeš da isključiš. Prvo isključi zaštitu u Čuvaru (traži se od 06:00 do 08:00, važi posle 48 sati), "
+                            + "tamo ne možeš da isključiš. Prvo isključi zaštitu u Čuvaru (traži se od 06:00 do 10:00, važi sutra u 06:00), "
                             + "pa onda prečicu. Čuvar prečicu ne gasi sam.",
                     "Podešavanje zaštite", Safe.click("shortcutProtect", v -> sheets.chooseProtect()), null, null);
         }
@@ -500,7 +500,7 @@ public class MainActivity extends Activity {
         int n = 0;
         for (String it : items) if (!it.startsWith(Store.PENDING_UNTIL)) n++;
         card.addView(Ui.text(a, (n == 1 ? "1 promena" : n + " promena")
-                        + " čeka primenu. Popuštanje važi prekosutra u 06:00. Do tada ostaje strožije pravilo.",
+                        + " čeka primenu. Popuštanje važi sutra u 06:00. Do tada ostaje strožije pravilo.",
                 13, Ui.MUTED, false),
                 Ui.fill(a, 4));
         TextView details = Ui.button(a, "Prikaži promene", false);

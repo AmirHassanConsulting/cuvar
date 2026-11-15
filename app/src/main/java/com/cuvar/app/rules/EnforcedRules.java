@@ -89,7 +89,7 @@ public final class EnforcedRules {
                 links);
     }
 
-    /** Da li bi after bilo blaže od before u bilo čemu (tada je to popuštanje: samo 06–08, važi prekosutra). */
+    /** Da li bi after bilo blaže od before u bilo čemu (tada je to popuštanje: samo 06–10, važi sutra). */
     public static boolean loosens(EnforcedRules before, EnforcedRules after) {
         for (Map.Entry<String, AppRule> e : before.apps.entrySet()) {
             AppRule a = after.apps.get(e.getKey());

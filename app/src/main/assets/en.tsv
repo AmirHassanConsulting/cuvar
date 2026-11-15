@@ -832,31 +832,31 @@ Vrati	Restore
 Uklonjeno, važi do 06:00	Removed, applies until 06:00
 Zatražena popuštanja važe najkasnije od 	Requested relaxations apply at the latest from 
  u 06:00	 at 06:00
-Pooštravanje važi odmah, a popuštanje posle 48 sati, prekosutra u 06:00.	Tightening applies right away; relaxing applies after 48 hours, the day after tomorrow at 06:00.
-Uklanja se prekosutra u 06:00. Do tada pravilo važi.	Removed the day after tomorrow at 06:00. Until then the rule applies.
-Popuštanje pravila može da se zatraži samo od 06:00 do 08:00, a važi posle 48 sati.	Relaxing a rule can only be requested from 06:00 to 08:00, and it applies after 48 hours.
- je van ukupnog limita od prekosutra u 06:00	 is outside the total limit from 06:00 the day after tomorrow
-4. Strože pravilo važi odmah. Blaže se traži samo od 06:00 do 08:00 i važi posle 48 sati.\n	4. A stricter rule applies right away. A looser one can only be requested from 06:00 to 08:00 and applies after 48 hours.\n
+Pooštravanje važi odmah, a popuštanje sutra u 06:00.	Tightening applies right away; relaxing applies tomorrow at 06:00.
+Uklanja se sutra u 06:00. Do tada pravilo važi.	Removed tomorrow at 06:00. Until then the rule applies.
+Popuštanje pravila može da se zatraži samo od 06:00 do 10:00, a važi sutra u 06:00.	Relaxing a rule can only be requested from 06:00 to 10:00, and it applies tomorrow at 06:00.
+ je van ukupnog limita od sutra u 06:00	 is outside the total limit from 06:00 tomorrow
+4. Strože pravilo važi odmah. Blaže se traži samo od 06:00 do 10:00 i važi sutra u 06:00.\n	4. A stricter rule applies right away. A looser one can only be requested from 06:00 to 10:00 and applies tomorrow at 06:00.\n
 Isključuje se posle čekanja, u 06:00	Turns off after the wait, at 06:00
 Posle čekanja: 	After the wait: 
 Ukida se posle čekanja, u 06:00: 	Removed after the wait, at 06:00: 
 Posle čekanja, od 06:00: 	After the wait, from 06:00: 
-Vreme u njoj ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Traži se samo od 06:00 do 08:00; jedna aplikacija dnevno važi odmah, ostale posle 48 sati	Time in it doesn't use the total limit and it isn't locked when the limit runs out; other rules still apply. Can only be requested from 06:00 to 08:00; one app per day applies right away, others after 48 hours
-Vreme na njemu ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Traži se samo od 06:00 do 08:00; jedna stavka dnevno važi odmah, ostale posle 48 sati	Time on it doesn't use the total limit and it isn't locked when that runs out; other rules still apply. Can only be requested from 06:00 to 08:00; one item per day applies right away, others after 48 hours
-a pravilo može da se skine samo od 06:00 do 08:00, i to važi posle 48 sati.	and the rule can only be removed from 06:00 to 08:00, which applies after 48 hours.
+Vreme u njoj ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Traži se samo od 06:00 do 10:00; jedna aplikacija dnevno važi odmah, ostale sutra u 06:00	Time in it doesn't use the total limit and it isn't locked when the limit runs out; other rules still apply. Can only be requested from 06:00 to 10:00; one app per day applies right away, others tomorrow at 06:00
+Vreme na njemu ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Traži se samo od 06:00 do 10:00; jedna stavka dnevno važi odmah, ostale sutra u 06:00	Time on it doesn't use the total limit and it isn't locked when that runs out; other rules still apply. Can only be requested from 06:00 to 10:00; one item per day applies right away, others tomorrow at 06:00
+a pravilo može da se skine samo od 06:00 do 10:00, i to važi sutra u 06:00.	and the rule can only be removed from 06:00 to 10:00, which applies tomorrow at 06:00.
 Ovo još važi do kraja čekanja (06:00):\n	This still applies until the wait ends (06:00):\n
-Izaberi period i dane i dodaj aplikacije i sajtove koji će tada biti blokirani. Dodavanje važi odmah. Izlazak iz režima se traži samo 06:00–08:00 i važi posle 48 sati.	Choose the period and days and add the apps and sites to block then. Adding applies right away. Leaving a mode can only be requested 06:00–08:00 and applies after 48 hours.
+Izaberi period i dane i dodaj aplikacije i sajtove koji će tada biti blokirani. Dodavanje važi odmah. Izlazak iz režima se traži samo 06:00–10:00 i važi sutra u 06:00.	Choose the period and days and add the apps and sites to block then. Adding applies right away. Leaving a mode can only be requested 06:00–10:00 and applies tomorrow at 06:00.
 Podešavanja ispod važe u potpunosti kad istekne čekanje (u 06:00). 	The settings below fully apply when the wait ends (at 06:00). 
 Režim je sada aktivan.	The mode is running now.
-Dodavanje važi odmah. Izlazak iz režima se traži samo 06:00–08:00 i važi posle 48 sati.	Adding applies right away. Leaving a mode can only be requested 06:00–08:00 and applies after 48 hours.
+Dodavanje važi odmah. Izlazak iz režima se traži samo 06:00–10:00 i važi sutra u 06:00.	Adding applies right away. Leaving a mode can only be requested 06:00–10:00 and applies tomorrow at 06:00.
 Uklonjeno, važi još do kraja čekanja	Removed, still applies until the wait ends
-Izlazak iz režima (uklanjanje, isključivanje, kraći period, manje dana) može da se zatraži samo od 06:00 do 08:00, a važi posle 48 sati.	Leaving a mode (removing, turning off, a shorter period, fewer days) can only be requested from 06:00 to 08:00, and it applies after 48 hours.
+Izlazak iz režima (uklanjanje, isključivanje, kraći period, manje dana) može da se zatraži samo od 06:00 do 10:00, a važi sutra u 06:00.	Leaving a mode (removing, turning off, a shorter period, fewer days) can only be requested from 06:00 to 10:00, and it applies tomorrow at 06:00.
  · isključivanje je zakazano	 · turning off is scheduled
 Isključivanje zaštite od isključivanja je zakazano. Kad prestane da važi, isključi prečicu: 	Turning off the protection is scheduled. When it stops applying, turn off the shortcut: 
-tamo ne možeš da isključiš. Prvo isključi zaštitu u Čuvaru (traži se od 06:00 do 08:00, važi posle 48 sati), 	you can't turn it off there. First turn off the protection in Čuvar (requested from 06:00 to 08:00, applies after 48 hours), 
- čeka primenu. Popuštanje važi prekosutra u 06:00. Do tada ostaje strožije pravilo.	 waiting to apply. Relaxing applies the day after tomorrow at 06:00. Until then the stricter rule stays.
+tamo ne možeš da isključiš. Prvo isključi zaštitu u Čuvaru (traži se od 06:00 do 10:00, važi sutra u 06:00), 	you can't turn it off there. First turn off the protection in Čuvar (requested from 06:00 to 10:00, applies tomorrow at 06:00), 
+ čeka primenu. Popuštanje važi sutra u 06:00. Do tada ostaje strožije pravilo.	 waiting to apply. Relaxing applies tomorrow at 06:00. Until then the stricter rule stays.
 Ove izmene čekaju primenu:\n\n	These changes are waiting to apply:\n\n
-Pooštravanje važi odmah. Popuštanje se traži samo od 06:00 do 08:00 i važi posle 48 sati.	Tightening applies right away. Relaxing can only be requested from 06:00 to 08:00 and applies after 48 hours.
-Isključivanje se traži samo od 06:00 do 08:00 i važi posle 48 sati, pa tek tada Čuvar može da se ukloni.	Turning off can only be requested from 06:00 to 08:00 and applies after 48 hours; only then can Čuvar be removed.
-Uključivanje važi odmah. Isključivanje se traži samo od 06:00 do 08:00 i važi posle 48 sati.	Turning on applies right away. Turning off can only be requested from 06:00 to 08:00 and applies after 48 hours.
+Pooštravanje važi odmah. Popuštanje se traži samo od 06:00 do 10:00 i važi sutra u 06:00.	Tightening applies right away. Relaxing can only be requested from 06:00 to 10:00 and applies tomorrow at 06:00.
+Isključivanje se traži samo od 06:00 do 10:00 i važi sutra u 06:00, pa tek tada Čuvar može da se ukloni.	Turning off can only be requested from 06:00 to 10:00 and applies tomorrow at 06:00; only then can Čuvar be removed.
+Uključivanje važi odmah. Isključivanje se traži samo od 06:00 do 10:00 i važi sutra u 06:00.	Turning on applies right away. Turning off can only be requested from 06:00 to 10:00 and applies tomorrow at 06:00.
 Zatraži isključivanje	Request turning off

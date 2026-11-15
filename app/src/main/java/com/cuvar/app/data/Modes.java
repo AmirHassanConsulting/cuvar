@@ -237,8 +237,8 @@ public final class Modes {
     }
 
     /**
-     * Briše režim. Kao svako popuštanje (Store.change): van 06:00–08:00 vraća false i ništa ne menja,
-     * inače staro važi do prekosutra u 06:00.
+     * Briše režim. Kao svako popuštanje (Store.change): van 06:00–10:00 vraća false i ništa ne menja,
+     * inače staro važi do sutra u 06:00.
      */
     public boolean removeSchedule(String id) {
         synchronized (store) {
@@ -251,7 +251,7 @@ public final class Modes {
         }
     }
 
-    /** Vraća false (i ništa ne menja) ako je izmena popuštanje van 06:00–08:00. Dodavanje i naziv prolaze uvek. */
+    /** Vraća false (i ništa ne menja) ako je izmena popuštanje van 06:00–10:00. Dodavanje i naziv prolaze uvek. */
     public boolean setSchedule(String id, String name, boolean enabled, int start, int end) {
         synchronized (store) {
             DailySchedule.Rule r = rule(id);

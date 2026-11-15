@@ -62,7 +62,7 @@ public final class Store {
     JSONObject eApps;
     JSONObject eSites;
     final List<DailySchedule.Rule> eSchedules = new ArrayList<>();
-    /** Zatražena popuštanja: podešavanje od pre zahteva važi do prekosutra u 06:00 (vidi ModeHolds). */
+    /** Zatražena popuštanja: podešavanje od pre zahteva važi do sutra u 06:00 (vidi ModeHolds). */
     final List<ModeHolds.Hold> holds = new ArrayList<>();
     final JSONObject links;   // paket -> domen njegovog sajta; "" = razdvojen poznat par (vidi Links)
     final Set<String> eLinks = new HashSet<>(); // parovi "paket|domen" koji sada važe
@@ -211,7 +211,7 @@ public final class Store {
         return keysOf(enforcedApps());
     }
 
-    /** Vraća false (i ništa ne menja) ako je to popuštanje van 06:00–08:00 (vidi change). */
+    /** Vraća false (i ništa ne menja) ako je to popuštanje van 06:00–10:00 (vidi change). */
     public synchronized boolean setApp(String pkg, boolean lock, int limitMin, int maxOpens, int sessionMin) {
         return change(() -> {
             AppRule r = new AppRule(lock, limitMin, maxOpens, sessionMin);
@@ -235,7 +235,7 @@ public final class Store {
         return sp.getBoolean("protect", false);
     }
 
-    /** Uključivanje važi odmah; isključivanje se traži 06:00–08:00 i važi prekosutra (inače false). */
+    /** Uključivanje važi odmah; isključivanje se traži 06:00–10:00 i važi sutra (inače false). */
     public synchronized boolean setProtectSelf(boolean on) {
         return change(() -> sp.edit().putBoolean("protect", on).apply());
     }
@@ -320,7 +320,7 @@ public final class Store {
         return new HashSet<>(sp.getStringSet("nightFree", Collections.emptySet()));
     }
 
-    /** Vraćanje blokade važi odmah; izuzetak se traži 06:00–08:00 i važi prekosutra (inače false). */
+    /** Vraćanje blokade važi odmah; izuzetak se traži 06:00–10:00 i važi sutra (inače false). */
     public synchronized boolean setNightFree(String pkg, boolean free) {
         return change(() -> {
             Set<String> next = nightFree();
@@ -334,13 +334,13 @@ public final class Store {
         return new HashSet<>(sp.getStringSet("dayFree", Collections.emptySet()));
     }
 
-    /** Rezultat setDayFree: odbijeno van 06:00–08:00. */
+    /** Rezultat setDayFree: odbijeno van 06:00–10:00. */
     public static final int REFUSED = -1;
     public static final int LATER = 0;
     public static final int NOW = 1;
 
     /**
-     * Skidanje izuzetka od ukupnog limita važi odmah. Izuzetak se traži 06:00–08:00 (inače REFUSED); važi odmah
+     * Skidanje izuzetka od ukupnog limita važi odmah. Izuzetak se traži 06:00–10:00 (inače REFUSED); važi odmah
      * za jednu aplikaciju dnevno (DayLimit.freeNow, dan po pouzdanom satu, NOW), ostali kasnije (LATER).
      */
     public synchronized int setDayFree(String pkg, boolean free) {
@@ -351,7 +351,7 @@ public final class Store {
         });
         if (!ok) return REFUSED;
         if (!dayFreeNow(pkg, free)) return LATER;
-        // Izuzetak već važi odmah: svi snimci ga sadrže, da ga sledeće jutro presek ne skine do prekosutra.
+        // Izuzetak već važi odmah: svi snimci ga sadrže, da ga sledeće jutro presek ne skine do sutra.
         if (free && !holds.isEmpty()) {
             List<ModeHolds.Hold> next = new ArrayList<>();
             for (ModeHolds.Hold h : holds) next.add(new ModeHolds.Hold(h.until, ModeHolds.withDayFree(h.rules, pkg)));
@@ -419,7 +419,7 @@ public final class Store {
         return o == null ? -1 : o.optInt("limit", 0);
     }
 
-    /** Vraća false (i ništa ne menja) ako je to popuštanje van 06:00–08:00. */
+    /** Vraća false (i ništa ne menja) ako je to popuštanje van 06:00–10:00. */
     public synchronized boolean setSite(String domain, int limitMin) {
         return change(() -> {
             try {
@@ -433,7 +433,7 @@ public final class Store {
         });
     }
 
-    /** Vraća false (i ništa ne menja) van 06:00–08:00. */
+    /** Vraća false (i ništa ne menja) van 06:00–10:00. */
     public synchronized boolean removeSite(String domain) {
         return change(() -> {
             sites.remove(domain);
@@ -443,7 +443,7 @@ public final class Store {
 
     /**
      * „Ukloni iz pravila“: skida aplikaciju i sajtove iz svih pravila i režima u podešavanju. Kao svako popuštanje,
-     * traži se 06:00–08:00 (inače false, ništa se ne menja) i važi prekosutra; vidi se u „Zakazane promene“.
+     * traži se 06:00–10:00 (inače false, ništa se ne menja) i važi sutra; vidi se u „Zakazane promene“.
      */
     public synchronized boolean removeFromRules(String pkg, java.util.Collection<String> domains) {
         return change(() -> removeNoSave(pkg, domains), true);
@@ -690,7 +690,7 @@ public final class Store {
         return out;
     }
 
-    /** Da li sada (06:00–08:00 po pouzdanom satu) može da se zatraži popuštanje. */
+    /** Da li sada (06:00–10:00 po pouzdanom satu) može da se zatraži popuštanje. */
     public synchronized boolean loosenAllowed() {
         return ModeHolds.inWindow(Modes.minuteOf(clock.calendarNow()));
     }
@@ -728,14 +728,14 @@ public final class Store {
         }
     }
 
-    /** Svaka izmena podešavanja pravila: popuštanje se traži 06:00–08:00 (inače false i ništa se ne menja). */
+    /** Svaka izmena podešavanja pravila: popuštanje se traži 06:00–10:00 (inače false i ništa se ne menja). */
     boolean change(Runnable edit) {
         return change(edit, true);
     }
 
     /**
      * Izmena (bez enforce) pa provera: ako je podešeno sada blaže od starog, to je popuštanje. Van prozora se
-     * staro vraća; inače se staro čuva kao hold do prekosutra u 06:00. Pooštravanje važi odmah.
+     * staro vraća; inače se staro čuva kao hold do sutra u 06:00. Pooštravanje važi odmah.
      */
     synchronized boolean change(Runnable edit, boolean checkWindow) {
         EnforcedRules before = wantedRules();
@@ -1094,7 +1094,7 @@ public final class Store {
         return DayLimit.budget(dayLimits.dayLimit());
     }
 
-    /** Povezivanje važi odmah; razdvajanje se traži 06:00–08:00 i važi prekosutra (inače false). */
+    /** Povezivanje važi odmah; razdvajanje se traži 06:00–10:00 i važi sutra (inače false). */
     public synchronized boolean setLink(String pkg, String domain) {
         return change(() -> {
             try {

@@ -189,7 +189,7 @@ public class ScheduleActivity extends SubActivity {
             finish();
             return;
         }
-        page(rule.name, "Izaberi period i dane i dodaj aplikacije i sajtove koji će tada biti blokirani. Dodavanje važi odmah. Izlazak iz režima se traži samo 06:00–08:00 i važi posle 48 sati.");
+        page(rule.name, "Izaberi period i dane i dodaj aplikacije i sajtove koji će tada biti blokirani. Dodavanje važi odmah. Izlazak iz režima se traži samo 06:00–10:00 i važi sutra u 06:00.");
         List<DailySchedule.Rule> effective = effectiveRules(id);
         if (differs(effective, rule)) {
             LinearLayout current = Ui.card(this);
@@ -233,7 +233,7 @@ public class ScheduleActivity extends SubActivity {
         for (String pkg : allApps) apps.add(new String[]{pkg, AppLabels.of(pm, pkg)});
         apps.sort((x, y) -> x[1].compareToIgnoreCase(y[1]));
         heading("Aplikacije", rule.apps.size());
-        content.addView(Ui.text(this, "Dodavanje važi odmah. Izlazak iz režima se traži samo 06:00–08:00 i važi posle 48 sati.",
+        content.addView(Ui.text(this, "Dodavanje važi odmah. Izlazak iz režima se traži samo 06:00–10:00 i važi sutra u 06:00.",
                 13, Ui.MUTED, false), Ui.fill(this, 4));
         LinearLayout appBox = Ui.group(this);
         if (apps.isEmpty()) note(appBox, "Još nema aplikacija u režimu.");
@@ -367,9 +367,9 @@ public class ScheduleActivity extends SubActivity {
         return t;
     }
 
-    /** Izlazak iz režima van 06:00–08:00 je odbijen: ekran se vraća na sačuvano stanje. */
+    /** Izlazak iz režima van 06:00–10:00 je odbijen: ekran se vraća na sačuvano stanje. */
     private void refused() {
-        Ui.toast(this, "Izlazak iz režima (uklanjanje, isključivanje, kraći period, manje dana) može da se zatraži samo od 06:00 do 08:00, a važi posle 48 sati.");
+        Ui.toast(this, "Izlazak iz režima (uklanjanje, isključivanje, kraći period, manje dana) može da se zatraži samo od 06:00 do 10:00, a važi sutra u 06:00.");
         render();
     }
 

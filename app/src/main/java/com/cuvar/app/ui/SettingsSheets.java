@@ -301,18 +301,18 @@ public final class SettingsSheets {
                 .show();
     }
 
-    /** Zaštita od isključivanja: uključivanje važi odmah, isključivanje se traži 06–08 i važi posle 48 sati. */
+    /** Zaštita od isključivanja: uključivanje važi odmah, isključivanje se traži 06–10 i važi sutra u 06:00. */
     public void chooseProtect() {
         boolean on = store.protectSelf();
         Sheet sheet = new Sheet(a, "Zaštita od isključivanja").message("Dok je uključena, Čuvar zatvara ekrane telefona "
                 + "na kojima bi mogao da se isključi u Pristupačnosti, zaustavi, obriše mu se podaci ili da se deinstalira. "
                 + "Ažuriranje Čuvara i dalje radi.\n\n"
-                + (on ? "Isključivanje se traži samo od 06:00 do 08:00 i važi posle 48 sati, pa tek tada Čuvar može da se ukloni."
-                      : "Uključivanje važi odmah. Isključivanje se traži samo od 06:00 do 08:00 i važi posle 48 sati."))
+                + (on ? "Isključivanje se traži samo od 06:00 do 10:00 i važi sutra u 06:00, pa tek tada Čuvar može da se ukloni."
+                      : "Uključivanje važi odmah. Isključivanje se traži samo od 06:00 do 10:00 i važi sutra u 06:00."))
                 .secondary("Zatvori", null);
         sheet.primary(on ? "Zatraži isključivanje" : "Uključi", () -> {
             if (!store.setProtectSelf(!on)) {
-                Ui.toast(a, "Popuštanje pravila može da se zatraži samo od 06:00 do 08:00, a važi posle 48 sati.");
+                Ui.toast(a, "Popuštanje pravila može da se zatraži samo od 06:00 do 10:00, a važi sutra u 06:00.");
                 return false;
             }
             refresh.run();

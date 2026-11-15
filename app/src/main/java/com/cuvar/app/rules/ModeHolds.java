@@ -5,16 +5,19 @@ import java.util.List;
 import java.util.TimeZone;
 
 /**
- * Popuštanje pravila (režimi, limiti, zaključavanje, zaštita, izuzeci, razdvajanje): traži se samo 06:00–08:00
- * i važi tek prekosutra u 06:00. Do tada podešavanje od pre zahteva ostaje sačuvano kao „hold“.
+ * Popuštanje pravila (režimi, limiti, zaključavanje, zaštita, izuzeci, razdvajanje): traži se samo 06:00–10:00
+ * i važi tek sutra u 06:00. Do tada podešavanje od pre zahteva ostaje sačuvano kao „hold“.
  */
 public final class ModeHolds {
     private ModeHolds() { }
 
     public static final int WINDOW_START = 6 * 60;
-    public static final int WINDOW_END = 8 * 60;
-    /** 49 h, ne 48: zahtev u 06:00 dana sa 25 sati bi sa 48 h pao pre 06:00 i važio dan ranije. */
-    public static final long WAIT_MS = 49L * 60 * 60 * 1000;
+    public static final int WINDOW_END = 10 * 60;
+    /**
+     * 30 h: zahtev u 06:00 (i na danu od 25 h) pada posle sutrašnjeg 06:00, a zahtev u 09:59 pre sutrašnjeg,
+     * pa je until uvek sutrašnji dan za pravila.
+     */
+    public static final long WAIT_MS = 30L * 60 * 60 * 1000;
 
     /** Podešavanje od pre zahteva; važi dok je dan za pravila pre until ("yyyyMMdd"). */
     public static final class Hold {
@@ -31,7 +34,7 @@ public final class ModeHolds {
         return minuteOfDay >= WINDOW_START && minuteOfDay < WINDOW_END;
     }
 
-    /** Dan za pravila od kog izlazak zatražen u now prestaje da se drži (prekosutra). */
+    /** Dan za pravila od kog izlazak zatražen u now prestaje da se drži (sutra). */
     public static String until(long now, TimeZone zone) {
         return UsageCalendar.rulesDay(now + WAIT_MS, zone, DailyCode.NIGHT_END_HOUR);
     }
