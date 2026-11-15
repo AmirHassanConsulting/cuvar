@@ -87,11 +87,12 @@ public final class SettingsSheets {
         sheet.show();
     }
 
-    private static final String[] LANGS = {Ui.LANG_LATIN, Ui.LANG_CYRILLIC, Ui.LANG_ENGLISH};
+    private static final String[] LANGS = {Ui.LANG_LATIN, Ui.LANG_CYRILLIC, Ui.LANG_ENGLISH, Ui.LANG_GERMAN};
 
     /** Naziv jezika uvek na tom jeziku, da se nađe i kad je izabran pogrešan. */
     public static String langName(String lang) {
         if (Ui.LANG_ENGLISH.equals(lang)) return "English";
+        if (Ui.LANG_GERMAN.equals(lang)) return "Deutsch";
         if (Ui.LANG_CYRILLIC.equals(lang)) return "Српски (ћирилица)";
         return "Srpski (latinica)";
     }
@@ -113,7 +114,7 @@ public final class SettingsSheets {
             });
             box.addView(b, Ui.fill(a, i == 0 ? 0 : 10));
         }
-        if (!Lang.english) {
+        if (!Lang.translated) {
             box.addView(Ui.text(a, "Nazivi aplikacija i adrese sajtova ostaju latinicom. Adresu sajta možeš da ukucaš i ćirilicom.",
                     13, Ui.MUTED, false), Ui.fill(a, 12));
         }

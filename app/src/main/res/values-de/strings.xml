@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Čuvar</string>
+    <string name="guard_desc">Čuvar sieht, welche App offen ist und den Namen der Website im Browser, um die Zeit am Handy zu messen und die Apps und Websites zu sperren, die du auswählst. Er liest keine Nachrichten oder anderen Text (mit dem Schutz vor dem Ausschalten sucht er auf Einstellungsbildschirmen nur nach dem Namen Čuvar), hat keine Internetberechtigung und sendet nichts: Alle Daten bleiben nur auf diesem Handy.</string>
+</resources>

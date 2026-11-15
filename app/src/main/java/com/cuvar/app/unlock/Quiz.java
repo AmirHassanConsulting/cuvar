@@ -50,8 +50,8 @@ public final class Quiz {
     private static final Random RANDOM = new Random();
     private static final Deque<String> RECENT = new ArrayDeque<>();
 
-    /** Engleski: samo pitanja koja se sklapaju (računanje, nizovi, sat...), banka pitanja je na srpskom. */
-    public static volatile boolean english;
+    /** Engleski ili nemački: samo pitanja koja se sklapaju (računanje, nizovi, sat...), banka pitanja je na srpskom. */
+    public static volatile boolean translated;
 
     public static final String[] DAYS = {"ponedeljak", "utorak", "sreda", "četvrtak", "petak", "subota", "nedelja"};
 
@@ -80,7 +80,7 @@ public final class Quiz {
         int roll = r.nextInt(100);
         // Pitanje treba da bude kratka mentalna pauza: većinom opšta kultura,
         // malo lakog računanja. Java/Claude grupe nisu u podrazumevanom toku.
-        if (english) {
+        if (translated) {
             if (roll < 25) return math(r);
         } else {
             if (roll < 8) return math(r);
@@ -196,7 +196,7 @@ public final class Quiz {
             Collections.shuffle(others, r);
             choices.addAll(others.subList(0, 3));
             Collections.shuffle(choices, r);
-            return new Question("Geografija", "Na kom kontinentu je država " + c[0] + "?", choices, c[2]); // bez prevoda: samo na srpskom (Quiz.english)
+            return new Question("Geografija", "Na kom kontinentu je država " + c[0] + "?", choices, c[2]); // bez prevoda: samo na srpskom (Quiz.translated)
         }
         boolean reverse = kind >= 2;
         int field = reverse ? 0 : 1;

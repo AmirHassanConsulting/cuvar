@@ -247,7 +247,7 @@ public class MainActivity extends Activity {
     }
 
     private String dateLabel() {
-        return new SimpleDateFormat(Lang.english ? "EEEE, d MMMM" : "EEEE, d. MMMM", Ui.locale()).format(new Date());
+        return new SimpleDateFormat(Lang.translated && !Lang.german ? "EEEE, d MMMM" : "EEEE, d. MMMM", Ui.locale()).format(new Date());
     }
 
     private String codeState() {
