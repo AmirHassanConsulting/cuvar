@@ -12,40 +12,59 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Engleski prevod pri prikazu. Tekst Čuvara se u kodu piše na srpskom, a prevodi su u assets/en.tsv:
- * ceo tekst ili deo rečenice (kad se rečenica sklapa od delova i vrednosti) i njegov prevod.
+ * Engleski ili nemački prevod pri prikazu. Tekst Čuvara se u kodu piše na srpskom, a prevodi su u
+ * assets/en.tsv i assets/de.tsv: ceo tekst ili deo rečenice (kad se rečenica sklapa od delova i vrednosti)
+ * i njegov prevod. Nemački se učitava preko engleskog, pa tekst koji još nema nemački red ostaje engleski.
  * Prikaz prvo traži ceo tekst, pa menja poznate delove, od najdužeg ka najkraćem.
  */
 public final class Lang {
 
-    /** Izabran engleski. Postavlja se iz podešavanja (Ui.loadScript). */
-    public static volatile boolean english;
+    /** Izabran prevod (engleski ili nemački). Postavlja se iz podešavanja (Ui.loadScript). */
+    public static volatile boolean translated;
+    /** Izabran nemački (oblik datuma, jezik dana u nedelji). */
+    public static volatile boolean german;
 
     private static volatile Map<String, String> exact = Collections.emptyMap();
     private static volatile List<String> parts = Collections.emptyList();
     // redovi u kojima je engleski isti (" min", "Period: "): ne menjaju tekst, ali znači da su provereni
     private static volatile Set<String> same = Collections.emptySet();
+    // koji jezik je učitan ("en", "de"), da se pri promeni jezika učita ponovo
+    private static volatile String loadedLang = "";
 
     private Lang() {
     }
 
-    public static boolean loaded() {
-        return !exact.isEmpty();
+    /** Da li je učitan prevod za jezik ("en", "de"). */
+    public static boolean loaded(String lang) {
+        return lang.equals(loadedLang) && !exact.isEmpty();
     }
 
-    /** Učitava „srpski<TAB>engleski“ redove; # na početku reda je komentar. */
+    /** Učitava „srpski<TAB>prevod“ redove; # na početku reda je komentar. */
     public static void load(Reader in) throws IOException {
+        load("", in);
+    }
+
+    /** Učitava tabele redom: red iz kasnije tabele menja isti srpski tekst iz ranije (de.tsv preko en.tsv). */
+    public static void load(String lang, Reader... tables) throws IOException {
         Map<String, String> map = new HashMap<>();
         Set<String> sameRows = new HashSet<>();
-        BufferedReader r = new BufferedReader(in);
-        String line;
-        while ((line = r.readLine()) != null) {
-            if (line.isEmpty() || line.startsWith("#")) continue;
-            int tab = line.indexOf('\t');
-            if (tab <= 0) continue;
-            String sr = unescape(line.substring(0, tab));
-            String en = unescape(line.substring(tab + 1));
-            if (!sr.equals(en)) map.put(sr, en); else sameRows.add(sr);
+        for (Reader in : tables) {
+            BufferedReader r = new BufferedReader(in);
+            String line;
+            while ((line = r.readLine()) != null) {
+                if (line.isEmpty() || line.startsWith("#")) continue;
+                int tab = line.indexOf('\t');
+                if (tab <= 0) continue;
+                String sr = unescape(line.substring(0, tab));
+                String tr = unescape(line.substring(tab + 1));
+                if (!sr.equals(tr)) {
+                    map.put(sr, tr);
+                    sameRows.remove(sr);
+                } else {
+                    map.remove(sr);
+                    sameRows.add(sr);
+                }
+            }
         }
         List<String> keys = new ArrayList<>();
         for (String k : map.keySet()) if (hasLetter(k)) keys.add(k);
@@ -53,9 +72,10 @@ public final class Lang {
         exact = map;
         parts = keys;
         same = sameRows;
+        loadedLang = lang;
     }
 
-    /** Da li tekst ima red u en.tsv (i kad je engleski isti). */
+    /** Da li tekst ima red u učitanoj tabeli (i kad je prevod isti). */
     public static boolean known(String sr) {
         return exact.containsKey(sr) || same.contains(sr);
     }

@@ -160,14 +160,15 @@ public final class Ui {
     }
 
     /**
-     * Tekst na izabranom jeziku: engleski (Lang, prevodi u assets/en.tsv) ili srpski ćirilicom (Translit).
+     * Tekst na izabranom jeziku: engleski ili nemački (Lang, prevodi u assets/en.tsv i de.tsv) ili srpski
+     * ćirilicom (Translit).
      * Nazivi aplikacija i adrese ostaju kakvi jesu.
      */
     public static CharSequence cyr(CharSequence s) {
-        if (s == null || s.length() == 0 || (!Lang.english && !Translit.cyrillic)) return s;
+        if (s == null || s.length() == 0 || (!Lang.translated && !Translit.cyrillic)) return s;
         if (!(s instanceof android.text.Spanned)) return cyr(s.toString());
         android.text.SpannableStringBuilder b = new android.text.SpannableStringBuilder(s);
-        if (Lang.english) {
+        if (Lang.translated) {
             java.util.List<Lang.Edit> edits = Lang.edits(s.toString());
             for (int i = edits.size() - 1; i >= 0; i--) b.replace(edits.get(i).start, edits.get(i).end, edits.get(i).repl);
         } else {
@@ -179,7 +180,7 @@ public final class Ui {
 
     public static String cyr(String s) {
         if (s == null) return null;
-        if (Lang.english) return Lang.translate(s);
+        if (Lang.translated) return Lang.translate(s);
         return Translit.cyrillic ? Translit.toCyrillic(s) : s;
     }
 
@@ -196,6 +197,7 @@ public final class Ui {
     public static final String LANG_LATIN = "sr";
     public static final String LANG_CYRILLIC = "sr-Cyrl";
     public static final String LANG_ENGLISH = "en";
+    public static final String LANG_GERMAN = "de";
 
     /** Šta se rešava pre šifre: pitalice, jedna od igrica, nasumična igrica ili nasumično igrica/pitalice. */
     public static final String CHALLENGE_QUIZ = "quiz";
@@ -239,22 +241,31 @@ public final class Ui {
     public static void loadScript(Context c) {
         String l = langChoice(c);
         Translit.cyrillic = LANG_CYRILLIC.equals(l);
-        boolean en = LANG_ENGLISH.equals(l);
-        if (en && !Lang.loaded()) {
-            try (java.io.Reader r = new java.io.InputStreamReader(c.getAssets().open("en.tsv"),
-                    java.nio.charset.StandardCharsets.UTF_8)) {
-                Lang.load(r);
+        boolean de = LANG_GERMAN.equals(l);
+        boolean tr = de || LANG_ENGLISH.equals(l);
+        if (tr && !Lang.loaded(l)) {
+            // nemački se učitava preko engleskog: tekst bez nemačkog reda ostaje engleski
+            try (java.io.Reader en = asset(c, "en.tsv"); java.io.Reader ger = de ? asset(c, "de.tsv") : null) {
+                if (de) Lang.load(l, en, ger);
+                else Lang.load(l, en);
             } catch (Exception e) {
-                en = false;
+                tr = false;
+                de = false;
             }
         }
-        Lang.english = en;
-        Quiz.english = en;
+        Lang.translated = tr;
+        Lang.german = de;
+        Quiz.translated = tr;
+    }
+
+    private static java.io.Reader asset(Context c, String name) throws java.io.IOException {
+        return new java.io.InputStreamReader(c.getAssets().open(name), java.nio.charset.StandardCharsets.UTF_8);
     }
 
     /** Jezik za datume i dane u nedelji. */
     public static java.util.Locale locale() {
-        return Lang.english ? java.util.Locale.ENGLISH
+        if (Lang.german) return java.util.Locale.GERMAN;
+        return Lang.translated ? java.util.Locale.ENGLISH
                 : new java.util.Locale.Builder().setLanguage("sr").setScript("Latn").build();
     }
 
@@ -314,7 +325,7 @@ public final class Ui {
 
     /** "1 aplikacija", "3 aplikacije", "5 aplikacija" (srpska množina). */
     public static String count(int n, String one, String few, String many) {
-        if (Lang.english) return n + " " + Lang.get(n == 1 ? one : few);
+        if (Lang.translated) return n + " " + Lang.get(n == 1 ? one : few);
         int d = n % 10, dd = n % 100;
         if (d == 1 && dd != 11) return n + " " + one;
         if (d >= 2 && d <= 4 && (dd < 12 || dd > 14)) return n + " " + few;

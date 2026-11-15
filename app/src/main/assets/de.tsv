@@ -1,0 +1,823 @@
+# Nemački prevod: srpski tekst iz koda <TAB> nemački. Isti zapis kao en.tsv; učitava se preko en.tsv,
+# pa tekst bez reda ovde ostaje engleski. Deo rečenice se prevodi kao deo, sa razmacima kao u kodu.
+Bez ograničenja	Keine Limits
+Aplikacije	Apps
+Tapni aplikaciju da je zaključaš, postaviš dnevni limit, broj otvaranja ili najduže u komadu. Popuštanje važi tek sutra od 06:00.	Tippe auf eine App, um sie zu sperren oder ein Tageslimit, eine Anzahl Öffnungen oder die längste Sitzung festzulegen. Lockerungen gelten erst ab morgen 06:00.
+Pretraži	Suchen
+Učitavam aplikacije…	Apps werden geladen…
+Nema aplikacije sa tim imenom.	Keine App mit diesem Namen.
+\nOd sledećih 06:00: 	\nAb nächstem 06:00: 
+bez ograničenja	keine Limits
+Zaključana	Gesperrt
+Limit 	Limit 
+ min, danas 	 min, heute 
+Otvaranja 	Öffnungen 
+ od 	 von 
+Najviše 	Höchstens 
+ min u komadu	 min am Stück
+Pooštravanje važi odmah, a popuštanje tek sutra od 06:00.	Verschärfungen gelten sofort, Lockerungen erst ab morgen 06:00.
+Nedavno je nešto otključano. Ograničenja se mogu menjati za 	Vor Kurzem wurde etwas entsperrt. Limits können geändert werden in 
+Zaključaj	Sperren
+Otvara se samo dnevnom šifrom, od 17:00 do 22:00	Öffnet sich nur mit dem Tagescode, von 17:00 bis 22:00
+Dnevni limit u minutima (0 = bez limita)	Tageslimit in Minuten (0 = kein Limit)
+Najviše otvaranja dnevno (0 = bez ograničenja)	Höchstens Öffnungen pro Tag (0 = kein Limit)
+Najduže u komadu, u minutima, pa pauza od 	Längste Sitzung in Minuten, danach eine Pause von 
+ min (0 = bez)	 min (0 = keine)
+Danas korišćeno: 	Heute genutzt: 
+, otvoreno 	, geöffnet 
+Ograničenja su uklonjena i prestaju sutra u 06:00.	Limits entfernt; sie enden morgen um 06:00.
+Uz nju ide sajt 	Dazu gehört die Website 
+: pravila i vreme su zajednički. Sajt se menja na ekranu Sva pravila.	: Regeln und Zeit sind gemeinsam. Die Website wird auf dem Bildschirm „Alle Regeln“ geändert.
+Otkaži	Abbrechen
+Sačuvaj	Speichern
+Ukloni sva ograničenja	Alle Limits entfernen
+Noćna blokada	Nachtsperre
+Od 	Von 
+:00 do 0	:00 bis 0
+:00 sve iz tvojih pravila je zaključano. 	:00 ist alles aus deinen Regeln gesperrt. 
+ se ne otvara do jutra, ni šifrom.	 öffnet sich bis zum Morgen nicht, auch nicht mit dem Code.
+Dnevni limit je potrošen	Tageslimit aufgebraucht
+Danas si u aplikacijama i na sajtovima iz svojih pravila proveo 	Heute in den Apps und Websites deiner Regeln verbracht: 
+, a limit je 	, das Limit ist 
+ je zaključan do ponoći i ne može da se otključa, ni šifrom.	 ist bis Mitternacht gesperrt und lässt sich nicht entsperren, auch nicht mit dem Code.
+Otvaranja za danas su potrošena	Öffnungen für heute aufgebraucht
+ si danas otvorio 	 heute geöffnet: 
+, a dozvoljeno je 	, erlaubt: 
+. Do ponoći se ne otvara, ni šifrom.	. Es öffnet sich bis Mitternacht nicht, auch nicht mit dem Code.
+Vreme je za pauzu	Zeit für eine Pause
+Bio si u 	Du warst in 
+ min u komadu. 	 min am Stück. 
+ se ponovo otvara posle pauze, za 	 öffnet sich nach der Pause wieder, in 
+, ni šifrom ranije.	, nicht früher, auch nicht mit dem Code.
+Fokus režim je aktivan	Fokusmodus ist an
+Dozvoljene su samo aplikacije i sajtovi koje si izabrao. Fokus traje još 	Nur die Apps und Websites, die du gewählt hast, sind erlaubt. Der Fokus dauert noch 
+ i ne može se zaobići dnevnom šifrom.	 und lässt sich mit dem Tagescode nicht umgehen.
+Režim „	Modus „
+“ je aktivan	“ ist aktiv
+ je blokiran 	 ist gesperrt 
+ do 	 bis 
+ Posle toga se otključava dnevnom šifrom.	 Danach lässt es sich mit dem Tagescode entsperren.
+ je zaključan	 ist gesperrt
+Unesi dnevnu šifru. Važi od 	Gib den Tagescode ein. Er gilt von 
+:00 do 	:00 bis 
+:00 i vidi se u Čuvaru.	:00 und wird in Čuvar angezeigt.
+U ovom pregledaču Čuvar ne vidi koji je sajt otvoren, pa je zaključan dok imaš pravila za sajtove. 	In diesem Browser sieht Čuvar nicht, welche Website offen ist, daher bleibt er gesperrt, solange du Website-Regeln hast. 
+Koristi Chrome, Samsung Internet, Firefox, Edge, Brave ili Vivaldi. Otvara se dnevnom šifrom, od 	Nutze Chrome, Samsung Internet, Firefox, Edge, Brave oder Vivaldi. Er öffnet sich mit dem Tagescode, von 
+U aplikaciji za kloniranje bi se zaključane aplikacije otvarale pod drugim imenom. 	In einem App-Kloner würden gesperrte Apps unter einem anderen Namen geöffnet. 
+Zato je zaključana dok imaš pravila za aplikacije. Otvara se dnevnom šifrom, od 	Daher bleibt er gesperrt, solange du App-Regeln hast. Er öffnet sich mit dem Tagescode, von 
+Link je zaključan	Link ist gesperrt
+U pregledaču unutar aplikacije 	Im In-App-Browser von 
+ Čuvar ne vidi koji je sajt otvoren, a imaš pravila za sajtove. 	 sieht Čuvar nicht, welche Website offen ist, und du hast Website-Regeln. 
+Vrati se nazad ili otvori link u Chrome-u (meni sa tri tačke, „Otvori u pregledaču“). 	Geh zurück oder öffne den Link in Chrome (Drei-Punkte-Menü, „Im Browser öffnen“). 
+Otvara se i dnevnom šifrom, od 	Er öffnet sich auch mit dem Tagescode, von 
+Adresa sajta nije dostupna	Website-Adresse nicht verfügbar
+Čuvar još nije mogao da pročita adresu u 	Čuvar konnte die Adresse noch nicht lesen in 
+, a imaš pravila za sajtove. 	, und du hast Website-Regeln. 
+Vrati se nazad i prikaži adresnu traku ili otvori sajt u drugom podržanom pregledaču. 	Geh zurück und zeig die Adressleiste an oder öffne die Website in einem anderen unterstützten Browser. 
+Otključavanje dnevnom šifrom važi kao i za pregledač bez dostupne adrese.	Das Entsperren mit dem Tagescode funktioniert wie bei einem Browser ohne lesbare Adresse.
+Otvara se dnevnom šifrom, od 	Es öffnet sich mit dem Tagescode, von 
+:00. Šifra se vidi u Čuvaru.	:00. Der Code wird in Čuvar angezeigt.
+Sajt je blokiran	Website ist gesperrt
+ je na tvojoj listi blokiranih sajtova. Otvara se dnevnom šifrom, od 	 steht auf deiner Liste gesperrter Websites. Sie öffnet sich mit dem Tagescode, von 
+Vreme je isteklo	Die Zeit ist um
+Danas si na 	Heute auf 
+ proveo 	 verbracht: 
+. Dnevni limit je potrošen i 	. Das Tageslimit ist aufgebraucht und 
+ je zaključan do ponoći, ni šifrom se ne otvara.	 ist bis Mitternacht gesperrt; der Code öffnet es nicht.
+ČUVAR	ČUVAR
+Ovo ti je danas 	Das ist heute dein Versuch Nr. 
+. pokušaj.	.
+Zatvori	Schließen
+Hitno otključavanje (	Notfall-Entsperrung (
+ min)	 min)
+Ipak želim da otključam	Ich will trotzdem entsperren
+Nazad	Zurück
+Jesi li siguran?	Bist du sicher?
+Tačno!	Richtig!
+Netačno. Sada treba 	Falsch. Jetzt brauchst du 
+ tačna odgovora zaredom.	 richtige Antworten in Folge.
+Prvo odgovori na pitanje	Beantworte zuerst eine Frage
+Treba 	Du brauchst 
+ tačna odgovora zaredom	 richtige Antworten in Folge
+Još 	Noch 
+tačan odgovor	richtige Antwort
+tačna odgovora	richtige Antworten
+tačnih odgovora	richtige Antworten
+ zaredom	 in Folge
+Hitno otključavanje	Notfall-Entsperrung
+samo jednom dnevno	nur einmal am Tag
+ puta dnevno	 Mal am Tag
+Otključava na 	Entsperrt für 
+ min i može se iskoristiti 	 min und kann 
+. Ako ga sada potrošiš, do ponoći ga više nemaš.	 genutzt werden. Wenn du sie jetzt nutzt, hast du sie bis Mitternacht nicht mehr.
+Hitno otključavanje je danas već iskorišćeno	Notfall-Entsperrung heute schon genutzt
+Unesi dnevnu šifru (4 cifre) iz Čuvara.	Gib den Tagescode (4 Ziffern) aus Čuvar ein.
+Otključano je 	Entsperrt für 
+ min, a posle toga 	 min, danach lässt sich 
+ min nema otključavanja ničega, ni šifrom.	 min lang nichts entsperren, auch nicht mit dem Code.
+prosek 	Durchschnitt 
+svakog dana	jeden Tag
+radnim danima	an Werktagen
+vikendom	am Wochenende
+nijednog dana	an keinem Tag
+Isključen	Aus
+ min	 min
+Fokus režim	Fokusmodus
+Dozvoli samo izabrano · ručno pokrenuto	Nur Ausgewähltes erlauben · von Hand gestartet
+Fokus je aktivan	Fokus ist an
+. Dozvoljeno: 	 übrig. Erlaubt: 
+ aplikacija i 	 Apps und 
+ sajtova.	 Websites.
+Zaustavi fokus	Fokus beenden
+Dozvoli samo izabrano · ne menja trajna pravila	Nur Ausgewähltes erlauben · ändert deine Regeln nicht
+Dok traje fokus, sve ostalo je zaključano. Pozivi, poruke, početni ekran i Čuvar ostaju dostupni. Postojeći limiti i noćna blokada i dalje važe.	Während des Fokus ist alles andere gesperrt. Anrufe, Nachrichten, der Startbildschirm und Čuvar bleiben verfügbar. Deine Limits und die Nachtsperre gelten weiterhin.
+Trajanje	Dauer
+Dozvoljeni sajtovi (opciono, razdvoj zarezima)	Erlaubte Websites (optional, mit Kommas trennen)
+npr. docs.google.com, github.com	z. B. docs.google.com, github.com
+Pokreni fokus	Fokus starten
+Izaberi bar jednu aplikaciju ili sajt.	Wähle mindestens eine App oder Website.
+Izaberi dozvoljene aplikacije	Erlaubte Apps wählen
+Dozvoljene aplikacije: 	Erlaubte Apps: 
+Aplikacije se još učitavaju.	Apps werden noch geladen.
+Pretraži aplikacije	Apps suchen
+Izabrano: 	Ausgewählt: 
+Dozvoljene aplikacije	Erlaubte Apps
+Tokom fokusa ostale aplikacije se zaključavaju.	Während des Fokus sind alle anderen Apps gesperrt.
+Sačuvaj izbor	Auswahl speichern
+Unesi domen, npr. github.com	Gib eine Domain ein, z. B. github.com
+Fokus je pokrenut na 	Fokus gestartet für 
+ min.	 min.
+Čuvar: još minut u komadu, pa pauza od 	Čuvar: noch eine Minute am Stück, dann eine Pause von 
+Čuvar je zaštićen od isključivanja. Zaštita se gasi u Čuvaru i važi tek od sledećeg jutra.	Čuvar ist gegen Ausschalten geschützt. Der Schutz wird in Čuvar ausgeschaltet und das gilt erst ab dem nächsten Morgen.
+Čuvar: do dnevnog limita ostalo je 	Čuvar: bis zum Tageslimit bleiben: 
+Otključavanje je iskorišćeno. Sledeće je moguće za 	Entsperrung genutzt. Die nächste ist möglich in 
+Telefon kaže: dosta je bilo. A telefon je pametan.	Dein Handy sagt: Es reicht. Und das Handy ist schlau.
+Ovo nije kraj sveta. Samo kraj skrolovanja za danas.	Das ist nicht das Ende der Welt. Nur das Ende des Scrollens für heute.
+Algoritam će preživeti bez tebe do sutra. Obećavamo.	Der Algorithmus überlebt bis morgen auch ohne dich. Versprochen.
+Tvoj palac je tražio slobodan dan. Odobreno.	Dein Daumen hat einen freien Tag beantragt. Genehmigt.
+Napolju postoji nešto što se zove sunce. Ima odlične recenzije.	Draußen gibt es etwas namens Sonne. Hat super Bewertungen.
+Čestitamo! Otključao si dostignuće: dnevni limit.	Glückwunsch! Du hast einen Erfolg freigeschaltet: Tageslimit.
+Sutra je novi dan i novi limit. Danas je samo… danas.	Morgen ist ein neuer Tag und ein neues Limit. Heute ist einfach… heute.
+Ako ti je dosadno, to je odlično. Tako su nastale sve dobre ideje.	Wenn dir langweilig ist, super. So haben alle guten Ideen angefangen.
+Ništa lično, samo si ga ti stavio na listu.	Nichts Persönliches, du hast es selbst auf die Liste gesetzt.
+Ovde nema ničega za tebe. Bukvalno, blokirali smo ga.	Hier gibt es nichts für dich. Wortwörtlich, wir haben es gesperrt.
+Znaš ti dobro zašto je ovaj sajt na listi.	Du weißt genau, warum diese Website auf der Liste steht.
+Ovaj sajt je trenutno na odmoru. Od tebe.	Diese Website ist gerade im Urlaub. Von dir.
+Kuc, kuc. Ko je? Šifra, ali tek u pet.	Klopf, klopf. Wer ist da? Der Code, aber nicht vor fünf.
+Ova aplikacija je pod ključem. Ti imaš ključ. Valjda.	Diese App ist unter Verschluss. Du hast den Schlüssel. Wahrscheinlich.
+Samo da proverimo da si to stvarno ti.	Nur kurz prüfen, ob du es wirklich bist.
+Prošli ti je rekao da je ovo loša ideja u ovo doba.	Dein früheres Ich hat gesagt, dass das um diese Uhrzeit eine schlechte Idee ist.
+Režim radi tačno ono što si mu rekao. Ne ljuti se na njega.	Der Modus macht genau, was du ihm gesagt hast. Sei ihm nicht böse.
+Ovo je trenutak kad spuštaš telefon i postaješ legenda.	Das ist der Moment, in dem du das Handy weglegst und zur Legende wirst.
+Telefon ima radno vreme. Sad je pauza.	Das Handy hat Arbeitszeiten. Jetzt ist Pause.
+Malopre si bio odlučan da ovo blokiraš. Šta se promenilo?	Vor einem Moment warst du fest entschlossen, das zu sperren. Was hat sich geändert?
+Ovo je trenutak kad ćeš sutra reći: zašto sam otključao?	Das ist der Moment, nach dem du morgen fragst: Warum habe ich das entsperrt?
+Tvoje buduće ja te gleda. Razočarano.	Dein zukünftiges Ich schaut zu. Enttäuscht.
+Samo da proverim: ovo je hitno ili ti je samo dosadno?	Nur kurz gefragt: Ist das dringend oder ist dir nur langweilig?
+Možeš da otključaš. Ali možeš i da budeš heroj.	Du kannst entsperren. Du kannst aber auch ein Held sein.
+Pet minuta, kažeš? Svi znamo kako se to završava.	Fünf Minuten, sagst du? Wir wissen alle, wie das endet.
+Da, znam šta radim	Ja, ich weiß, was ich tue
+Da, hitno je	Ja, es ist dringend
+Otključaj, molim te	Entsperren, bitte
+Ne, u pravu si	Nein, du hast recht
+Dobro, pobedio si	Na gut, du gewinnst
+Idem da radim nešto korisno	Ich mache lieber etwas Sinnvolles
+Podešavanja	Einstellungen
+Uključi Čuvara	Čuvar einschalten
+U Pristupačnosti pronađi „Čuvar“ (na Samsungu pod Instalirane aplikacije, na drugim telefonima pod Preuzete aplikacije) i uključi ga. 	Suche in „Bedienungshilfen“ nach „Čuvar“ (bei Samsung unter „Installierte Apps“, bei anderen Handys unter „Heruntergeladene Apps“) und schalte es ein. 
+Bez toga merenje vremena i blokiranje ne rade. 	Ohne das funktionieren Zeitmessung und Sperren nicht. 
+Čuvar tako vidi samo koja je aplikacija i koji sajt otvoren; ništa ne šalje sa telefona.\n\n	So sieht Čuvar nur, welche App und Website offen sind; nichts verlässt das Handy.\n\n
+Ako je prekidač siv ili piše „Ograničeno podešavanje“: Podešavanja → Aplikacije → Čuvar → 	Wenn der Schalter grau ist oder „Eingeschränkte Einstellung“ anzeigt: Einstellungen → Apps → Čuvar → 
+meni ⋮ gore desno → „Dozvoli ograničena podešavanja“, pa ponovo ovde.	Menü ⋮ oben rechts → „Eingeschränkte Einstellungen zulassen“, dann komm hierher zurück.
+Otvori Pristupačnost	Bedienungshilfen öffnen
+Opcija je siva ili piše da je ograničena?	Option ist grau oder eingeschränkt?
+Dozvoli pristup korišćenju	Nutzungszugriff erlauben
+Tako Čuvar od samog telefona saznaje koja je aplikacija otvorena, pa ne opterećuje aplikacije 	So erfährt Čuvar vom Handy selbst, welche App offen ist, und belastet Apps 
+bez pravila (mape, pozive, kameru). Pronađi „Čuvar“ na listi i uključi dozvolu.	ohne Regeln nicht (Karten, Anrufe, Kamera). Suche „Čuvar“ in der Liste und erlaube es.
+Otvori podešavanje	Einstellung öffnen
+Sada	Jetzt
+Danas	Heute
+Pravila	Regeln
+Pooštravanje važi odmah, a popuštanje tek sutra od 0	Verschärfungen gelten sofort, Lockerungen erst ab 0
+Za ceo telefon	Für das ganze Handy
+Ukupni dnevni limit	Gesamtes Tageslimit
+Fokus · dozvoli samo izabrano	Fokus · nur Ausgewähltes erlauben
+Uključena · od 	An · ab 
+:00 sve iz pravila je zaključano	:00 ist alles aus deinen Regeln gesperrt
+ · isključuje se od sledećih 06:00	 · schaltet sich ab nächstem 06:00 aus
+Isključena	Aus
+Zaštita od isključivanja	Schutz vor dem Ausschalten
+Uključena · Čuvar ne može da se isključi ni obriše	An · Čuvar kann nicht ausgeschaltet oder deinstalliert werden
+Po aplikaciji i sajtu	Pro App und Website
+Aplikacije i sajtovi	Apps und Websites
+Zaključaj, postavi dnevni limit ili blokiraj u režimu	Sperren, ein Tageslimit setzen oder in einem Modus blockieren
+Šta je kad blokirano · pravila: 	Was wann gesperrt ist · Regeln: 
+Vremenski režimi	Zeitmodi
+Savet: uključi Zaštitu od isključivanja, ili zaključaj Podešavanja telefona (u Aplikacijama), da Čuvar ne može lako da se isključi ili obriše.	Tipp: Schalte den Schutz vor dem Ausschalten ein oder sperre die Einstellungen des Handys (unter Apps), damit Čuvar nicht einfach ausgeschaltet oder deinstalliert werden kann.
+Isključen · pokreće se ručno kad ti treba	Aus · starte ihn von Hand, wenn du ihn brauchst
+Uključen · još 	An · noch 
+ · samo izabrano je dostupno	 · nur Ausgewähltes ist verfügbar
+●  Čuvar radi	●  Čuvar läuft
+●  Čuvar trenutno ne radi	●  Čuvar läuft gerade nicht
+Uključen je u Pristupačnosti, ali ga je telefon zaustavio. Tapni ovde, isključi ga i ponovo uključi.	In den Bedienungshilfen ist er an, aber das Handy hat ihn gestoppt. Tippe hier, schalte ihn aus und wieder ein.
+●  Čuvar je isključen	●  Čuvar ist aus
+Ništa se ne meri ni blokira dok ga ne uključiš.	Nichts wird gemessen oder gesperrt, bis du ihn einschaltest.
+Čuvar nije radio	Čuvar lief nicht
+Do 0	Bis 0
+:00 sve iz pravila je zaključano.	:00 ist alles aus deinen Regeln gesperrt.
+Traje do 	Dauert bis 
+. Do tada se 	. Bis dahin 
+njegova stavka ne otključava.	lässt sich sein Eintrag nicht entsperren.
+njegove stavke ne otključavaju.	lassen sich seine Einträge nicht entsperren.
+Otključano	Entsperrt
+, pa pauza od 	, dann eine Pause von 
+ min bez otključavanja.	 min ohne Entsperren.
+Pauza posle otključavanja	Pause nach dem Entsperren
+ ništa ne može da se otključa.	 lässt sich nichts entsperren.
+ još 	 noch 
+Pauza posle korišćenja u komadu	Pause nach langer Sitzung
+Potrošen dnevni limit	Tageslimit aufgebraucht
+. Važi do ponoći.	. Bis Mitternacht.
+Nijedan režim ni limit trenutno ne traje	Gerade ist kein Modus und kein Limit aktiv
+Dostupno još jednom danas.	Heute noch einmal verfügbar.
+Danas je iskorišćeno. Novo je posle ponoći.	Heute genutzt. Eine neue gibt es nach Mitternacht.
+Tema	Design
+Pismo	Sprache
+Ćirilica	Kyrillisch
+Latinica	Lateinisch
+Privatnost	Datenschutz
+Šta Čuvar vidi i gde se čuva	Was Čuvar sieht und wo es gespeichert wird
+Verzija 	Version 
+Nazivi aplikacija i adrese sajtova ostaju latinicom. Adresu sajta možeš da ukucaš i ćirilicom.	App-Namen und Website-Adressen bleiben in lateinischer Schrift.
+POTREBNO	BENÖTIGT
+DNEVNA ŠIFRA	TAGESCODE
+Skrivena	Verborgen
+“ traje do 	“ dauert bis 
+. Šifra se vidi tek posle toga.	. Der Code wird erst danach angezeigt.
+Stiže u 	Kommt um 
+Svaki dan dobijaš jednu novu šifru u 	Jeden Tag bekommst du einen neuen Code um 
+:00 i vidi se ovde do 	:00, er wird hier angezeigt bis 
+Današnja šifra. Jedino ona otključava zaključane aplikacije i sajtove, i to samo do 	Der heutige Code. Nur er entsperrt gesperrte Apps und Websites, und zwar nur bis 
+ Sutra u 	 Morgen um 
+:00 dobijaš novu.	:00 bekommst du einen neuen.
+Zajedničko vreme za aplikacije i sajtove sa sopstvenim pravilom (ne samo u režimu); kad ga potrošiš, zaključani su do ponoći	Gemeinsame Zeit für Apps und Websites mit eigener Regel (nicht nur in einem Modus); wenn sie aufgebraucht ist, sind sie bis Mitternacht gesperrt
+ za aplikacije i sajtove sa sopstvenim pravilom, posle toga ništa ne otključava	 für Apps und Websites mit eigener Regel, danach lässt sich nichts entsperren
+ · isključuje se od sutra	 · schaltet sich ab morgen aus
+Računa se samo vreme u aplikacijama i na sajtovima sa sopstvenim pravilom 	Es zählt nur die Zeit in Apps und Websites mit eigener Regel 
+(zaključani, ograničeni, otvaranja, u komadu). Ono što je samo u režimu, mape, pozivi i sve ostalo ne troši limit. 	(gesperrt, Limit, max. Öffnungen, längste Sitzung). Was nur in einem Modus ist, Karten, Anrufe und alles andere verbrauchen das Limit nicht. 
+Kad se limit potroši, sve zaključane i ograničene aplikacije i sajtovi ostaju zaključani 	Wenn das Limit aufgebraucht ist, bleiben alle gesperrten und limitierten Apps und Websites 
+do ponoći: bez dnevne šifre i hitnog otključavanja. Upozorenje stiže 	bis Mitternacht gesperrt: kein Tagescode und keine Notfall-Entsperrung. Eine Warnung kommt 
+ min ranije.\n\n	 min vorher.\n\n
+Manji limit važi odmah. Povećati se može jednom dnevno, najviše za 	Ein niedrigeres Limit gilt sofort. Erhöhen lässt es sich einmal am Tag, um höchstens 
+ % (što je limit veći, to manje), 	 % (je größer das Limit, desto weniger), 
+i samo dok limit još nije potrošen. 	und nur, solange das Limit noch nicht aufgebraucht ist. 
+Isključivanje važi tek od sutra.	Das Ausschalten gilt erst ab morgen.
+Izaberi limit. Posle toga se može smanjiti u svako doba, a povećati jednom dnevno i samo malo.	Wähle ein Limit. Danach lässt es sich jederzeit senken und einmal am Tag nur ein wenig erhöhen.
+TRENUTNI LIMIT	AKTUELLES LIMIT
+Povećaj za 	Erhöhen um 
+Limit je potrošen, danas se više ne povećava	Limit ist aufgebraucht, heute lässt es sich nicht erhöhen
+Povećanje je danas već iskorišćeno	Die heutige Erhöhung ist schon genutzt
+Povećati limit?	Limit erhöhen?
+Limit ide sa 	Das Limit geht von 
+ na 	 auf 
+. Ovo je jedino povećanje danas i ne može se ponoviti do sutra.	. Das ist die einzige Erhöhung heute und lässt sich bis morgen nicht wiederholen.
+Povećaj	Erhöhen
+Limit je sada 	Das Limit ist jetzt 
+Povećanje je danas već iskorišćeno.	Die heutige Erhöhung ist schon genutzt.
+SMANJI LIMIT (VAŽI ODMAH)	LIMIT SENKEN (GILT SOFORT)
+Smanji na 	Senken auf 
+Postavi na 	Setzen auf 
+ (predlog)	 (Vorschlag)
+Uključiti limit od 	Limit einschalten: 
+Važi odmah. Posle se može smanjiti u svako doba, a povećati samo jednom dnevno i malo 	Gilt sofort. Später lässt es sich jederzeit senken und nur einmal am Tag ein wenig erhöhen 
+(sa 	(von 
+ najviše za 	 um höchstens 
+Uključi	Einschalten
+Smanjiti limit na 	Limit senken auf 
+Limit postaje ukupno 	Das Limit beträgt dann insgesamt 
+ umesto 	 statt 
+. Važi odmah i ne može se vratiti: posle toga se danas 	. Das gilt sofort und lässt sich nicht rückgängig machen: danach ist heute 
+može povećati najviše za 	nur noch eine Erhöhung möglich, um höchstens 
+, a povećanje je danas već iskorišćeno.	, und die heutige Erhöhung ist schon genutzt.
+Smanji	Senken
+Ipak ne isključuj sutra	Morgen nicht ausschalten
+Isključi od sutra	Ab morgen ausschalten
+Limit ostaje uključen.	Das Limit bleibt an.
+Isključuje se od sutra. Danas ostaje 	Schaltet sich ab morgen aus. Heute bleibt es bei 
+:00 sve aplikacije i sajtovi iz tvojih pravila su zaključani i ne otvaraju se, 	:00 sind alle Apps und Websites aus deinen Regeln gesperrt und öffnen sich nicht, 
+ni dnevnom šifrom ni hitnim otključavanjem. Pozivi i poruke rade.\n\n	weder mit dem Tagescode noch mit einer Notfall-Entsperrung. Anrufe und Nachrichten funktionieren.\n\n
+Isključivanje važi tek sutra od 0	Das Ausschalten gilt erst ab morgen 0
+Uključivanje važi odmah.	Das Einschalten gilt sofort.
+Dok je uključena, Čuvar zatvara ekrane telefona 	Solange er an ist, schließt Čuvar Bildschirme des Handys, 
+na kojima bi mogao da se isključi u Pristupačnosti, zaustavi, obriše mu se podaci ili da se deinstalira. 	auf denen man Čuvar in den Bedienungshilfen ausschalten, stoppen, seine Daten löschen oder deinstallieren könnte. 
+Ažuriranje Čuvara i dalje radi.\n\n	Čuvar zu aktualisieren funktioniert weiterhin.\n\n
+:00, pa tek tada Čuvar može da se ukloni.	:00, und erst dann kann Čuvar entfernt werden.
+Uključivanje važi odmah, a isključivanje tek sledećeg jutra od 0	Das Einschalten gilt sofort, das Ausschalten erst ab dem nächsten Morgen 0
+Još nema režima	Noch keine Modi
+Isključen · 	Aus · 
+Uključen · 	An · 
+ režima · uključeno 	 Modi · an: 
+Zakazane promene	Geplante Änderungen
+1 promena	1 Änderung
+ promena	 Änderungen
+ čeka primenu sutra u 0	 wird morgen um 0
+:00. Do tada ostaje strožije pravilo.	:00 übernommen. Bis dahin bleibt die strengere Regel.
+Prikaži promene	Änderungen anzeigen
+Promene od sutra	Änderungen ab morgen
+Ove izmene će početi u 0	Diese Änderungen beginnen um 0
+Odustani od ovih promena	Diese Änderungen verwerfen
+Vreme na telefonu	Zeit am Handy
+Dnevni limit od 	Das Tageslimit von 
+ je potrošen. Zaključano je do ponoći.	 ist aufgebraucht. Gesperrt bis Mitternacht.
+Dnevni limit: 	Tageslimit: 
+ u aplikacijama i sajtovima sa pravilom. Ostalo je 	 in Apps und Websites mit Regel. Übrig: 
+Još nema podataka za danas. Otvori neku aplikaciju pa se vrati.	Für heute noch keine Daten. Öffne eine App und komm zurück.
+Merenje počinje kad uključiš Čuvara.	Die Messung beginnt, wenn du Čuvar einschaltest.
+Čuvar koristi Pristupačnost	Čuvar nutzt die Bedienungshilfen
+Da bi merio vreme i blokirao ono što izabereš, Čuvar koristi Androidovu uslugu Pristupačnosti (AccessibilityService). Iz aktivnog prozora koristi:\n\n	Um Zeit zu messen und zu sperren, was du auswählst, nutzt Čuvar den Bedienungshilfen-Dienst von Android (AccessibilityService). Aus dem aktiven Fenster nutzt er:\n\n
+•  koja je aplikacija trenutno otvorena,\n	•  welche App gerade offen ist,\n
+•  adresu sajta u pregledaču (samo naziv sajta),\n	•  die Website-Adresse im Browser (nur den Namen der Website),\n
+•  ograničen broj tekstualnih čvorova pri vrhu ugrađenog pregledača,\n	•  eine begrenzte Anzahl von Textelementen oben in In-App-Browsern,\n
+•  da bi preko blokirane aplikacije prikazao ekran za blokadu.\n\n	•  um den Sperrbildschirm über einer gesperrten App anzuzeigen.\n\n
+Čuvar ne čuva niti šalje poruke, lozinke ili tekst stranica, ne snima ekran i nema dozvolu za internet. 	Čuvar speichert oder sendet keine Nachrichten, Passwörter oder Seitentexte, nimmt den Bildschirm nicht auf und hat keine Internetberechtigung. 
+Ako uključiš Zaštitu od isključivanja, na ekranima podešavanja proverava samo da li se pominje Čuvar. 	Wenn du den Schutz vor dem Ausschalten einschaltest, prüft er auf Einstellungsbildschirmen nur, ob Čuvar erwähnt wird. 
+Sve što izmeri ostaje samo na ovom telefonu i briše se kad obrišeš aplikaciju.\n\n	Alles, was er misst, bleibt nur auf diesem Handy und wird gelöscht, wenn du die App deinstallierst.\n\n
+Ako se slažeš, u sledećem koraku uključi „Čuvar“ u Pristupačnosti.	Wenn du einverstanden bist, schalte im nächsten Schritt „Čuvar“ in den Bedienungshilfen ein.
+Ne sada	Nicht jetzt
+Slažem se	Einverstanden
+Otvori Podešavanja → Pristupačnost ručno	Einstellungen → Bedienungshilfen von Hand öffnen
+Čuvar nema dozvolu za internet i ne šalje nikakve podatke sa telefona. Nema naloga, reklama ni analitike.\n\n	Čuvar hat keine Internetberechtigung und sendet keine Daten vom Handy. Keine Konten, Werbung oder Analysen.\n\n
+Preko Pristupačnosti dobija naziv otvorene aplikacije i sajta u pregledaču, a kod ugrađenih pregledača proverava ograničen deo ekrana. Iz toga pamti samo 	Über die Bedienungshilfen erhält er den Namen der offenen App und der Website im Browser, und in In-App-Browsern prüft er einen begrenzten Teil des Bildschirms. Davon behält er nur, 
+koliko si vremena proveo u kojoj aplikaciji i na kom sajtu, za poslednjih 14 dana, i tvoja pravila.\n\n	wie viel Zeit du in welcher App und auf welcher Website verbracht hast, für die letzten 14 Tage, sowie deine Regeln.\n\n
+Sve je sačuvano samo u memoriji Čuvara na ovom telefonu, ne ulazi u rezervnu kopiju i briše se kad obrišeš aplikaciju.	Alles wird nur im Speicher von Čuvar auf diesem Handy abgelegt, nicht gesichert und gelöscht, wenn du die App deinstallierst.
+Ograničena podešavanja	Eingeschränkte Einstellungen
+Android ovo blokira za aplikacije koje nisu iz Play prodavnice. Uradi ovako:\n\n	Android sperrt das für Apps, die nicht aus dem Play Store stammen. So geht's:\n\n
+1. Tapni „Informacije o aplikaciji“ ispod.\n	1. Tippe unten auf „App-Info“.\n
+2. Tapni tri tačke gore desno.\n	2. Tippe oben rechts auf die drei Punkte.\n
+3. Izaberi „Dozvoli ograničena podešavanja“ i potvrdi.\n	3. Wähle „Eingeschränkte Einstellungen zulassen“ und bestätige.\n
+4. Vrati se ovde i ponovo otvori Pristupačnost.\n\n	4. Komm hierher zurück und öffne die Bedienungshilfen erneut.\n\n
+Ako ne vidiš tri tačke, prvo pokušaj da uključiš Čuvara u Pristupačnosti, 	Wenn du die drei Punkte nicht siehst, versuche zuerst, Čuvar in den Bedienungshilfen einzuschalten, 
+pa kad te telefon odbije, vrati se na ovaj korak.	und wenn das Handy es ablehnt, komm zu diesem Schritt zurück.
+Informacije o aplikaciji	App-Info
+Zastani na trenutak	Kurz innehalten
+Otvaraš 	Du öffnest 
+. Danas si ga koristio 	. Heute genutzt: 
+, a otvorio 	, geöffnet: 
+. Da li ti zaista treba sada?	. Brauchst du es jetzt wirklich?
+Nastavi za 	Weiter in 
+Nastavi u 	Weiter zu 
+Obriši cifru	Ziffer löschen
+Potvrdi unos	Bestätigen
+Odgovor: 	Antwort: 
+Uneto cifara: 	Eingegebene Ziffern: 
+Računanje · 	Mathe · 
+lako	leicht
+srednje	mittel
+teško	schwer
+Koliko je 	Wie viel sind 
+% od 	% von 
+Koji broj nedostaje: 	Welche Zahl fehlt: 
+Niz brojeva	Zahlenfolge
+Rimski brojevi	Römische Zahlen
+Koji broj je zapisan rimskim brojem 	Welche Zahl ist die römische Zahl 
+Merne jedinice	Maßeinheiten
+ u 	 in 
+centimetrima	Zentimetern
+metrima	Metern
+gramima	Gramm
+kilogramima	Kilogramm
+minutima	Minuten
+sekundama	Sekunden
+satima	Stunden
+milimetrima	Millimetern
+dana	Tage
+Danas je 	Heute ist 
+. Koji dan 	. Welcher Tag 
+je bio pre 	war vor 
+ dana?	 Tagen?
+će biti za 	ist in 
+ dana od danas?	 Tagen?
+Kalendar	Kalender
+Sat	Uhr
+Sada je 	Es ist jetzt 
+. Koliko je sati posle 	. Wie spät ist es nach 
+ minuta?	 Minuten?
+ponedeljak	Montag
+utorak	Dienstag
+sreda	Mittwoch
+četvrtak	Donnerstag
+petak	Freitag
+subota	Samstag
+nedelja	Sonntag
+pon	Mo
+uto	Di
+sre	Mi
+čet	Do
+pet	Fr
+sub	Sa
+ned	So
+danas	heute
+put	Mal
+puta	Mal
+aplikacija	App
+aplikacije	Apps
+sajt	Website
+sajta	Websites
+stavka	Eintrag
+stavke	Einträge
+Sve na jednom mestu. Aplikacija i njen sajt su jedna stavka.	Alles an einem Ort. Eine App und ihre Website sind ein Eintrag.
+Kako se pravila slažu  ›	Wie Regeln zusammenwirken  ›
+Kako se pravila slažu	Wie Regeln zusammenwirken
+1. Režim blokira samo u svom periodu i tada ne može da se otključa.\n	1. Ein Modus sperrt nur in seinem Zeitraum, und dann lässt er sich nicht entsperren.\n
+2. Van režima važi samo ono što je podešeno pod „Ceo dan“: zaključano se otvara dnevnom šifrom (17:00 do 22:00), a potrošen limit se ne otvara do ponoći.\n	2. Außerhalb von Modi gilt nur, was unter „Ganzer Tag“ eingestellt ist: Gesperrte Einträge öffnen sich mit dem Tagescode (17:00 bis 22:00), und ein aufgebrauchtes Limit öffnet sich nicht vor Mitternacht.\n
+3. Ukupni dnevni limit broji samo vreme u stavkama sa pravilom pod „Ceo dan“ (zaključaj, limit, otvaranja...), ne u onima koje su samo u režimu; kad se potroši, zaključava ih do ponoći.\n	3. Das gesamte Tageslimit zählt nur Zeit in Einträgen mit einer Regel unter „Ganzer Tag“ (Sperre, Limit, Öffnungen...), nicht in solchen, die nur in einem Modus sind; ist es aufgebraucht, sperrt es sie bis Mitternacht.\n
+4. Strože pravilo važi odmah, a blaže tek sutra od 06:00.\n	4. Eine strengere Regel gilt sofort, eine lockerere erst ab morgen 06:00.\n
+5. Od 22:00 do 06:00 sve ovo je zaključano (noćna blokada).\n	5. Von 22:00 bis 06:00 ist all das gesperrt (Nachtsperre).\n
+6. Ručni Fokus je zaseban: dok traje, dozvoljene su samo izabrane aplikacije i sajtovi.\n	6. Der manuelle Fokus ist separat: Solange er läuft, sind nur die gewählten Apps und Websites erlaubt.\n
+7. Kod svake stavke pod „Ceo dan“ piše šta važi sada i ceo današnji dan, od 06:00 do 06:00.	7. Jeder Eintrag unter „Ganzer Tag“ zeigt, was jetzt und den ganzen heutigen Tag gilt, von 06:00 bis 06:00.
++ Dodaj aplikaciju ili sajt	+ App oder Website hinzufügen
+⛔ Noćna blokada do 06:00: sve ispod je zaključano	⛔ Nachtsperre bis 06:00: Alles unten ist gesperrt
+: blokirano 	: gesperrt 
+Nijedan režim sada ne blokira	Gerade sperrt kein Modus
+Zaključano se sada otvara dnevnom šifrom (do 22:00)	Gesperrte Einträge öffnen sich jetzt mit dem Tagescode (bis 22:00)
+Zaključano se otvara dnevnom šifrom od 17:00 do 22:00	Gesperrte Einträge öffnen sich mit dem Tagescode von 17:00 bis 22:00
+Režimi	Modi
+Nema uključenih režima. Napravi ih u Vremenskim režimima.	Keine Modi sind an. Erstelle sie unter „Zeitmodi“.
+Ostatak dana	Rest des Tages
+Van režima ništa nije zaključano ni ograničeno.	Außerhalb von Modi ist nichts gesperrt oder limitiert.
+Tapni režim da mu menjaš vreme i stavke, a aplikaciju ili sajt da mu menjaš zaključavanje i limit.	Tippe auf einen Modus, um seine Zeit und Einträge zu ändern, oder auf eine App oder Website, um ihre Sperre und ihr Limit zu ändern.
+Isključuje se sutra u 06:00	Schaltet sich morgen um 06:00 aus
+Od sutra: 	Ab morgen: 
+Još ništa ne blokira	Noch nichts gesperrt
+Ukida se sutra u 06:00: 	Wird morgen um 06:00 entfernt: 
+Posle perioda ostaje zaključano, otvara se šifrom	Bleibt nach dem Zeitraum gesperrt, öffnet sich mit dem Code
+Od sutra 06:00: 	Ab morgen 06:00: 
+bez ovih ograničenja	ohne diese Limits
+🔒 šifrom	🔒 Code
+ min/dan	 min/Tag
+× dnevno	× täglich
+do 	bis 
+🔒 uvek, šifrom	🔒 immer, Code
+ (danas 	 (heute 
+Blokiraj u režimima	In Modi sperren
+Još nema režima. Napravi ih u Vremenskim režimima.	Noch keine Modi. Erstelle sie unter „Zeitmodi“.
+ · isključen	 · aus
+\nUklonjeno, važi još do sutra u 06:00	\nEntfernt, gilt noch bis morgen 06:00
+Režim koji sada traje ne može da izgubi stavku dok traje	Ein laufender Modus kann keinen Eintrag verlieren, solange er läuft
+Sajt ove aplikacije (pravila i vreme su zajednički)	Die Website dieser App (Regeln und Zeit sind gemeinsam)
+npr. linkedin.com, prazno = bez sajta	z. B. linkedin.com, leer = keine Website
+Pozivi uvek prolaze	Anrufe kommen immer durch
+Glasovni i video pozivi rade i noću i preko limita, a poruke ostaju zaključane	Sprach- und Videoanrufe funktionieren nachts und über dem Limit, Chats bleiben gesperrt
+Unesi adresu sajta, npr. linkedin.com	Gib eine Website-Adresse ein, z. B. linkedin.com
+Ukloni iz pravila	Aus den Regeln entfernen
+Ograniči i van režima	Auch außerhalb von Modi limitieren
+Danas: 	Heute: 
+Izaberi aplikaciju	Wähle eine App
+ili upiši sajt	oder gib eine Website ein
+npr. youtube.com	z. B. youtube.com
+Dodaj	Hinzufügen
+Sajt poznate aplikacije (YouTube, Instagram…) ide uz nju kao jedna stavka.	Die Website einer bekannten App (YouTube, Instagram…) gehört als ein Eintrag zu ihr.
+Dalje	Weiter
+Unesi adresu sajta, npr. youtube.com, ili izaberi aplikaciju	Gib eine Website-Adresse ein, z. B. youtube.com, oder wähle eine App
+Svaki režim ima svoj period, dane i svoje aplikacije i sajtove koji će tada biti blokirani.	Jeder Modus hat seinen eigenen Zeitraum, seine Tage und die Apps und Websites, die dann gesperrt werden.
++  Dodaj režim	+  Modus hinzufügen
+Tvoji režimi	Deine Modi
+Još nema režima.	Noch keine Modi.
+Gotovi režimi	Fertige Modi
+Radno vreme	Arbeitszeit
+09:00–17:00 · svakog dana · posle toga dnevnom šifrom	09:00–17:00 · jeden Tag · danach mit dem Tagescode
+Noćno zaključavanje	Nachtsperre
+22:30–06:00 · svakog dana	22:30–06:00 · jeden Tag
+Po vremenu telefona; pomeranje sata ne skraćuje režim. Period može da prelazi ponoć. Ako je aplikacija ili sajt u više uključenih režima, blokada važi kad god je bilo koji od njih aktivan.	Nach der Uhrzeit des Handys; die Uhr zu verstellen verkürzt keinen Modus. Ein Zeitraum kann über Mitternacht gehen. Ist eine App oder Website in mehreren aktiven Modi, gilt die Sperre, wann immer einer davon läuft.
+Traje sada	Läuft gerade
+Uključen	An
+Od sledećih 06:00: 	Ab nächstem 06:00: 
+režim se briše	Modus wird gelöscht
+Brisanje režima je zakazano	Löschen des Modus ist geplant
+Ovo još važi do sledećih 06:00:\n	Das gilt noch bis zum nächsten 06:00:\n
+\n\nZa odustajanje koristi karticu „Od sutra“ na listi režima.	\n\nZum Abbrechen nutze die Karte „Ab morgen“ in der Liste der Modi.
+ · dnevna šifra	 · Tagescode
+Bez aktivnih pravila	Keine aktiven Regeln
+Izaberi period i dane i dodaj aplikacije i sajtove koji će tada biti blokirani. Strože izmene važe odmah, a blaže (isključivanje, kraći period, manje dana, uklanjanje) tek sutra od 06:00.	Wähle Zeitraum und Tage und füge die Apps und Websites hinzu, die dann gesperrt werden. Strengere Änderungen gelten sofort, lockerere (Ausschalten, kürzerer Zeitraum, weniger Tage, Entfernen) erst ab morgen 06:00.
+Važi sada	Gilt jetzt
+Podešavanja ispod važe u potpunosti od sledećih 06:00. 	Die Einstellungen unten gelten ab nächstem 06:00 vollständig. 
+Pooštravanje važi odmah.	Verschärfungen gelten sofort.
+Režim je sada aktivan. Dok traje ne može da se isključi, obriše, skrati ni da mu se promene dani, a aplikacije i sajtovi	Der Modus läuft gerade. Solange er läuft, kann er nicht ausgeschaltet, gelöscht, verkürzt oder in seinen Tagen geändert werden, und Apps und Websites
+ mogu samo da se dodaju.	 können nur hinzugefügt werden.
+Režim je uključen	Modus ist an
+Blokira u izabranom periodu i danima	Sperrt im gewählten Zeitraum und an den gewählten Tagen
+Naziv: 	Name: 
+Period: 	Zeitraum: 
+Dani: 	Tage: 
+Po vremenu telefona; pomeranje sata ne skraćuje režim. Period može da prelazi ponoć i tada pripada danu u kome počinje. Blokada traje do kraja perioda.	Nach der Uhrzeit des Handys; die Uhr zu verstellen verkürzt keinen Modus. Ein Zeitraum kann über Mitternacht gehen und gehört dann zu dem Tag, an dem er beginnt. Die Sperre dauert bis zum Ende des Zeitraums.
+Van perioda traži dnevnu šifru	Außerhalb des Zeitraums Tagescode nötig
+Aplikacije i sajtovi ovog režima su i van perioda zaključani i otvaraju se samo dnevnom šifrom, od 17:00 do 22:00. Šifra se vidi na početnom ekranu Čuvara.	Die Apps und Websites dieses Modus bleiben auch außerhalb des Zeitraums gesperrt und öffnen sich nur mit dem Tagescode, von 17:00 bis 22:00. Der Code wird auf dem Hauptbildschirm von Čuvar angezeigt.
+Dodaj / izaberi aplikacije	Apps hinzufügen / wählen
+Još nema aplikacija u režimu.	Noch keine Apps in diesem Modus.
+ · ukloni	 · entfernen
+Web sajtovi	Websites
+Dodaj sajt	Website hinzufügen
+Još nema sajtova u režimu.	Noch keine Websites in diesem Modus.
+Blokada sajta obuhvata i poddomene. Radi u podržanim pregledačima; za ostale dodaj ceo pregledač u režim.	Das Sperren einer Website umfasst auch ihre Subdomains. Es funktioniert in unterstützten Browsern; für andere füge den ganzen Browser zum Modus hinzu.
+Brisanje	Löschen
+Obriši režim	Modus löschen
+Obriši režim „	Modus „
+Period i izbor aplikacija i sajtova ovog režima biće obrisani.	Zeitraum, Apps und Websites dieses Modus werden gelöscht.
+Obriši	Löschen
+Režim je sada aktivan i to ne može da se promeni do kraja perioda	Der Modus läuft gerade und das lässt sich bis zum Ende des Zeitraums nicht ändern
+Ponedeljak	Montag
+Utorak	Dienstag
+Sreda	Mittwoch
+Četvrtak	Donnerstag
+Petak	Freitag
+Subota	Samstag
+Nedelja	Sonntag
+Dani režima	Tage des Modus
+Izaberi bar jedan dan	Wähle mindestens einen Tag
+npr. Spavanje	z. B. Schlaf
+Naziv režima	Name des Modus
+Unesi naziv, npr. Spavanje	Gib einen Namen ein, z. B. Schlaf
+Do 	Bis 
+Period režima	Zeitraum des Modus
+Početak i kraj moraju biti različiti	Beginn und Ende müssen verschieden sein
+Nije moguće učitati aplikacije	Apps konnten nicht geladen werden
+Ništa nije izabrano	Nichts ausgewählt
+Aplikacije u režimu „	Apps im Modus „
+Izabrane aplikacije biće blokirane 	Die gewählten Apps werden gesperrt 
+ u periodu 	 im Zeitraum 
+Dodaj sajt u režim	Website zum Modus hinzufügen
+Blokada obuhvata i poddomene, npr. m.youtube.com.	Die Sperre umfasst auch Subdomains, z. B. m.youtube.com.
+Unesi adresu sajta, npr. youtube.com	Gib eine Website-Adresse ein, z. B. youtube.com
+, danas 	, heute 
+Sajtovi	Websites
+Radi u Chrome-u. Ako imaš i druge pregledače, zaključaj ih na listi aplikacija.	Funktioniert in Chrome. Wenn du andere Browser hast, sperre sie in der App-Liste.
+Lista je prazna. Dodaj prvi sajt, npr. facebook.com	Die Liste ist leer. Füge deine erste Website hinzu, z. B. facebook.com
+Uvek blokiran	Immer gesperrt
+ min dnevno	 min am Tag
+Nedavno je nešto otključano. Može se menjati za 	Vor Kurzem wurde etwas entsperrt. Ändern lässt es sich in 
+Ograniči sajt	Website limitieren
+Isključivanje važi od sledećih 06:00	Das Ausschalten gilt ab nächstem 06:00
+Adresa sajta	Website-Adresse
+npr. facebook.com	z. B. facebook.com
+Dnevni limit u minutima (0 = uvek blokiran, otvara se dnevnom šifrom)	Tageslimit in Minuten (0 = immer gesperrt, öffnet sich mit dem Tagescode)
+Unesi adresu sajta, npr. facebook.com	Gib eine Website-Adresse ein, z. B. facebook.com
+ je već na listi, a pauza posle otključavanja još traje	 ist schon auf der Liste, und die Pause nach dem Entsperren läuft noch
+Obriši sa liste	Von der Liste entfernen
+Statistika	Statistik
+Pregled korišćenja telefona kroz vreme.	Deine Handynutzung im Zeitverlauf.
+Po danu	Nach Tag
+7 dana	7 Tage
+14 dana	14 Tage
+Po kategorijama	Nach Kategorie
+Ostale aplikacije	Andere Apps
+UKUPNO ZA 	GESAMT FÜR 
+ DANA	 TAGE
+UKUPNO DANAS	GESAMT HEUTE
+UKUPNO · 	GESAMT · 
+Juče	Gestern
+Dan pre	Vorgestern
+Prosek 7 dana pre	7-Tage-Durchschnitt davor
+Danas do sada: 	Heute bisher: 
+Tog dana: 	An dem Tag: 
+% tvog dnevnog proseka	% deines Tagesdurchschnitts
+Za poređenje treba još koji dan merenja.	Für einen Vergleich werden noch ein paar Tage Daten gebraucht.
+Prosek po danu	Tagesdurchschnitt
+Prethodnih 7 dana	Vorherige 7 Tage
+ / dan	 / Tag
+% više nego prethodne nedelje	% mehr als in der Vorwoche
+% manje nego prethodne nedelje	% weniger als in der Vorwoche
+Isto kao prethodne nedelje	Gleich wie in der Vorwoche
+Za poređenje sa prethodnom nedeljom treba još podataka.	Für einen Vergleich mit der Vorwoche werden mehr Daten gebraucht.
+Gde ode vreme	Wohin die Zeit geht
+Nema podataka za ovaj period.	Keine Daten für diesen Zeitraum.
+Ukupno 	Gesamt 
+za 	für 
+ dana	 Tage
+Ostalo	Andere
+Po danima	Nach Tag
+Dodirni kolonu da vidiš taj dan. Boje su iste kao u krugu iznad. Isprekidana linija je prosek po danu.	Tippe auf eine Säule, um den Tag zu sehen. Die Farben passen zum Kreis oben. Die gestrichelte Linie ist der Tagesdurchschnitt.
+Igre	Spiele
+Muzika i audio	Musik und Audio
+Video	Video
+Fotografija	Fotografie
+Društvene mreže	Soziale Medien
+Vesti i časopisi	Nachrichten und Magazine
+Mape i navigacija	Karten und Navigation
+Produktivnost	Produktivität
+Previše pokušaja. Sačekaj 	Zu viele Versuche. Warte 
+Dnevna šifra važi od 	Der Tagescode gilt ab 
+Previše pokušaja. Sačekaj 30 s	Zu viele Versuche. Warte 30 s
+Pogrešna dnevna šifra	Falscher Tagescode
+Režim 1	Modus 1
+Režim 	Modus 
+Sada traje noćna blokada	Gerade läuft die Nachtsperre
+Ukupni dnevni limit je danas potrošen	Das gesamte Tageslimit ist heute aufgebraucht
+Noćna blokada se isključuje	Nachtsperre schaltet sich aus
+Zaštita Čuvara od isključivanja se isključuje	Schutz von Čuvar vor dem Ausschalten schaltet sich aus
+ i 	 und 
+ se razdvajaju	 werden getrennt
+: bez zaključavanja	: keine Sperre
+bez zaključavanja	keine Sperre
+bez dnevnog limita	kein Tageslimit
+limit 	Limit 
+ min umesto 	 min statt 
+bez ograničenja otvaranja	keine Öffnungsgrenze
+najviše 	höchstens 
+ otvaranja umesto 	 Öffnungen statt 
+bez ograničenja u komadu	keine Sitzungsgrenze
+ min u komadu umesto 	 min am Stück statt 
+skida se sa liste	wird von der Liste entfernt
+uvek blokiran	immer gesperrt
+ umesto stalne blokade	 statt immer gesperrt
+“ se briše	“ wird gelöscht
+“ se isključuje	“ schaltet sich aus
+“ bez dnevne šifre van perioda	“ ohne Tagescode außerhalb des Zeitraums
+“: uklanja se 	“: entfernt wird 
+isključen u Pristupačnosti	in den Bedienungshilfen ausgeschaltet
+zaustavljen (verovatno zbog baterije)	gestoppt (wahrscheinlich durch Energiesparen)
+telefon je paljen bez Čuvara, na primer u Safe Mode-u	das Handy wurde ohne Čuvar gestartet, zum Beispiel im abgesicherten Modus
+posle paljenja telefona nije radio 	lief nach dem Start des Handys nicht für 
+‹ Nazad	‹ Zurück
+Zaključaće se odmah	Wird sofort gesperrt
+. Čim 	. Sobald 
+ dobije pravilo, zaključava se do sutra ujutru, 	 eine Regel bekommt, ist es bis morgen früh gesperrt, 
+a pravilo može da se skine tek sutra od 06:00.	und die Regel lässt sich erst ab morgen 06:00 entfernen.
+Ipak dodaj	Trotzdem hinzufügen
+Kao telefon	Wie das Handy
+Svetla	Hell
+Tamna	Dunkel
+, izabrano	, ausgewählt
+Unesi ceo broj od 0 do 2147483647	Gib eine ganze Zahl von 0 bis 2147483647 ein
+Jezik	Sprache
+Srpski (latinica)	Serbisch (lateinisch)
+Српски (ћирилица)	Serbisch (kyrillisch)
+, od 	, ab 
+Čuvar: limit ističe za 	Čuvar: Limit endet in 
+dan	Tag
+NEDELJA BEZ OTKLJUČAVANJA	WOCHE OHNE ENTSPERREN
+ zaredom bez otključavanja	 in Folge ohne Entsperren
+Danas otključano 	Heute entsperrt: 
+Otključavanja, 7 dana	Entsperrungen, 7 Tage
+ manje nego prethodne nedelje	 weniger als in der Vorwoche
+ više nego prethodne nedelje	 mehr als in der Vorwoche
+Bez otključavanja 	Ohne Entsperren: 
+ dana · najbolji niz 	 Tage · beste Serie 
+Niz bez otključavanja	Serie ohne Entsperren
+Opterećenje telefona	Handy-Auslastung
+Koliko Čuvar troši procesor i memoriju	Wie viel CPU und Speicher Čuvar nutzt
+Procesor: 	CPU: 
+ % vremena otkako Čuvar radi (	 % der Zeit seit dem Start von Čuvar (
+Memorija: 	Speicher: 
+Provera ekrana: 	Bildschirmprüfungen: 
+ u minutu.	 pro Minute.
+Jedna provera traje prosečno 	Eine Prüfung dauert im Schnitt 
+ ms, najduže 	 ms, am längsten 
+Događaja Pristupačnosti: 	Bedienungshilfen-Ereignisse: 
+Servis Čuvara sada ne radi.	Der Dienst von Čuvar läuft gerade nicht.
+Ispod 1 % procesora Čuvar skoro ne troši bateriju. Brojevi kreću od nule kad se Čuvar ponovo pokrene.	Unter 1 % CPU verbraucht Čuvar fast keinen Akku. Die Zahlen beginnen bei null, wenn Čuvar neu startet.
+Osveži	Aktualisieren
+Ovde Čuvar ne vidi koji je sajt otvoren, a neki sajt je sada blokiran bez otključavanja 	Hier sieht Čuvar nicht, welche Website offen ist, und gerade ist eine Website ohne Entsperrmöglichkeit gesperrt 
+(vremenski režim ili potrošen dnevni limit sajta). Zato se ni dnevnom šifrom ne otvara dok to traje. 	(ein Zeitmodus oder ein aufgebrauchtes Tageslimit einer Website). Deshalb öffnet es sich auch mit dem Tagescode nicht, solange das dauert. 
+Koristi Chrome, Samsung Internet, Firefox, Edge, Brave ili Vivaldi.	Nutze Chrome, Samsung Internet, Firefox, Edge, Brave oder Vivaldi.
+Bez noćne blokade	Keine Nachtsperre
+Od 22:00 do 06:00 ostaje otvorena, ako je ne zaključava nešto drugo. Uključivanje važi od sutra u 06:00	Bleibt von 22:00 bis 06:00 offen, sofern nichts anderes es sperrt. Das Einschalten gilt ab morgen 06:00
+: bez noćne blokade	: keine Nachtsperre
+Pre otključavanja	Vor dem Entsperren
+Pitalice	Quizfragen
+Igrica: brojevi redom	Spiel: Zahlen der Reihe nach
+Brojevi redom: tapni brojeve od 1 do 	Zahlen der Reihe nach: Tippe die Zahlen von 1 bis 
+ redom za 	 der Reihe nach innerhalb von 
+ s. Pogrešan broj ili isteklo vreme vraća na početak.	 s an. Eine falsche Zahl oder abgelaufene Zeit fängt von vorne an.
+Tapni brojeve od 1 do 	Tippe die Zahlen von 1 bis 
+ redom	 der Reihe nach an
+Pogrešan broj. Kreni ispočetka.	Falsche Zahl. Fang von vorne an.
+Vreme je isteklo. Kreni ispočetka.	Die Zeit ist um. Fang von vorne an.
+Sledeći broj: 	Nächste Zahl: 
+Nasumično: igrica ili pitalice	Zufällig: Spiel oder Quiz
+Probaj igricu	Spiel ausprobieren
+Uspelo je za 	Geschafft in 
+Na ekranu blokade bi sada išao unos dnevne šifre.	Auf dem Sperrbildschirm würdest du jetzt den Tagescode eingeben.
+Igraj ponovo	Nochmal spielen
+Otključavanje je moguće samo od 	Entsperren ist nur möglich ab 
+:00, uz igricu ili pitanja i dnevnu šifru.	:00, mit dem Spiel oder den Fragen und dem Tagescode.
+Danas 	Heute 
+Van režima bez dnevne šifre	Außerhalb des Modus ohne Tagescode
+“ van svog vremena traži dnevnu šifru. Uključeno: ova aplikacija je tada slobodna (važi od sutra u 06:00)	“ verlangt außerhalb seiner Zeit den Tagescode. An: Diese App ist dann frei (gilt ab morgen 06:00)
+: van režima bez dnevne šifre	: kein Tagescode außerhalb des Modus
+Danas si već otključao 	Heute hast du schon 
+ puta. Sledeće otključavanje je moguće sutra od 	 Mal entsperrt. Die nächste Entsperrung ist morgen möglich ab 
+. otključavanje danas: brojevi do 	. Entsperrung heute: Zahlen bis 
+Uhvaćenih grešaka nema.	Keine Fehler abgefangen.
+Obriši greške	Fehler löschen
+Zabeležene greške: 	Aufgezeichnete Fehler: 
+„crash“ znači da je Čuvar pao i sam se ponovo pokrenuo. Ostale greške je uhvatio i nastavio da radi.	„crash“ bedeutet, dass Čuvar angehalten wurde und von selbst neu gestartet ist. Die anderen Fehler hat er abgefangen und weitergearbeitet.
+Čuvar je ove greške uhvatio i nastavio da radi.	Čuvar hat diese Fehler abgefangen und weitergearbeitet.
+Ekran nije mogao da se otvori. Greška je zabeležena.	Der Bildschirm konnte nicht geöffnet werden. Der Fehler wurde aufgezeichnet.
+Izađi iz podeljenog ekrana	Geteilten Bildschirm verlassen
+Nasumična igrica	Zufälliges Spiel
+Igrica: boje	Spiel: Farben
+Igrica: uljez	Spiel: Der Außenseiter
+Tapni boju kojom je reč napisana	Tippe auf die Farbe, in der das Wort geschrieben ist
+Tapni znak koji se razlikuje	Tippe auf das, was anders ist
+Pogrešno. Kreni ispočetka.	Falsch. Fang von vorne an.
+Zadatak 	Aufgabe 
+CRVENA	ROT
+ZELENA	GRÜN
+PLAVA	BLAU
+ŽUTA	GELB
+LJUBIČASTA	LILA
+NARANDŽASTA	ORANGE
+zadatak	Aufgabe
+zadatka	Aufgaben
+zadataka	Aufgaben
+. otključavanje danas: 	. Entsperrung heute: 
+Svako sledeće otključavanje u danu je teže, za sve aplikacije zajedno. Greške ne povećavaju težinu.	Jede weitere Entsperrung am Tag ist schwerer, für alle Apps zusammen. Fehler machen es nicht schwerer.
+Strelice, boje, uljez, pamćenje i niz: nekoliko brzih zadataka redom. Greška ili isteklo vreme vraća na početak.	Pfeile, Farben, Außenseiter, Gedächtnis und Reihenfolge: ein paar schnelle Aufgaben hintereinander. Ein Fehler oder abgelaufene Zeit fängt von vorne an.
+Igrica: strelice	Spiel: Pfeile
+Na koju stranu pokazuje srednja strelica?	In welche Richtung zeigt der mittlere Pfeil?
+Igrica: pamćenje	Spiel: Gedächtnis
+Igrica: niz	Spiel: Reihenfolge
+Zapamti osvetljena polja, pa ih tapni	Merk dir die leuchtenden Felder und tippe sie dann an
+Zapamti redosled, pa tapni polja istim redom	Merk dir die Reihenfolge und tippe die Felder dann in derselben Reihenfolge an
+Po zapisima Androida, kao Digital Wellbeing.	Aus den Aufzeichnungen von Android, wie bei Digital Wellbeing.
+Ukloniti iz pravila?	Aus den Regeln entfernen?
+Da li si siguran da želiš da ukloniš? Bez potvrde do 22:00 ostaje zaključano.	Willst du es wirklich entfernen? Ohne Bestätigung bis 22:00 bleibt es gesperrt.
+Ne, ostavi	Nein, behalten
+Da, ukloni	Ja, entfernen
+Uklonjeno iz pravila.	Aus den Regeln entfernt.
+Uklanjanje iz pravila	Wird aus den Regeln entfernt
+Ostaje zaključano. Sutra od 08:00 do 22:00 Čuvar pita da li si siguran, i tek tada se uklanja.	Bleibt gesperrt. Morgen von 08:00 bis 22:00 fragt Čuvar, ob du sicher bist, und entfernt es erst dann.
+Odgovori	Antworten
+Odustani od uklanjanja	Entfernen abbrechen
+Sutra od 08:00 Čuvar pita da li si siguran. Tek tada se uklanja.	Morgen ab 08:00 fragt Čuvar, ob du sicher bist. Erst dann wird es entfernt.
+Ostaje zaključano. Danas od 08:00 do 22:00 Čuvar pita da li si siguran, i tek tada se uklanja.	Bleibt gesperrt. Heute von 08:00 bis 22:00 fragt Čuvar, ob du sicher bist, und entfernt es erst dann.
+Danas od 08:00 Čuvar pita da li si siguran. Tek tada se uklanja.	Heute ab 08:00 fragt Čuvar, ob du sicher bist. Erst dann wird es entfernt.
+Šta je kad blokirano · 	Was wann gesperrt ist · 
++ Novi režim	+ Neuer Modus
+U režimima	In Modi
+Aplikacije, sajtovi i režimi	Apps, Websites und Modi
+Režimi (i noćni) i zaključavanje ili limit za ceo dan	Modi (auch nachts) und ganztägige Sperre oder Limit
+Svaki režim ima svoje vreme i svoje aplikacije. Ispod je ono što važi ceo dan.	Jeder Modus hat seine eigene Zeit und Apps. Unten steht, was den ganzen Tag gilt.
+5. Noću je zaključano samo ono što je u režimu „Noćno zaključavanje“.\n	5. Nachts ist nur gesperrt, was im Modus „Nachtsperre“ ist.\n
+⛔ Noćna blokada do 06:00: sve ispod je zaključano (poslednji put, od sada noću važi samo režim „Noćno zaključavanje“)	⛔ Nachtsperre bis 06:00: Alles unten ist gesperrt (zum letzten Mal; ab jetzt gilt nachts nur der Modus „Nachtsperre“)
++ Noćno zaključavanje (22:00–06:00)	+ Nachtsperre (22:00–06:00)
++ Radno vreme (09:00–17:00)	+ Arbeitszeit (09:00–17:00)
+Ceo dan	Ganzer Tag
+Zaključavanje, dnevni limit i broj otvaranja, bez obzira na režime.	Sperre, Tageslimit und Anzahl Öffnungen, unabhängig von Modi.
+Ni u jednom režimu.	In keinem Modus.
+Dodaje se i skida u samom režimu, na ekranu Pravila.	Wird im Modus selbst hinzugefügt und entfernt, auf dem Bildschirm „Regeln“.
+Glasovni i video pozivi rade i u režimu i preko limita, a poruke ostaju zaključane	Sprach- und Videoanrufe funktionieren während Modi und über dem Limit, Nachrichten bleiben gesperrt
+22:00–06:00 · svakog dana	22:00–06:00 · jeden Tag
+UPOZORENJE	WARNUNG
+Prečica može da isključi Čuvara	Ein Kurzbefehl kann Čuvar ausschalten
+oba tastera za jačinu i dugme Pristupačnosti	beide Lautstärketasten und die Bedienungshilfen-Taste
+oba tastera za jačinu	beide Lautstärketasten
+dugme ili pokret Pristupačnosti	die Bedienungshilfen-Taste oder -Geste
+Čuvar je dodeljen prečici Pristupačnosti (	Čuvar ist dem Bedienungshilfen-Kurzbefehl zugewiesen (
+). Tom prečicom se Čuvar gasi bez ulaska u podešavanja. 	). Mit diesem Kurzbefehl wird Čuvar ausgeschaltet, ohne die Einstellungen zu öffnen. 
+Podešavanje zaštite	Schutzeinstellungen
+pa onda prečicu. Čuvar prečicu ne gasi sam.	dann den Kurzbefehl. Čuvar schaltet den Kurzbefehl nicht selbst aus.
+(na Samsungu: Pristupačnost → Napredna podešavanja → prečice). Čuvar prečicu ne gasi sam.	(bei Samsung: Bedienungshilfen → Erweiterte Einstellungen → Kurzbefehle). Čuvar schaltet den Kurzbefehl nicht selbst aus.
+Zaštita od isključivanja se isključuje od sledećih 06:00. Tada isključi prečicu: 	Der Schutz vor dem Ausschalten schaltet sich ab dem nächsten 06:00 aus. Schalte dann den Kurzbefehl aus: 
+Podešavanja → Pristupačnost → Čuvar → isključi „Prečica za Čuvar“. Čuvar prečicu ne gasi sam.	Einstellungen → Bedienungshilfen → Čuvar → „Čuvar-Kurzbefehl“ ausschalten. Čuvar schaltet den Kurzbefehl nicht selbst aus.
+Zaštita od isključivanja je uključena, pa Čuvar zatvara svoj ekran u Pristupačnosti i prečicu 	Der Schutz vor dem Ausschalten ist an, daher schließt Čuvar seinen Bildschirm in den Bedienungshilfen und du kannst den Kurzbefehl 
+tamo ne možeš da isključiš. Prvo isključi zaštitu u Čuvaru (važi od sledećeg jutra u 06:00), 	dort nicht ausschalten. Schalte zuerst den Schutz in Čuvar aus (gilt ab dem nächsten Morgen um 06:00), 
+Isključi je: Podešavanja → Pristupačnost → Čuvar → isključi „Prečica za Čuvar“ 	Schalte ihn aus: Einstellungen → Bedienungshilfen → Čuvar → „Čuvar-Kurzbefehl“ ausschalten 
+Vreme je isteklo. Probaj nešto drugo.	Die Zeit ist um. Versuch etwas anderes.
+Pogrešno. Probaj nešto drugo.	Falsch. Versuch etwas anderes.
+ min. Zbir limita ne sme preći 	 min. Die Summe der Limits darf nicht höher sein als 
+ (ukupni dnevni limit)	 (gesamtes Tageslimit)
+ Limit može biti najviše 	 Das Limit kann höchstens 
+, ni povećanjem ne ide preko.	 betragen, auch eine Erhöhung geht nicht darüber.
+Limit je na najvišem (	Limit ist am Maximum (
+Limiti aplikacija i sajtova zajedno: 	Limits von Apps und Websites zusammen: 
+, više od ukupnog limita.	, mehr als das gesamte Limit.
+Van ukupnog dnevnog limita	Außerhalb des gesamten Tageslimits
+Vreme u njoj ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Jedna aplikacija dnevno odmah, ostale od sutra u 06:00	Die Zeit darin verbraucht das gesamte Limit nicht und es wird nicht gesperrt, wenn das Limit aufgebraucht ist; andere Regeln gelten weiter. Eine App pro Tag sofort, andere ab morgen 06:00
+: van ukupnog dnevnog limita	: außerhalb des gesamten Tageslimits
+ je odmah van ukupnog limita	 ist jetzt außerhalb des gesamten Limits
+ je van ukupnog limita od sutra u 06:00	 ist ab morgen 06:00 außerhalb des gesamten Limits
+ i još 	, plus 
+Uklanja se sutra u 06:00. Do tada pravilo važi.	Wird morgen um 06:00 entfernt. Bis dahin gilt die Regel.
+Šifra stiže u 	Der Code kommt um 
+:00, vidi se ovde do 	:00, er wird hier angezeigt bis 
+:00 i menja se posle svakog otključavanja.	:00 und ändert sich nach jeder Entsperrung.
+Svaka šifra važi za jedno otključavanje; posle njega se ovde pojavi nova. Otključava samo do 	Jeder Code gilt für eine Entsperrung; danach erscheint hier ein neuer. Er entsperrt nur bis 
+:00.	:00.
+Pogrešna šifra. Posle svakog otključavanja Čuvar pokazuje novu.	Falscher Code. Nach jeder Entsperrung zeigt Čuvar einen neuen an.
+Vreme na njemu ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Jedna stavka dnevno odmah, ostale od sutra u 06:00	Die Zeit darauf verbraucht das gesamte Limit nicht und es wird nicht gesperrt, wenn das aufgebraucht ist; andere Regeln gelten weiter. Ein Eintrag pro Tag sofort, andere ab morgen 06:00
+ blokira 	 sperrt 
+ otvara se šifrom	 öffnet sich mit dem Code
+ zaključano	 gesperrt
+ slobodno	 frei
+Sada: slobodno	Jetzt: frei
+Sada: limit potrošen, do ponoći	Jetzt: Limit aufgebraucht, bis Mitternacht
+Sada: blokira 	Jetzt: gesperrt durch 
+Sada: otvara se šifrom do 	Jetzt: öffnet sich mit dem Code bis 
+Sada: zaključano, šifra od 	Jetzt: gesperrt, Code ab 
+Sada: zaključano do sutra	Jetzt: gesperrt bis morgen
+Sada: slobodno do 	Jetzt: frei bis 
+Režim blokira samo u svom vremenu. Ispod „Ceo dan“ je ono što važi i van režima.	Ein Modus sperrt nur während seiner Zeit. Unter „Ganzer Tag“ steht, was auch außerhalb von Modi gilt.
+Režim blokira samo u svom periodu. Da aplikacija bude zaključana i ostatak dana, 	Ein Modus sperrt nur während seines Zeitraums. Damit eine App auch den Rest des Tages gesperrt bleibt, 
+uključi joj „Zaključaj“ na ekranu Pravila.	schalte auf dem Bildschirm „Regeln“ „Sperren“ für sie ein.
+09:00–17:00 · svakog dana	09:00–17:00 · jeden Tag
