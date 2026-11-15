@@ -821,3 +821,11 @@ Režim blokira samo u svom vremenu. Ispod „Ceo dan“ je ono što važi i van 
 Režim blokira samo u svom periodu. Da aplikacija bude zaključana i ostatak dana, 	Ein Modus sperrt nur während seines Zeitraums. Damit eine App auch den Rest des Tages gesperrt bleibt, 
 uključi joj „Zaključaj“ na ekranu Pravila.	schalte auf dem Bildschirm „Regeln“ „Sperren“ für sie ein.
 09:00–17:00 · svakog dana	09:00–17:00 · jeden Tag
+Naziv	Name
+Period	Zeitraum
+Dani	Tage
+Ukloni	Entfernen
+Vrati	Wiederherstellen
++  Dodaj aplikacije	+  Apps hinzufügen
++  Dodaj sajt	+  Website hinzufügen
+Uklonjeno, važi do 06:00	Entfernt, gilt bis 06:00

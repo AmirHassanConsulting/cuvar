@@ -205,41 +205,158 @@ public class ScheduleActivity extends SubActivity {
             else render();
         });
         content.addView(enabled, Ui.fill(this, 12));
-        action("Naziv: " + rule.name, () -> editName(rule));
-        action("Period: " + rule.label(), () -> editTime(rule));
-        action("Dani: " + rule.daysLabel(), () -> editDays(rule));
-        content.addView(Ui.text(this, "Po vremenu telefona; pomeranje sata ne skraćuje režim. Period može da prelazi ponoć i tada pripada danu u kome počinje. Blokada traje do kraja perioda.", 14, Ui.MUTED, false), Ui.fill(this, 8));
+        LinearLayout settings = Ui.group(this);
+        Ui.groupRow(this, settings, "Naziv", rule.name, Safe.click("scheduleName", v -> editName(rule)));
+        Ui.groupRow(this, settings, "Period", rule.label(), Safe.click("scheduleTime", v -> editTime(rule)));
+        Ui.groupRow(this, settings, "Dani", rule.daysLabel(), Safe.click("scheduleDays", v -> editDays(rule)));
+        content.addView(settings, Ui.fill(this, 10));
+        content.addView(Ui.text(this, "Po vremenu telefona; pomeranje sata ne skraćuje režim. Period može da prelazi ponoć i tada pripada danu u kome počinje. Blokada traje do kraja perioda.", 13, Ui.MUTED, false), Ui.fill(this, 10));
         content.addView(Ui.text(this, "Režim blokira samo u svom periodu. Da aplikacija bude zaključana i ostatak dana, "
-                + "uključi joj „Zaključaj“ na ekranu Pravila.", 14, Ui.MUTED, false), Ui.fill(this, 8));
-        content.addView(Ui.text(this, "Aplikacije", 20, Ui.INK, true), Ui.fill(this, 24));
-        action("Dodaj / izaberi aplikacije", () -> chooseApps(rule));
-        if (rule.apps.isEmpty()) empty("Još nema aplikacija u režimu.");
-        for (String pkg : rule.apps) {
-            String label = AppLabels.of(getPackageManager(), pkg);
-            action(label + " · ukloni", () -> {
-                if (!store.modes.setScheduleApp(id, pkg, false)) refused();
-                render();
-            });
+                + "uključi joj „Zaključaj“ na ekranu Pravila.", 13, Ui.MUTED, false), Ui.fill(this, 8));
+
+        // Stavke uklonjene iz podešavanja koje važe do 06:00 ostaju na listi, sa oznakom.
+        Set<String> appsNow = new HashSet<>(), sitesNow = new HashSet<>();
+        for (DailySchedule.Rule r : effective) {
+            appsNow.addAll(r.apps);
+            sitesNow.addAll(r.sites);
         }
-        content.addView(Ui.text(this, "Web sajtovi", 20, Ui.INK, true), Ui.fill(this, 24));
-        action("Dodaj sajt", this::addSite);
-        if (rule.sites.isEmpty()) empty("Još nema sajtova u režimu.");
-        List<String> sites = new ArrayList<>(rule.sites);
+        android.content.pm.PackageManager pm = getPackageManager();
+        Set<String> allApps = new HashSet<>(rule.apps);
+        allApps.addAll(appsNow);
+        List<String[]> apps = new ArrayList<>();
+        for (String pkg : allApps) apps.add(new String[]{pkg, AppLabels.of(pm, pkg)});
+        apps.sort((x, y) -> x[1].compareToIgnoreCase(y[1]));
+        heading("Aplikacije", rule.apps.size());
+        LinearLayout appBox = Ui.group(this);
+        if (apps.isEmpty()) note(appBox, "Još nema aplikacija u režimu.");
+        for (String[] x : apps) {
+            String pkg = x[0];
+            itemRow(appBox, appIcon(pm, pkg, x[1]), x[1], !rule.apps.contains(pkg),
+                    () -> { if (!store.modes.setScheduleApp(id, pkg, false)) refused(); else render(); },
+                    () -> { store.modes.setScheduleApp(id, pkg, true); render(); });
+        }
+        addRow(appBox, "+  Dodaj aplikacije", () -> chooseApps(rule));
+        content.addView(appBox, Ui.fill(this, 10));
+
+        Set<String> allSites = new HashSet<>(rule.sites);
+        allSites.addAll(sitesNow);
+        List<String> sites = new ArrayList<>(allSites);
         sites.sort(String::compareTo);
-        for (String domain : sites) action(domain + " · ukloni", () -> {
-            if (!store.modes.setScheduleSite(id, domain, false)) refused();
-            render();
-        });
+        heading("Web sajtovi", rule.sites.size());
+        LinearLayout siteBox = Ui.group(this);
+        if (sites.isEmpty()) note(siteBox, "Još nema sajtova u režimu.");
+        for (String domain : sites) {
+            itemRow(siteBox, letterIcon(domain), domain, !rule.sites.contains(domain),
+                    () -> { if (!store.modes.setScheduleSite(id, domain, false)) refused(); else render(); },
+                    () -> { store.modes.setScheduleSite(id, domain, true); render(); });
+        }
+        addRow(siteBox, "+  Dodaj sajt", this::addSite);
+        content.addView(siteBox, Ui.fill(this, 10));
         empty("Blokada sajta obuhvata i poddomene. Radi u podržanim pregledačima; za ostale dodaj ceo pregledač u režim.");
-        content.addView(Ui.text(this, "Brisanje", 20, Ui.INK, true), Ui.fill(this, 24));
-        action("Obriši režim", () -> new Sheet(this, "Obriši režim „" + rule.name + "“?")
+
+        TextView delete = Ui.text(this, "Obriši režim", 16, Ui.ACCENT, true);
+        delete.setGravity(android.view.Gravity.CENTER);
+        delete.setMinHeight(Ui.dp(this, 52));
+        delete.setBackground(Ui.pressable(Ui.CARD, Ui.SOFT, Ui.dp(this, 18)));
+        delete.setOnClickListener(Safe.click("scheduleDelete", v -> new Sheet(this, "Obriši režim „" + rule.name + "“?")
                 .message("Period i izbor aplikacija i sajtova ovog režima biće obrisani.")
                 .secondary("Otkaži", null)
                 .primary("Obriši", () -> {
                     if (store.modes.removeSchedule(id)) finish(); else refused();
                     return true;
                 })
-                .show());
+                .show()));
+        content.addView(delete, Ui.fill(this, 28));
+    }
+
+    /** Naslov liste sa brojem stavki. */
+    private void heading(String title, int n) {
+        LinearLayout row = Ui.row(this);
+        row.addView(Ui.text(this, title, 18, Ui.INK, true));
+        if (n > 0) row.addView(Ui.badge(this, String.valueOf(n), Ui.ACCENT), Ui.wrap(this, 10));
+        content.addView(row, Ui.fill(this, 26));
+    }
+
+    private void divider(LinearLayout group) {
+        if (group.getChildCount() == 0) return;
+        View line = new View(this);
+        line.setBackgroundColor(Ui.LINE);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
+        lp.leftMargin = Ui.dp(this, 66);
+        group.addView(line, lp);
+    }
+
+    /**
+     * Red stavke: ikonica, naziv i malo dugme. Ceo red se ne tapka, da se stavka ne ukloni slučajno.
+     * Stavka koja je uklonjena a važi do 06:00 nudi "Vrati" (pooštravanje, važi odmah).
+     */
+    private void itemRow(LinearLayout group, View icon, String name, boolean leaving, Runnable remove, Runnable restore) {
+        divider(group);
+        LinearLayout row = Ui.row(this);
+        row.setGravity(android.view.Gravity.CENTER_VERTICAL);
+        int p = Ui.dp(this, 12);
+        row.setPadding(Ui.dp(this, 16), p, Ui.dp(this, 12), p);
+        int size = Ui.dp(this, 38);
+        row.addView(icon, new LinearLayout.LayoutParams(size, size));
+        LinearLayout texts = Ui.column(this);
+        TextView title = Ui.text(this, name, 16, leaving ? Ui.MUTED : Ui.INK, true);
+        title.setSingleLine(true);
+        title.setEllipsize(android.text.TextUtils.TruncateAt.END);
+        texts.addView(title);
+        if (leaving) texts.addView(Ui.text(this, "Uklonjeno, važi do 06:00", 13, Ui.ACCENT, false), Ui.fill(this, 3));
+        LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        tp.leftMargin = Ui.dp(this, 12);
+        row.addView(texts, tp);
+        TextView action = Ui.text(this, leaving ? "Vrati" : "Ukloni", 13, leaving ? Ui.ACCENT : Ui.MUTED, true);
+        action.setGravity(android.view.Gravity.CENTER);
+        action.setMinHeight(Ui.dp(this, 36));
+        int h = Ui.dp(this, 14);
+        action.setPadding(h, 0, h, 0);
+        int tint = leaving ? (Ui.ACCENT & 0x00FFFFFF) | 0x2E000000 : Ui.SOFT;
+        action.setBackground(Ui.pressable(tint, Ui.SOFT_DOWN, Ui.dp(this, 18)));
+        action.setOnClickListener(Safe.click("scheduleItem", v -> (leaving ? restore : remove).run()));
+        row.addView(action, Ui.wrap(this, 10));
+        group.addView(row, Ui.fill(this, 0));
+    }
+
+    /** Red za dodavanje na dnu liste, u boji akcenta. */
+    private void addRow(LinearLayout group, String label, Runnable run) {
+        divider(group);
+        TextView add = Ui.text(this, label, 16, Ui.ACCENT, true);
+        add.setGravity(android.view.Gravity.CENTER_VERTICAL);
+        add.setMinHeight(Ui.dp(this, 54));
+        add.setPadding(Ui.dp(this, 18), 0, Ui.dp(this, 16), 0);
+        add.setBackground(Ui.pressable(Ui.CARD, Ui.SOFT, 0));
+        add.setOnClickListener(Safe.click("scheduleAdd", v -> run.run()));
+        group.addView(add, Ui.fill(this, 0));
+    }
+
+    private void note(LinearLayout group, String text) {
+        TextView t = Ui.text(this, text, 14, Ui.MUTED, false);
+        int p = Ui.dp(this, 16);
+        t.setPadding(Ui.dp(this, 18), p, p, p);
+        group.addView(t, Ui.fill(this, 0));
+    }
+
+    private View appIcon(android.content.pm.PackageManager pm, String pkg, String label) {
+        try {
+            android.widget.ImageView image = new android.widget.ImageView(this);
+            image.setImageDrawable(pm.getApplicationIcon(pkg));
+            return image;
+        } catch (Exception ignored) {
+            // aplikacija nije instalirana: prvo slovo umesto ikonice
+            return letterIcon(label);
+        }
+    }
+
+    /** Krug sa prvim slovom (sajt ili aplikacija bez ikonice). */
+    private View letterIcon(String name) {
+        String letter = name.isEmpty() ? "?" : name.substring(0, 1).toUpperCase(java.util.Locale.ROOT);
+        TextView t = Ui.text(this, "", 16, Ui.ACCENT, true);
+        ((Ui.Label) t).setRaw(letter);
+        t.setGravity(android.view.Gravity.CENTER);
+        t.setBackground(Ui.round((Ui.ACCENT & 0x00FFFFFF) | 0x2E000000, Ui.dp(this, 19)));
+        return t;
     }
 
     /** Izmena bi oslabila aktivan režim: ekran se vraća na sačuvano stanje. */
@@ -269,12 +386,6 @@ public class ScheduleActivity extends SubActivity {
                     if (!store.modes.setScheduleDays(id, days[0])) refused(); else render();
                     return true;
                 }).show();
-    }
-
-    private void action(String label, Runnable run) {
-        TextView button = Ui.button(this, label, false);
-        button.setOnClickListener(v -> run.run());
-        content.addView(button, Ui.fill(this, 10));
     }
 
     private void empty(String text) {

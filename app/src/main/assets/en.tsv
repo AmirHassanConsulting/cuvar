@@ -822,3 +822,11 @@ Režim blokira samo u svom vremenu. Ispod „Ceo dan“ je ono što važi i van 
 Režim blokira samo u svom periodu. Da aplikacija bude zaključana i ostatak dana, 	A mode blocks only during its period. To keep an app locked for the rest of the day too, 
 uključi joj „Zaključaj“ na ekranu Pravila.	turn on “Lock” for it on the Rules screen.
 09:00–17:00 · svakog dana	09:00–17:00 · every day
+Naziv	Name
+Period	Period
+Dani	Days
+Ukloni	Remove
+Vrati	Restore
++  Dodaj aplikacije	+  Add apps
++  Dodaj sajt	+  Add site
+Uklonjeno, važi do 06:00	Removed, applies until 06:00
