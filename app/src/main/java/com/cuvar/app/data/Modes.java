@@ -59,17 +59,22 @@ public final class Modes {
         for (int i = 0; i < arr.length(); i++) {
             JSONObject o = arr.optJSONObject(i);
             if (o == null) continue;
-            DailySchedule.Rule r = new DailySchedule.Rule(o.optString("id", newScheduleId()),
-                    o.optString("name", "Režim " + (i + 1)), o.optBoolean("enabled", false),
-                    o.optInt("start", 21 * 60), o.optInt("end", 9 * 60));
-            r.days = o.optInt("days", DailySchedule.ALL_DAYS);
-            r.code = o.optBoolean("code", false); // stari režim sa šifrom, samo za migraciju (Store.migrateCodeRegimes)
-            JSONArray a = o.optJSONArray("apps");
-            for (int k = 0; a != null && k < a.length(); k++) r.apps.add(a.optString(k));
-            JSONArray s = o.optJSONArray("sites");
-            for (int k = 0; s != null && k < s.length(); k++) r.sites.add(s.optString(k));
-            schedules.add(r);
+            schedules.add(parseRule(o, i));
         }
+    }
+
+    /** Jedan režim iz JSON-a; i je redni broj za podrazumevani naziv. */
+    static DailySchedule.Rule parseRule(JSONObject o, int i) {
+        DailySchedule.Rule r = new DailySchedule.Rule(o.optString("id", newScheduleId()),
+                o.optString("name", "Režim " + (i + 1)), o.optBoolean("enabled", false),
+                o.optInt("start", 21 * 60), o.optInt("end", 9 * 60));
+        r.days = o.optInt("days", DailySchedule.ALL_DAYS);
+        r.code = o.optBoolean("code", false); // stari režim sa šifrom, samo za migraciju (Store.migrateCodeRegimes)
+        JSONArray a = o.optJSONArray("apps");
+        for (int k = 0; a != null && k < a.length(); k++) r.apps.add(a.optString(k));
+        JSONArray s = o.optJSONArray("sites");
+        for (int k = 0; s != null && k < s.length(); k++) r.sites.add(s.optString(k));
+        return r;
     }
 
     String schedulesJson() {
@@ -79,23 +84,28 @@ public final class Modes {
     static String schedulesJson(List<DailySchedule.Rule> schedules) {
         JSONArray arr = new JSONArray();
         for (DailySchedule.Rule r : schedules) {
-            try {
-                JSONObject o = new JSONObject();
-                o.put("id", r.id);
-                o.put("name", r.name);
-                o.put("enabled", r.enabled);
-                o.put("start", r.start);
-                o.put("end", r.end);
-                o.put("days", r.days);
-                o.put("code", r.code);
-                o.put("apps", new JSONArray(r.apps));
-                o.put("sites", new JSONArray(r.sites));
-                arr.put(o);
-            } catch (JSONException ignored) {
-                // put sa ispravnim ključem i vrednošću ne baca grešku; podaci ostaju kakvi su bili
-            }
+            arr.put(ruleJson(r));
         }
         return arr.toString();
+    }
+
+    /** Režim kao JSON (isti zapis kao u "schedules"). */
+    static JSONObject ruleJson(DailySchedule.Rule r) {
+        JSONObject o = new JSONObject();
+        try {
+            o.put("id", r.id);
+            o.put("name", r.name);
+            o.put("enabled", r.enabled);
+            o.put("start", r.start);
+            o.put("end", r.end);
+            o.put("days", r.days);
+            o.put("code", r.code);
+            o.put("apps", new JSONArray(r.apps));
+            o.put("sites", new JSONArray(r.sites));
+        } catch (JSONException ignored) {
+            // put sa ispravnim ključem i vrednošću ne baca grešku; podaci ostaju kakvi su bili
+        }
+        return o;
     }
 
     void saveSchedules() {
@@ -210,10 +220,7 @@ public final class Modes {
         }
     }
 
-    /**
-     * Dok je režim aktivan ne može da se oslabi: isključi, obriše, promeni mu se period ili dani,
-     * niti da se iz njega uklone aplikacije i sajtovi. Dodavanje i promena naziva su dozvoljeni.
-     */
+    /** Da li režim upravo traje (za prikaz). */
     public boolean scheduleActive(String id) {
         synchronized (store) {
             Calendar now = store.clock.calendarNow();
@@ -224,29 +231,38 @@ public final class Modes {
         }
     }
 
-    /** Briše režim; vraća false ako je upravo aktivan. */
+    /** Podešeni režimi u pref, bez enforce() (to radi Store.change). */
+    private void writeSchedules() {
+        store.sp.edit().putString("schedules", schedulesJson()).apply();
+    }
+
+    /**
+     * Briše režim. Kao svako popuštanje (Store.change): van 06:00–08:00 vraća false i ništa ne menja,
+     * inače staro važi do prekosutra u 06:00.
+     */
     public boolean removeSchedule(String id) {
         synchronized (store) {
             DailySchedule.Rule r = rule(id);
             if (r == null) return true;
-            if (scheduleActive(id)) return false;
-            if (schedules.remove(r)) saveSchedules();
-            return true;
+            return store.change(() -> {
+                schedules.remove(r);
+                writeSchedules();
+            });
         }
     }
 
-    /** Vraća false (i ništa ne menja) ako bi izmena oslabila aktivan režim. */
+    /** Vraća false (i ništa ne menja) ako je izmena popuštanje van 06:00–08:00. Dodavanje i naziv prolaze uvek. */
     public boolean setSchedule(String id, String name, boolean enabled, int start, int end) {
         synchronized (store) {
             DailySchedule.Rule r = rule(id);
             if (r == null) return true;
-            if (scheduleActive(id) && (!enabled || start != r.start || end != r.end)) return false;
-            r.name = name;
-            r.enabled = enabled;
-            r.start = start;
-            r.end = end;
-            saveSchedules();
-            return true;
+            return store.change(() -> {
+                r.name = name;
+                r.enabled = enabled;
+                r.start = start;
+                r.end = end;
+                writeSchedules();
+            });
         }
     }
 
@@ -254,10 +270,10 @@ public final class Modes {
         synchronized (store) {
             DailySchedule.Rule r = rule(id);
             if (r == null) return true;
-            if (scheduleActive(id) && days != r.days) return false;
-            r.days = days;
-            saveSchedules();
-            return true;
+            return store.change(() -> {
+                r.days = days;
+                writeSchedules();
+            });
         }
     }
 
@@ -265,10 +281,10 @@ public final class Modes {
         synchronized (store) {
             DailySchedule.Rule r = rule(id);
             if (r == null) return true;
-            if (!selected && r.apps.contains(pkg) && scheduleActive(id)) return false;
-            if (selected) r.apps.add(pkg); else r.apps.remove(pkg);
-            saveSchedules();
-            return true;
+            return store.change(() -> {
+                if (selected) r.apps.add(pkg); else r.apps.remove(pkg);
+                writeSchedules();
+            });
         }
     }
 
@@ -276,10 +292,10 @@ public final class Modes {
         synchronized (store) {
             DailySchedule.Rule r = rule(id);
             if (r == null) return true;
-            if (!selected && r.sites.contains(domain) && scheduleActive(id)) return false;
-            if (selected) r.sites.add(domain); else r.sites.remove(domain);
-            saveSchedules();
-            return true;
+            return store.change(() -> {
+                if (selected) r.sites.add(domain); else r.sites.remove(domain);
+                writeSchedules();
+            });
         }
     }
 

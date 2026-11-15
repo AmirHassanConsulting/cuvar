@@ -120,13 +120,13 @@ public class ScheduleActivity extends SubActivity {
 
         card.addView(Ui.text(this, effectiveDescription(effective), 15, enabledNow ? Ui.INK : Ui.MUTED, false),
                 Ui.fill(this, 6));
-        if (pending) card.addView(Ui.text(this, "Od sledećih 06:00: " + (desired == null
+        if (pending) card.addView(Ui.text(this, "Posle čekanja, od 06:00: " + (desired == null
                 ? "režim se briše" : description(desired)), 13, Ui.ACCENT, false), Ui.fill(this, 6));
         card.setOnClickListener(v -> {
             if (desired != null) open(r.id);
             else new Sheet(this, "Brisanje režima je zakazano")
-                    .message("Ovo još važi do sledećih 06:00:\n" + effectiveDescription(effective)
-                            + "\n\nZa odustajanje koristi karticu „Od sutra“ na listi režima.")
+                    .message("Ovo još važi do kraja čekanja (06:00):\n" + effectiveDescription(effective)
+                            + "\n\nZa odustajanje koristi karticu „Zakazane promene“ na listi režima.")
                     .secondary("Zatvori", null).show();
         });
         return card;
@@ -182,20 +182,19 @@ public class ScheduleActivity extends SubActivity {
             finish();
             return;
         }
-        page(rule.name, "Izaberi period i dane i dodaj aplikacije i sajtove koji će tada biti blokirani. Strože izmene važe odmah, a blaže (isključivanje, kraći period, manje dana, uklanjanje) tek sutra od 06:00.");
+        page(rule.name, "Izaberi period i dane i dodaj aplikacije i sajtove koji će tada biti blokirani. Dodavanje važi odmah. Izlazak iz režima se traži samo 06:00–08:00 i važi posle 48 sati.");
         List<DailySchedule.Rule> effective = effectiveRules(id);
         if (differs(effective, rule)) {
             LinearLayout current = Ui.card(this);
             current.addView(Ui.text(this, "Važi sada", 16, Ui.INK, true));
             current.addView(Ui.text(this, effectiveDescription(effective), 14, Ui.MUTED, false), Ui.fill(this, 6));
-            current.addView(Ui.text(this, "Podešavanja ispod važe u potpunosti od sledećih 06:00. "
+            current.addView(Ui.text(this, "Podešavanja ispod važe u potpunosti kad istekne čekanje (u 06:00). "
                     + "Pooštravanje važi odmah.", 14, Ui.ACCENT, false), Ui.fill(this, 6));
             content.addView(current, Ui.fill(this, 12));
         }
         boolean active = store.modes.scheduleActive(id);
         if (active) {
-            content.addView(Ui.text(this, "Režim je sada aktivan. Dok traje ne može da se isključi, obriše, skrati ni da mu se promene dani, a aplikacije i sajtovi"
-                    + " mogu samo da se dodaju.", 14, Ui.ACCENT, true), Ui.fill(this, 12));
+            content.addView(Ui.text(this, "Režim je sada aktivan.", 14, Ui.ACCENT, true), Ui.fill(this, 12));
         }
         CheckRow enabled = new CheckRow(this, null, "Režim je uključen", "Blokira u izabranom periodu i danima");
         enabled.setChecked(rule.enabled);
@@ -227,6 +226,8 @@ public class ScheduleActivity extends SubActivity {
         for (String pkg : allApps) apps.add(new String[]{pkg, AppLabels.of(pm, pkg)});
         apps.sort((x, y) -> x[1].compareToIgnoreCase(y[1]));
         heading("Aplikacije", rule.apps.size());
+        content.addView(Ui.text(this, "Dodavanje važi odmah. Izlazak iz režima se traži samo 06:00–08:00 i važi posle 48 sati.",
+                13, Ui.MUTED, false), Ui.fill(this, 4));
         LinearLayout appBox = Ui.group(this);
         if (apps.isEmpty()) note(appBox, "Još nema aplikacija u režimu.");
         for (String[] x : apps) {
@@ -288,7 +289,7 @@ public class ScheduleActivity extends SubActivity {
 
     /**
      * Red stavke: ikonica, naziv i malo dugme. Ceo red se ne tapka, da se stavka ne ukloni slučajno.
-     * Stavka koja je uklonjena a važi do 06:00 nudi "Vrati" (pooštravanje, važi odmah).
+     * Stavka koja je uklonjena a još važi nudi "Vrati" (pooštravanje, važi odmah).
      */
     private void itemRow(LinearLayout group, View icon, String name, boolean leaving, Runnable remove, Runnable restore) {
         divider(group);
@@ -303,7 +304,7 @@ public class ScheduleActivity extends SubActivity {
         title.setSingleLine(true);
         title.setEllipsize(android.text.TextUtils.TruncateAt.END);
         texts.addView(title);
-        if (leaving) texts.addView(Ui.text(this, "Uklonjeno, važi do 06:00", 13, Ui.ACCENT, false), Ui.fill(this, 3));
+        if (leaving) texts.addView(Ui.text(this, "Uklonjeno, važi još do kraja čekanja", 13, Ui.ACCENT, false), Ui.fill(this, 3));
         LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
         tp.leftMargin = Ui.dp(this, 12);
         row.addView(texts, tp);
@@ -359,9 +360,9 @@ public class ScheduleActivity extends SubActivity {
         return t;
     }
 
-    /** Izmena bi oslabila aktivan režim: ekran se vraća na sačuvano stanje. */
+    /** Izlazak iz režima van 06:00–08:00 je odbijen: ekran se vraća na sačuvano stanje. */
     private void refused() {
-        Ui.toast(this, "Režim je sada aktivan i to ne može da se promeni do kraja perioda");
+        Ui.toast(this, "Izlazak iz režima (uklanjanje, isključivanje, kraći period, manje dana) može da se zatraži samo od 06:00 do 08:00, a važi posle 48 sati.");
         render();
     }
 

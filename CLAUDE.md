@@ -66,11 +66,14 @@ Model se menja u polju `model:` u `.claude/agents/<ime>.md`.
 
 ## Pravila aplikacije koja treba poštovati u kodu
 
-- Pooštravanje važi odmah, popuštanje tek od sledećeg jutra u 06:00. `Store` drži
+- Pooštravanje važi odmah. Popuštanje (od 15. 11. 2026) može da se zatraži samo
+  06:00–08:00 i važi prekosutra u 06:00 (~48 h): `Store.change()` odbija van prozora i
+  pravi hold (snimak podešenog pre izmene, `rules/ModeHolds`); režim koji traje preko
+  06:00 ostaje do kraja perioda (`carry`). `Store` drži
   podešeno stanje (`apps`, `sites`, `schedules`) i stanje koje sada važi (`eApps`,
   `eSites`, `eSchedules`, `eNight`, `eProtect`); servis čita samo `...Now()` metode.
   Svako novo podešavanje koje može da olakša korisniku mora da prođe kroz isti
-  mehanizam (`enforce()`, `pendingChanges()`, `cancelPending()`).
+  mehanizam (`change()`, `enforce()`, `pendingChanges()`, `cancelPending()`).
 - Potrošen limit (dnevni, aplikacije, sajta), noćna blokada, režim, fokus,
   broj otvaranja i pauza su "tvrde" blokade (`GuardService.hard`): ne otključavaju
   se ni šifrom.

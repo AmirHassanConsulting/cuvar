@@ -118,21 +118,26 @@ otključavanje jedne stavke ne otvara druge.
 - Tvrde blokade (ukupni limit, potrošen limit, otvaranja, pauza u komadu,
   režim, fokus) se ne otključavaju ni šifrom ni hitno.
 
-### 6. Pooštravanje odmah, popuštanje u 06:00
+### 6. Pooštravanje odmah, popuštanje samo ujutru i posle 48 h
 
-Strožije pravilo važi odmah. Svako popuštanje (veći limit, skinuto zaključavanje,
-isključen ili skraćen režim, aplikacija izbačena iz režima, isključena zaštita) važi tek od **sledećih 06:00**. Kartica
-"Zakazane promene" pokazuje šta čeka i može da se otkaže.
+Strožije pravilo važi odmah. Svako popuštanje (veći limit, skinuto zaključavanje, sajt skinut sa liste,
+isključen, obrisan ili skraćen režim, manje dana, aplikacija ili sajt izbačen iz režima, isključena zaštita,
+izuzetak od noćne blokade ili ukupnog limita, razdvojen par aplikacija–sajt) može da se **zatraži samo od 06:00
+do 08:00** (pouzdan sat); van toga se odbija uz poruku i ništa se ne menja. Prihvaćeno popuštanje važi tek
+**prekosutra u 06:00** (~48 h): do tada važi podešavanje od pre zahteva (`ModeHolds`, pref `holds`).
+Kartica "Zakazane promene" pokazuje šta čeka i datum, i može da se otkaže.
 
-Dok režim traje, ne može da se isključi, obriše, skrati, promene mu se dani,
-ni da se iz njega izbaci aplikacija ili sajt. Dodavanje može.
+Režim koji traje preko 06:00 (npr. 23–08) ne pušta uklonjenu stavku u 06:00: deo koji upravo traje
+ostaje do kraja svog perioda. Dodavanje u režim važi odmah, bilo kad.
+Ne dira se: ukupni dnevni limit, fokus, dnevna šifra, pozivi koji prolaze (oni imaju svoja pravila).
+Izuzetak od ukupnog limita i dalje važi odmah za jednu stavku dnevno, ali se i on traži samo 06–08.
 
 ### 7. "Ukloni iz pravila"
 
-Klik odmah skida aplikaciju ili sajt iz svih pravila i režima u podešavanju, bez pitanja.
-Kao svako popuštanje, pravilo i dalje važi do **sledećih 06:00**, pa nestaje samo. Do tada
-se stavka vidi u "Zakazane promene" i može da se vrati ("Odustani od ovih promena").
-Zahtevi iz starije verzije (čekali su potvrdu) pri prvom pokretanju postaju ovakvo uklanjanje.
+Skida aplikaciju ili sajt iz svih pravila i režima u podešavanju. Kao svako popuštanje, traži se samo
+od 06:00 do 08:00 (inače poruka i ništa se ne menja), a pravilo i dalje važi do **prekosutra u 06:00**.
+Do tada se stavka vidi u "Zakazane promene" i može da se vrati ("Odustani od ovih promena").
+Zahtevi iz starije verzije (čekali su potvrdu) pri prvom pokretanju postaju ovakvo uklanjanje (bez provere prozora).
 
 ### 8. Dani i satovi
 

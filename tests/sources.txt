@@ -1,4 +1,5 @@
 app/src/main/java/com/cuvar/app/rules/DailySchedule.java
+app/src/main/java/com/cuvar/app/rules/ModeHolds.java
 app/src/main/java/com/cuvar/app/rules/DailyCode.java
 app/src/main/java/com/cuvar/app/rules/AccessibilityShortcut.java
 app/src/main/java/com/cuvar/app/rules/DayLimit.java

@@ -204,8 +204,7 @@ public class MainActivity extends Activity {
         nowBox = null;
         todaySlot = null;
         codeSlot = null;
-        LinearLayout col = titled("Pravila", "Pooštravanje važi odmah, a popuštanje tek sutra od 0"
-                + DailyCode.NIGHT_END_HOUR + ":00.");
+        LinearLayout col = titled("Pravila", "Pooštravanje važi odmah. Popuštanje se traži samo od 06:00 do 08:00 i važi posle 48 sati.");
 
         View pending = pendingCard(this, store, this::showDashboard);
         if (pending != null) col.addView(pending, Ui.fill(this, 18));
@@ -217,7 +216,7 @@ public class MainActivity extends Activity {
                 v -> startActivity(new Intent(this, FocusActivity.class)));
         Ui.groupRow(this, whole, "Zaštita od isključivanja", store.protectNow()
                 ? "Uključena · Čuvar ne može da se isključi ni obriše"
-                    + (store.protectSelf() ? "" : " · isključuje se od sledećih 06:00")
+                    + (store.protectSelf() ? "" : " · isključivanje je zakazano")
                 : "Isključena", v -> sheets.chooseProtect());
         col.addView(whole, Ui.fill(this, 8));
 
@@ -417,14 +416,14 @@ public class MainActivity extends Activity {
         if (store.protectNow() && !store.protectSelf()) {
             // isključivanje zaštite je već zakazano: prečica se gasi tek kad zaštita prestane da važi
             return setupCard("UPOZORENJE", "Prečica može da isključi Čuvara",
-                    body + "Zaštita od isključivanja se isključuje od sledećih 06:00. Tada isključi prečicu: "
+                    body + "Isključivanje zaštite od isključivanja je zakazano. Kad prestane da važi, isključi prečicu: "
                             + "Podešavanja → Pristupačnost → Čuvar → isključi „Prečica za Čuvar“. Čuvar prečicu ne gasi sam.",
                     null, null, null, null);
         }
         if (store.protectNow()) {
             return setupCard("UPOZORENJE", "Prečica može da isključi Čuvara",
                     body + "Zaštita od isključivanja je uključena, pa Čuvar zatvara svoj ekran u Pristupačnosti i prečicu "
-                            + "tamo ne možeš da isključiš. Prvo isključi zaštitu u Čuvaru (važi od sledećeg jutra u 06:00), "
+                            + "tamo ne možeš da isključiš. Prvo isključi zaštitu u Čuvaru (traži se od 06:00 do 08:00, važi posle 48 sati), "
                             + "pa onda prečicu. Čuvar prečicu ne gasi sam.",
                     "Podešavanje zaštite", Safe.click("shortcutProtect", v -> sheets.chooseProtect()), null, null);
         }
@@ -510,16 +509,18 @@ public class MainActivity extends Activity {
         if (items.isEmpty()) return null;
         LinearLayout card = Ui.card(a);
         card.addView(Ui.text(a, "Zakazane promene", 16, Ui.ACCENT, true));
-        card.addView(Ui.text(a, (items.size() == 1 ? "1 promena" : items.size() + " promena")
-                        + " čeka primenu sutra u 0" + DailyCode.NIGHT_END_HOUR + ":00. Do tada ostaje strožije pravilo.",
+        int n = 0;
+        for (String it : items) if (!it.startsWith(Store.PENDING_UNTIL)) n++;
+        card.addView(Ui.text(a, (n == 1 ? "1 promena" : n + " promena")
+                        + " čeka primenu. Popuštanje važi prekosutra u 06:00. Do tada ostaje strožije pravilo.",
                 13, Ui.MUTED, false),
                 Ui.fill(a, 4));
         TextView details = Ui.button(a, "Prikaži promene", false);
         details.setOnClickListener(v -> {
             StringBuilder sb = new StringBuilder();
             for (String it : items) sb.append(sb.length() == 0 ? "" : "\n\n").append(it);
-            new Sheet(a, "Promene od sutra")
-                    .message("Ove izmene će početi u 0" + DailyCode.NIGHT_END_HOUR + ":00:\n\n" + sb)
+            new Sheet(a, "Zakazane promene")
+                    .message("Ove izmene čekaju primenu:\n\n" + sb)
                     .secondary("Zatvori", null)
                     .show();
         });

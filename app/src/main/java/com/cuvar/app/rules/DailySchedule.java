@@ -124,7 +124,7 @@ public final class DailySchedule {
     }
 
     /** Da li a već sadrži sva ograničenja b, uključujući šifru van perioda. */
-    private static boolean coversRule(Rule a, Rule b) {
+    public static boolean covers(Rule a, Rule b) {
         if (!b.enabled) return true;
         if (!a.enabled || (b.code && !a.code) || !a.apps.containsAll(b.apps)) return false;
         for (String site : b.sites) if (matchDomain(site, a.sites) == null) return false;
@@ -150,8 +150,8 @@ public final class DailySchedule {
         for (Iterator<Rule> it = out.iterator(); it.hasNext();) {
             Rule old = it.next();
             if (!old.id.equals(candidate.id)) continue;
-            if (coversRule(candidate, old)) it.remove();
-            else if (coversRule(old, candidate)) return;
+            if (covers(candidate, old)) it.remove();
+            else if (covers(old, candidate)) return;
         }
         out.add(candidate);
     }

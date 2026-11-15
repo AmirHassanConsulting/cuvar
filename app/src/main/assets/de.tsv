@@ -495,7 +495,7 @@ Od sledećih 06:00: 	Ab nächstem 06:00:
 režim se briše	Modus wird gelöscht
 Brisanje režima je zakazano	Löschen des Modus ist geplant
 Ovo još važi do sledećih 06:00:\n	Das gilt noch bis zum nächsten 06:00:\n
-\n\nZa odustajanje koristi karticu „Od sutra“ na listi režima.	\n\nZum Abbrechen nutze die Karte „Ab morgen“ in der Liste der Modi.
+\n\nZa odustajanje koristi karticu „Zakazane promene“ na listi režima.	\n\nZum Abbrechen nutze die Karte „Geplante Änderungen“ in der Liste der Modi.
  · dnevna šifra	 · Tagescode
 Bez aktivnih pravila	Keine aktiven Regeln
 Izaberi period i dane i dodaj aplikacije i sajtove koji će tada biti blokirani. Strože izmene važe odmah, a blaže (isključivanje, kraći period, manje dana, uklanjanje) tek sutra od 06:00.	Wähle Zeitraum und Tage und füge die Apps und Websites hinzu, die dann gesperrt werden. Strengere Änderungen gelten sofort, lockerere (Ausschalten, kürzerer Zeitraum, weniger Tage, Entfernen) erst ab morgen 06:00.
@@ -832,3 +832,33 @@ Uklonjeno, važi do 06:00	Entfernt, gilt bis 06:00
 Dnevna šifra je danas već iskorišćena. Sledeće otključavanje je moguće sutra od 	Der Tagescode ist heute schon verbraucht. Die nächste Entsperrung ist morgen ab 
 Iskorišćena	Verbraucht
 Šifra otključava jednom dnevno. Nova stiže sutra u 	Der Code entsperrt einmal pro Tag. Ein neuer kommt morgen um 
+Zatražena popuštanja važe najkasnije od 	Angeforderte Lockerungen gelten spätestens ab 
+ u 06:00	 um 06:00
+Pooštravanje važi odmah, a popuštanje posle 48 sati, prekosutra u 06:00.	Verschärfungen gelten sofort, Lockerungen nach 48 Stunden, übermorgen um 06:00.
+Uklanja se prekosutra u 06:00. Do tada pravilo važi.	Wird übermorgen um 06:00 entfernt. Bis dahin gilt die Regel.
+Popuštanje pravila može da se zatraži samo od 06:00 do 08:00, a važi posle 48 sati.	Eine Regel kann nur von 06:00 bis 08:00 gelockert werden, und das gilt erst nach 48 Stunden.
+ je van ukupnog limita od prekosutra u 06:00	 ist ab übermorgen um 06:00 außerhalb des Gesamtlimits
+4. Strože pravilo važi odmah. Blaže se traži samo od 06:00 do 08:00 i važi posle 48 sati.\n	4. Eine strengere Regel gilt sofort. Eine lockerere kann nur von 06:00 bis 08:00 angefordert werden und gilt nach 48 Stunden.\n
+Isključuje se posle čekanja, u 06:00	Wird nach der Wartezeit um 06:00 ausgeschaltet
+Posle čekanja: 	Nach der Wartezeit: 
+Ukida se posle čekanja, u 06:00: 	Wird nach der Wartezeit um 06:00 aufgehoben: 
+Posle čekanja, od 06:00: 	Nach der Wartezeit, ab 06:00: 
+Vreme u njoj ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Traži se samo od 06:00 do 08:00; jedna aplikacija dnevno važi odmah, ostale posle 48 sati	Die Zeit darin zählt nicht zum Gesamtlimit, und sie wird nicht gesperrt, wenn es abläuft; andere Regeln gelten weiter. Nur von 06:00 bis 08:00 anforderbar; eine App pro Tag gilt sofort, andere nach 48 Stunden
+Vreme na njemu ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Traži se samo od 06:00 do 08:00; jedna stavka dnevno važi odmah, ostale posle 48 sati	Die Zeit darauf zählt nicht zum Gesamtlimit, und sie wird nicht gesperrt, wenn es abläuft; andere Regeln gelten weiter. Nur von 06:00 bis 08:00 anforderbar; ein Eintrag pro Tag gilt sofort, andere nach 48 Stunden
+a pravilo može da se skine samo od 06:00 do 08:00, i to važi posle 48 sati.	und die Regel kann nur von 06:00 bis 08:00 entfernt werden; das gilt nach 48 Stunden.
+Ovo još važi do kraja čekanja (06:00):\n	Das gilt noch bis zum Ende der Wartezeit (06:00):\n
+Izaberi period i dane i dodaj aplikacije i sajtove koji će tada biti blokirani. Dodavanje važi odmah. Izlazak iz režima se traži samo 06:00–08:00 i važi posle 48 sati.	Wähle Zeitraum und Tage und füge die Apps und Websites hinzu, die dann gesperrt werden. Hinzufügen gilt sofort. Das Verlassen eines Modus kann nur 06:00–08:00 angefordert werden und gilt nach 48 Stunden.
+Podešavanja ispod važe u potpunosti kad istekne čekanje (u 06:00). 	Die Einstellungen unten gelten vollständig, wenn die Wartezeit endet (um 06:00). 
+Režim je sada aktivan.	Der Modus läuft gerade.
+Dodavanje važi odmah. Izlazak iz režima se traži samo 06:00–08:00 i važi posle 48 sati.	Hinzufügen gilt sofort. Das Verlassen eines Modus kann nur 06:00–08:00 angefordert werden und gilt nach 48 Stunden.
+Uklonjeno, važi još do kraja čekanja	Entfernt, gilt noch bis zum Ende der Wartezeit
+Izlazak iz režima (uklanjanje, isključivanje, kraći period, manje dana) može da se zatraži samo od 06:00 do 08:00, a važi posle 48 sati.	Das Verlassen eines Modus (Entfernen, Ausschalten, kürzerer Zeitraum, weniger Tage) kann nur von 06:00 bis 08:00 angefordert werden und gilt nach 48 Stunden.
+ · isključivanje je zakazano	 · Ausschalten ist geplant
+Isključivanje zaštite od isključivanja je zakazano. Kad prestane da važi, isključi prečicu: 	Das Ausschalten des Schutzes ist geplant. Wenn er nicht mehr gilt, schalte die Verknüpfung aus: 
+tamo ne možeš da isključiš. Prvo isključi zaštitu u Čuvaru (traži se od 06:00 do 08:00, važi posle 48 sati), 	kannst du sie dort nicht ausschalten. Schalte zuerst den Schutz in Čuvar aus (anforderbar von 06:00 bis 08:00, gilt nach 48 Stunden), 
+ čeka primenu. Popuštanje važi prekosutra u 06:00. Do tada ostaje strožije pravilo.	 wartet auf Anwendung. Lockerungen gelten übermorgen um 06:00. Bis dahin bleibt die strengere Regel.
+Ove izmene čekaju primenu:\n\n	Diese Änderungen warten auf Anwendung:\n\n
+Pooštravanje važi odmah. Popuštanje se traži samo od 06:00 do 08:00 i važi posle 48 sati.	Verschärfungen gelten sofort. Lockerungen können nur von 06:00 bis 08:00 angefordert werden und gelten nach 48 Stunden.
+Isključivanje se traži samo od 06:00 do 08:00 i važi posle 48 sati, pa tek tada Čuvar može da se ukloni.	Das Ausschalten kann nur von 06:00 bis 08:00 angefordert werden und gilt nach 48 Stunden; erst dann kann Čuvar entfernt werden.
+Uključivanje važi odmah. Isključivanje se traži samo od 06:00 do 08:00 i važi posle 48 sati.	Einschalten gilt sofort. Ausschalten kann nur von 06:00 bis 08:00 angefordert werden und gilt nach 48 Stunden.
+Zatraži isključivanje	Ausschalten anfordern

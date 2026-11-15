@@ -8,7 +8,6 @@ import com.cuvar.app.guard.GuardDiagnostics;
 import com.cuvar.app.guard.LoadMeter;
 import com.cuvar.app.i18n.Lang;
 import com.cuvar.app.i18n.Translit;
-import com.cuvar.app.rules.DailyCode;
 import com.cuvar.app.rules.DayLimit;
 import com.cuvar.app.unlock.NumberGame;
 import com.cuvar.app.unlock.NumberGameView;
@@ -302,17 +301,20 @@ public final class SettingsSheets {
                 .show();
     }
 
-    /** Zaštita od isključivanja: uključivanje važi odmah, isključivanje tek sutra od 06:00. */
+    /** Zaštita od isključivanja: uključivanje važi odmah, isključivanje se traži 06–08 i važi posle 48 sati. */
     public void chooseProtect() {
         boolean on = store.protectSelf();
         Sheet sheet = new Sheet(a, "Zaštita od isključivanja").message("Dok je uključena, Čuvar zatvara ekrane telefona "
                 + "na kojima bi mogao da se isključi u Pristupačnosti, zaustavi, obriše mu se podaci ili da se deinstalira. "
                 + "Ažuriranje Čuvara i dalje radi.\n\n"
-                + (on ? "Isključivanje važi tek sutra od 0" + DailyCode.NIGHT_END_HOUR + ":00, pa tek tada Čuvar može da se ukloni."
-                      : "Uključivanje važi odmah, a isključivanje tek sledećeg jutra od 0" + DailyCode.NIGHT_END_HOUR + ":00."))
+                + (on ? "Isključivanje se traži samo od 06:00 do 08:00 i važi posle 48 sati, pa tek tada Čuvar može da se ukloni."
+                      : "Uključivanje važi odmah. Isključivanje se traži samo od 06:00 do 08:00 i važi posle 48 sati."))
                 .secondary("Zatvori", null);
-        sheet.primary(on ? "Isključi od sutra" : "Uključi", () -> {
-            store.setProtectSelf(!on);
+        sheet.primary(on ? "Zatraži isključivanje" : "Uključi", () -> {
+            if (!store.setProtectSelf(!on)) {
+                Ui.toast(a, "Popuštanje pravila može da se zatraži samo od 06:00 do 08:00, a važi posle 48 sati.");
+                return false;
+            }
             refresh.run();
             return true;
         });

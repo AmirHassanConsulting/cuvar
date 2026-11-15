@@ -89,6 +89,27 @@ public final class EnforcedRules {
                 links);
     }
 
+    /** Da li bi after bilo blaže od before u bilo čemu (tada je to popuštanje: samo 06–08, važi prekosutra). */
+    public static boolean loosens(EnforcedRules before, EnforcedRules after) {
+        for (Map.Entry<String, AppRule> e : before.apps.entrySet()) {
+            AppRule a = after.apps.get(e.getKey());
+            if (a == null) a = AppRule.NONE;
+            AppRule s = AppRule.stricter(e.getValue(), a);
+            if (s.lock != a.lock || s.limit != a.limit || s.opens != a.opens || s.session != a.session) return true;
+        }
+        for (Map.Entry<String, Integer> e : before.sites.entrySet()) {
+            Integer v = after.sites.get(e.getKey());
+            int a = v == null ? RuleMerge.NO_SITE : v;
+            if (RuleMerge.stricterSite(a, e.getValue()) != a) return true;
+        }
+        for (DailySchedule.Rule r : before.schedules) {
+            if (ModeHolds.loosens(r, byId(after.schedules, r.id))) return true;
+        }
+        if ((before.night && !after.night) || (before.protect && !after.protect)) return true;
+        if (!before.nightFree.containsAll(after.nightFree) || !before.dayFree.containsAll(after.dayFree)) return true;
+        return !after.links.containsAll(before.links);
+    }
+
     /** Popuštanje limita sajta rečima, ili null kad se ništa ne popušta (wanted: NO_SITE = skida se sa liste). */
     public static String siteRelaxation(String domain, int now, int wanted) {
         if (now == wanted) return null;

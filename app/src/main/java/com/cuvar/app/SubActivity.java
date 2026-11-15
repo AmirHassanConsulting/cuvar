@@ -75,7 +75,7 @@ public abstract class SubActivity extends Activity {
         }
         new Sheet(this, "Zaključaće se odmah")
                 .message(why + ". Čim " + label + " dobije pravilo, zaključava se do sutra ujutru, "
-                        + "a pravilo može da se skine tek sutra od 06:00.")
+                        + "a pravilo može da se skine samo od 06:00 do 08:00, i to važi posle 48 sati.")
                 .secondary("Otkaži", null)
                 .primary("Ipak dodaj", () -> {
                     save.run();
