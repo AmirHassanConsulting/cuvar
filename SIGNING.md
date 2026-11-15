@@ -1,5 +1,7 @@
 # Potpisivanje izdanja
 
+**Srpski** · [English](SIGNING.en.md)
+
 Debug build koristi Android razvojni ključ i paket `com.cuvar.app.debug`, pa se
 može instalirati pored postojeće aplikacije.
 

@@ -1,5 +1,7 @@
 # Čuvar — uputstvo za Claude
 
+**Srpski** · [English](CLAUDE.en.md) (prevod za ljude; kad menjaš pravila, uskladi i njega)
+
 Android aplikacija (Java) koja korisniku ograničava korišćenje telefona: pravila po
 aplikaciji i sajtu, dnevni limiti, noćni blok 22–06, dnevna šifra 17–22 kao jedino
 otključavanje, pitalice pri otključavanju. Glavna logika je u `GuardService`
@@ -94,7 +96,7 @@ Model se menja u polju `model:` u `.claude/agents/<ime>.md`.
 - Tekst se u kodu piše na srpskom latinicom. Prikaz ga sam prevodi na ćirilicu
   (`Translit`) ili engleski (`Lang`).
 - Svaki novi tekst u interfejsu mora da dobije red u `app/src/main/assets/en.tsv`
-  (srpski TAB engleski; kako, bez čitanja celog fajla: skill `novi-tekst`).
+  (srpski TAB engleski; kako, bez čitanja celog fajla: skill `novi-tekst`) i u `de.tsv` (nemački).
 - Tekst koji ne ide kroz `Ui.Label` (Toast, hint, tekst na grafikonu) obavij sa
   `Ui.cyr(...)`. Naziv aplikacije prijavi sa `Translit.keep(...)` da ostane kako jeste.
 

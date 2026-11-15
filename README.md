@@ -1,5 +1,7 @@
 # Čuvar
 
+**Srpski** · [English](README.en.md) · Za kontributore: [CONTRIBUTING.md](CONTRIBUTING.md)
+
 Čuvar je Android aplikacija za samokontrolu: pomaže da manje vremena provodiš na
 telefonu. Za izabrane aplikacije i sajtove postavljaš pravila (zaključavanje,
 dnevni limit, broj otvaranja, vremenski režimi), a Čuvar ih sprovodi tako što

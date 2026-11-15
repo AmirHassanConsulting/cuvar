@@ -1,5 +1,7 @@
 # Arhitektura Čuvara
 
+**Srpski** · [English](ARCHITECTURE.en.md)
+
 Kratko: Čuvar koristi **slojeve po ulozi** (paketi `ui`, `data`, `rules`, `guard`,
 `web`, `unlock`, `i18n`). Po duhu je to MVC: `data.Store` je model, aktivnosti su
 kontroleri, a `ui` pravi prikaz iz koda. Pravila koja odlučuju šta se blokira su

@@ -1,3 +1,5 @@
+**Srpski** · [English](README.en.md)
+
 # Pokretanje svih automatskih provera
 
 Iz korena projekta, uz instaliranu Javu 11 ili noviju i PowerShell:
