@@ -32,6 +32,7 @@ public class ScheduleActivity extends SubActivity {
     private static final String EXTRA_ID = "id";
 
     private LinearLayout content;
+    private ScrollView scroll;
     private String id;
 
     @Override protected void onCreate(Bundle state) {
@@ -50,7 +51,9 @@ public class ScheduleActivity extends SubActivity {
     }
 
     private LinearLayout page(String title, String sub) {
-        ScrollView scroll = new ScrollView(this);
+        // Posle izmene (npr. "Ukloni") ekran se crta ponovo: ostaje na istom mestu, ne skače na vrh.
+        int y = scroll == null ? 0 : scroll.getScrollY();
+        scroll = new ScrollView(this);
         scroll.setBackgroundColor(Ui.BG);
         LinearLayout root = Ui.column(this);
         root.addView(header(title, sub));
@@ -60,6 +63,10 @@ public class ScheduleActivity extends SubActivity {
         root.addView(content);
         scroll.addView(root);
         setContentView(scroll);
+        if (y > 0) {
+            ScrollView view = scroll;
+            view.post(Safe.task("scheduleScroll", () -> view.scrollTo(0, y)));
+        }
         return content;
     }
 
