@@ -144,7 +144,7 @@ Zahtevi iz starije verzije (čekali su potvrdu) pri prvom pokretanju postaju ova
 - Izmereno vreme, limiti, broj otvaranja, hitno otključavanje i broj
   otključavanja kreću iz početka u **ponoć**.
 - Zakazana popuštanja (i uklanjanje iz pravila) računaju dan od **06:00**.
-- Dnevna šifra se menja u **17:00** i otključava **najviše jednom dnevno**.
+- Dnevna šifra se menja u **17:00**.
 - Promena vremenske zone (i automatska) važi tek od sledećih **06:00** po dosadašnjoj zoni.
 - Automatsko vreme se prati samo dok se sat telefona slaže sa vremenom sa mreže (Android 13+).
 - Sve se računa po "pouzdanom satu": pomeranje sata ili zone ne skraćuje režim,
