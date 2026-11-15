@@ -61,7 +61,7 @@ Režim „	Mode “
 Unesi dnevnu šifru. Važi od 	Enter the daily code. It works from 
 :00 do 	:00 to 
 :00 i vidi se u Čuvaru.	:00 and is shown in Čuvar.
-U ovom pregledaču Čuvar ne vidi koji je sajt otvoren, pa je zaključan dok imaš pravila za sajtove. 	In this browser Čuvar can't see which site is open, so it stays locked while you have site rules. 
+U ovom pregledaču Čuvar ne vidi koji je sajt otvoren, pa je zaključan dok imaš pravila za sajtove ili za pregledač. 	In this browser Čuvar can't see which site is open, so it stays locked while you have site or browser rules. 
 Koristi Chrome, Samsung Internet, Firefox, Edge, Brave ili Vivaldi. Otvara se dnevnom šifrom, od 	Use Chrome, Samsung Internet, Firefox, Edge, Brave or Vivaldi. It opens with the daily code, from 
 U aplikaciji za kloniranje bi se zaključane aplikacije otvarale pod drugim imenom. 	In an app cloner, locked apps would open under another name. 
 Zato je zaključana dok imaš pravila za aplikacije. Otvara se dnevnom šifrom, od 	So it stays locked while you have app rules. It opens with the daily code, from 
@@ -731,7 +731,7 @@ zadatak	task
 zadatka	tasks
 zadataka	tasks
 . otključavanje danas: 	 unlock today: 
-Svako sledeće otključavanje u danu je teže, za sve aplikacije zajedno. Greške ne povećavaju težinu.	Each next unlock of the day is harder, for all apps together. Mistakes do not make it harder.
+Dnevna šifra otključava jednom dnevno, za sve aplikacije zajedno. Greške se ne računaju.	The daily code unlocks once a day, for all apps together. Mistakes are not counted.
 Strelice, boje, uljez, pamćenje i niz: nekoliko brzih zadataka redom. Greška ili isteklo vreme vraća na početak.	Arrows, colors, odd one out, memory and sequence: a few quick tasks in a row. A mistake or running out of time starts over.
 
 Igrica: strelice	Game: arrows
@@ -802,8 +802,8 @@ Vreme u njoj ne troši ukupni limit i ne zaključava se kad on istekne; ostala p
 Uklanja se sutra u 06:00. Do tada pravilo važi.	Removed tomorrow at 06:00. Until then the rule applies.
 Šifra stiže u 	The code arrives at 
 :00, vidi se ovde do 	:00, it is shown here until 
-:00 i menja se posle svakog otključavanja.	:00 and changes after every unlock.
-Svaka šifra važi za jedno otključavanje; posle njega se ovde pojavi nova. Otključava samo do 	Each code works for one unlock; after it a new one appears here. It unlocks only until 
+:00 i otključava jednom dnevno.	:00 and unlocks once a day.
+Šifra otključava jednom dnevno, do 	The code unlocks once a day, until 
 :00.	:00.
 Pogrešna šifra. Posle svakog otključavanja Čuvar pokazuje novu.	Wrong code. After every unlock Čuvar shows a new one.
 Vreme na njemu ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Jedna stavka dnevno odmah, ostale od sutra u 06:00	Time on it does not use the total limit and it does not lock when that runs out; other rules still apply. One item per day right away, others from 06:00 tomorrow
@@ -830,3 +830,6 @@ Vrati	Restore
 +  Dodaj aplikacije	+  Add apps
 +  Dodaj sajt	+  Add site
 Uklonjeno, važi do 06:00	Removed, applies until 06:00
+Dnevna šifra je danas već iskorišćena. Sledeće otključavanje je moguće sutra od 	Today's daily code is already used. The next unlock is possible tomorrow from 
+Iskorišćena	Used
+Šifra otključava jednom dnevno. Nova stiže sutra u 	The code unlocks once a day. A new one arrives tomorrow at 

@@ -1,5 +1,6 @@
 package com.cuvar.app.web;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -46,6 +47,16 @@ public final class Browsers {
 
     public static boolean isBrowser(String pkg) {
         return pkg != null && BROWSERS.containsKey(pkg);
+    }
+
+    /**
+     * Poznat pregledač bez svog pravila deli pravila sa prvim (po redu iz spiska) poznatim pregledačem koji ih ima.
+     * Vraća taj pregledač, ili null kad pkg nije poznat pregledač, sam ima pravilo ili nijedan drugi nema.
+     */
+    public static String ruledBrowserFor(String pkg, Collection<String> guarded) {
+        if (!isBrowser(pkg) || guarded == null || guarded.contains(pkg)) return null;
+        for (String b : BROWSER_PACKAGES) if (guarded.contains(b)) return b;
+        return null;
     }
 
     /** ID polja za adresu u pregledaču, ili null kad paket nije poznat pregledač. */

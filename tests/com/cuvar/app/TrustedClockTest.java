@@ -47,6 +47,10 @@ public final class TrustedClockTest {
         check(!TrustedClock.sameBoot(false, 7, 7, 0, 0), "Ništa nije sačuvano");
         check(TrustedClock.sameBoot(true, -1, -2, 500, 400), "Bez broja: vreme od paljenja raste");
         check(!TrustedClock.sameBoot(true, -1, -2, 300, 400), "Bez broja: vreme od paljenja je manje, novo paljenje");
+        check(TrustedClock.networkAgrees(WALL, WALL + 60000L) && TrustedClock.networkAgrees(WALL, WALL - 60000L),
+                "Mreža se slaže do 60 s");
+        check(!TrustedClock.networkAgrees(WALL + 3 * 3600000L, WALL) && !TrustedClock.networkAgrees(WALL, WALL + 60001L),
+                "Pomeren sat se ne slaže sa mrežom");
         System.out.println("TrustedClockTest: " + checks + " provera prošlo.");
     }
 

@@ -164,7 +164,7 @@ public final class SettingsSheets {
                 13, Ui.MUTED, false), Ui.fill(a, 12));
         box.addView(Ui.text(a, "Strelice, boje, uljez, pamćenje i niz: nekoliko brzih zadataka redom. Greška ili isteklo vreme vraća na početak.",
                 13, Ui.MUTED, false), Ui.fill(a, 8));
-        box.addView(Ui.text(a, "Svako sledeće otključavanje u danu je teže, za sve aplikacije zajedno. Greške ne povećavaju težinu.",
+        box.addView(Ui.text(a, "Dnevna šifra otključava jednom dnevno, za sve aplikacije zajedno. Greške se ne računaju.",
                 13, Ui.MUTED, false), Ui.fill(a, 8));
         sheet.show();
     }

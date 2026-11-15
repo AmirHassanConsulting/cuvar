@@ -35,6 +35,11 @@ public final class TrustedClock {
         return Math.max(base, lastTrusted) - el;
     }
 
+    /** Da li se sat telefona slaže sa vremenom sa mreže (razlika najviše 60 s). */
+    public static boolean networkAgrees(long wall, long network) {
+        return Math.abs(wall - network) <= 60000L;
+    }
+
     /** Šta uraditi pri čitanju pouzdanog vremena. autoTime se pita samo kad zatreba. */
     public static int onRead(long el, long wall, long offset, long savedSkew, long savedAtEl, BooleanSupplier autoTime) {
         long skew = wall - (el + offset);

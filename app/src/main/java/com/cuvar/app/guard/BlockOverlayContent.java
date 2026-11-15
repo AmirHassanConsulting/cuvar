@@ -87,7 +87,7 @@ public final class BlockOverlayContent {
             joke = Jokes.pick(Jokes.SCHEDULE);
         } else if (kind == GuardService.KIND_BROWSER) {
             title = name + " je zaključan";
-            sub = "U ovom pregledaču Čuvar ne vidi koji je sajt otvoren, pa je zaključan dok imaš pravila za sajtove. "
+            sub = "U ovom pregledaču Čuvar ne vidi koji je sajt otvoren, pa je zaključan dok imaš pravila za sajtove ili za pregledač. "
                     + "Koristi Chrome, Samsung Internet, Firefox, Edge, Brave ili Vivaldi. Otvara se dnevnom šifrom, od "
                     + DailyCode.CHANGE_HOUR + ":00 do " + DailyCode.LOCK_HOUR + ":00.";
             joke = Jokes.pick(Jokes.LOCK);
@@ -197,9 +197,9 @@ public final class BlockOverlayContent {
             later.setGravity(Gravity.CENTER);
             box.addView(later, Ui.fill(c, 22));
         } else if (code && !GuardService.hard(kind) && UnlockCost.next(host.store.unlock.unlocksToday()) == null) {
-            // Svako otključavanje u danu je skuplje, a posle poslednjeg nema više do sutra.
-            TextView spent = Ui.text(c, "Danas si već otključao " + UnlockCost.MAX
-                    + " puta. Sledeće otključavanje je moguće sutra od " + DailyCode.CHANGE_HOUR + ":00.", 14, Ui.NIGHT_MUTED, false);
+            // Šifra otključava jednom dnevno; posle toga nema više do sutra.
+            TextView spent = Ui.text(c, "Dnevna šifra je danas već iskorišćena. Sledeće otključavanje je moguće sutra od "
+                    + DailyCode.CHANGE_HOUR + ":00.", 14, Ui.NIGHT_MUTED, false);
             spent.setGravity(Gravity.CENTER);
             box.addView(spent, Ui.fill(c, 22));
         } else if (code && !GuardService.hard(kind)) {

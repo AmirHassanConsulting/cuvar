@@ -18,6 +18,7 @@ import com.cuvar.app.guard.LoadMeter;
 import com.cuvar.app.guard.PauseOverlayContent;
 import com.cuvar.app.guard.SystemScreens;
 import com.cuvar.app.rules.BlockKind;
+import com.cuvar.app.rules.CallOwner;
 import com.cuvar.app.rules.DailySchedule;
 import com.cuvar.app.rules.DayLimit;
 import com.cuvar.app.rules.QuickCover;
@@ -340,6 +341,28 @@ public class GuardService extends AccessibilityService {
         power = (PowerManager) getSystemService(Context.POWER_SERVICE);
         keyguard = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        watchCallMode();
+    }
+
+    private Object modeListener; // AudioManager.OnModeChangedListener (API 31+)
+
+    /** Kad poziv prestane, vlasnik poziva se briše odmah, makar nijedna aplikacija nije pitana. */
+    private void watchCallMode() {
+        if (audio == null || modeListener != null || Build.VERSION.SDK_INT < 31) return;
+        guarded("callModeWatch", () -> {
+            AudioManager.OnModeChangedListener l = mode -> guarded("callModeChanged", () -> {
+                if (mode != AudioManager.MODE_IN_COMMUNICATION) callOwner.reset();
+            });
+            audio.addOnModeChangedListener(getMainExecutor(), l);
+            modeListener = l;
+        });
+    }
+
+    private void unwatchCallMode() {
+        Object l = modeListener;
+        modeListener = null;
+        if (l == null || audio == null || Build.VERSION.SDK_INT < 31) return;
+        guarded("callModeUnwatch", () -> audio.removeOnModeChangedListener((AudioManager.OnModeChangedListener) l));
     }
 
     /** Događaji, prijemnici i otkucaj; otkucaj se zakazuje i kad neki korak pre njega pukne. */
@@ -603,6 +626,7 @@ public class GuardService extends AccessibilityService {
     private void shutdown() {
         running = false;
         h.removeCallbacksAndMessages(null);
+        unwatchCallMode();
         if (foreground != null) {
             guarded("foregroundClose", foreground::close);
             foreground = null;
@@ -666,19 +690,23 @@ public class GuardService extends AccessibilityService {
         }
     }
 
+    private final CallOwner callOwner = new CallOwner();
+
     /**
      * Da li je napred poziv u aplikaciji kojoj pozivi uvek prolaze: ekran poziva (dolazni, odlazni, u toku)
-     * ili internet poziv koji upravo traje (Telegram poziv nema poseban ekran).
+     * ili internet poziv koji upravo traje (Telegram poziv nema poseban ekran), ali samo za aplikaciju koja zove.
      */
     private boolean callPasses(String pkg, String raw) {
         if (!store.callsPass(pkg)) return false;
         String cls = activityOf.get(raw);
-        if (cls != null && SystemScreens.callScreen(cls)) return true;
+        boolean callScreen = cls != null && SystemScreens.callScreen(cls);
+        boolean inCall = false;
         try {
-            return audio != null && audio.getMode() == AudioManager.MODE_IN_COMMUNICATION;
+            inCall = audio != null && audio.getMode() == AudioManager.MODE_IN_COMMUNICATION;
         } catch (Throwable ignored) {
-            return false;
+            // bez stanja zvuka nema internet poziva: važi samo ekran poziva
         }
+        return callOwner.passes(pkg, callScreen, inCall);
     }
 
     /** Glavna odluka: šta je na ekranu i da li to treba blokirati. */
@@ -688,6 +716,13 @@ public class GuardService extends AccessibilityService {
         seenUsable = false;
         if (store == null || power == null || keyguard == null) {
             return;
+        }
+        if (callOwner.active()) {
+            try {
+                if (audio == null || audio.getMode() != AudioManager.MODE_IN_COMMUNICATION) callOwner.reset();
+            } catch (Throwable ignored) {
+                callOwner.reset(); // bez stanja zvuka se ne zna da poziv traje
+            }
         }
         if (!power.isInteractive()) {
             screen.hideOverlay();
@@ -846,7 +881,7 @@ public class GuardService extends AccessibilityService {
             return;
         }
 
-        String urlBarId = BrowserMonitor.addressViewId(pkg);
+        String urlBarId = BrowserMonitor.addressViewId(raw);
         boolean inApp = urlBarId == null && kinds.inAppBrowser(raw);
         String apkHost = urlBarId == null && !inApp ? kinds.webApkHost(raw) : null;
         if (inApp != currentInApp) {
@@ -935,7 +970,7 @@ public class GuardService extends AccessibilityService {
             if (BrowserWindows.isSameBrowserWindow(other, raw, urlBarId, addressRoot)) continue;
             // Ekran poziva i navigacija (Mape) prolaze kao napred: ne blokiraju se ni kad su u drugom prozoru.
             if (callPasses(other.pkg, other.rawPkg) || kinds.handsOff(other.rawPkg)) continue;
-            String id = BrowserMonitor.addressViewId(other.pkg);
+            String id = BrowserMonitor.addressViewId(other.rawPkg);
             boolean embedded = id == null && kinds.inAppBrowser(other.rawPkg);
             if (id != null || embedded) secondaryContentPackages.add(other.rawPkg);
             String host = null;

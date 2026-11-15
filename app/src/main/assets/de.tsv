@@ -61,7 +61,7 @@ Režim „	Modus „
 Unesi dnevnu šifru. Važi od 	Gib den Tagescode ein. Er gilt von 
 :00 do 	:00 bis 
 :00 i vidi se u Čuvaru.	:00 und wird in Čuvar angezeigt.
-U ovom pregledaču Čuvar ne vidi koji je sajt otvoren, pa je zaključan dok imaš pravila za sajtove. 	In diesem Browser sieht Čuvar nicht, welche Website offen ist, daher bleibt er gesperrt, solange du Website-Regeln hast. 
+U ovom pregledaču Čuvar ne vidi koji je sajt otvoren, pa je zaključan dok imaš pravila za sajtove ili za pregledač. 	In diesem Browser sieht Čuvar nicht, welche Website offen ist, daher bleibt er gesperrt, solange du Website- oder Browser-Regeln hast. 
 Koristi Chrome, Samsung Internet, Firefox, Edge, Brave ili Vivaldi. Otvara se dnevnom šifrom, od 	Nutze Chrome, Samsung Internet, Firefox, Edge, Brave oder Vivaldi. Er öffnet sich mit dem Tagescode, von 
 U aplikaciji za kloniranje bi se zaključane aplikacije otvarale pod drugim imenom. 	In einem App-Kloner würden gesperrte Apps unter einem anderen Namen geöffnet. 
 Zato je zaključana dok imaš pravila za aplikacije. Otvara se dnevnom šifrom, od 	Daher bleibt er gesperrt, solange du App-Regeln hast. Er öffnet sich mit dem Tagescode, von 
@@ -731,7 +731,7 @@ zadatak	Aufgabe
 zadatka	Aufgaben
 zadataka	Aufgaben
 . otključavanje danas: 	. Entsperrung heute: 
-Svako sledeće otključavanje u danu je teže, za sve aplikacije zajedno. Greške ne povećavaju težinu.	Jede weitere Entsperrung am Tag ist schwerer, für alle Apps zusammen. Fehler machen es nicht schwerer.
+Dnevna šifra otključava jednom dnevno, za sve aplikacije zajedno. Greške se ne računaju.	Der Tagescode entsperrt einmal pro Tag, für alle Apps zusammen. Fehler werden nicht gezählt.
 Strelice, boje, uljez, pamćenje i niz: nekoliko brzih zadataka redom. Greška ili isteklo vreme vraća na početak.	Pfeile, Farben, Außenseiter, Gedächtnis und Reihenfolge: ein paar schnelle Aufgaben hintereinander. Ein Fehler oder abgelaufene Zeit fängt von vorne an.
 Igrica: strelice	Spiel: Pfeile
 Na koju stranu pokazuje srednja strelica?	In welche Richtung zeigt der mittlere Pfeil?
@@ -801,8 +801,8 @@ Vreme u njoj ne troši ukupni limit i ne zaključava se kad on istekne; ostala p
 Uklanja se sutra u 06:00. Do tada pravilo važi.	Wird morgen um 06:00 entfernt. Bis dahin gilt die Regel.
 Šifra stiže u 	Der Code kommt um 
 :00, vidi se ovde do 	:00, er wird hier angezeigt bis 
-:00 i menja se posle svakog otključavanja.	:00 und ändert sich nach jeder Entsperrung.
-Svaka šifra važi za jedno otključavanje; posle njega se ovde pojavi nova. Otključava samo do 	Jeder Code gilt für eine Entsperrung; danach erscheint hier ein neuer. Er entsperrt nur bis 
+:00 i otključava jednom dnevno.	:00 und entsperrt einmal pro Tag.
+Šifra otključava jednom dnevno, do 	Der Code entsperrt einmal pro Tag, bis 
 :00.	:00.
 Pogrešna šifra. Posle svakog otključavanja Čuvar pokazuje novu.	Falscher Code. Nach jeder Entsperrung zeigt Čuvar einen neuen an.
 Vreme na njemu ne troši ukupni limit i ne zaključava se kad on istekne; ostala pravila važe. Jedna stavka dnevno odmah, ostale od sutra u 06:00	Die Zeit darauf verbraucht das gesamte Limit nicht und es wird nicht gesperrt, wenn das aufgebraucht ist; andere Regeln gelten weiter. Ein Eintrag pro Tag sofort, andere ab morgen 06:00
@@ -829,3 +829,6 @@ Vrati	Wiederherstellen
 +  Dodaj aplikacije	+  Apps hinzufügen
 +  Dodaj sajt	+  Website hinzufügen
 Uklonjeno, važi do 06:00	Entfernt, gilt bis 06:00
+Dnevna šifra je danas već iskorišćena. Sledeće otključavanje je moguće sutra od 	Der Tagescode ist heute schon verbraucht. Die nächste Entsperrung ist morgen ab 
+Iskorišćena	Verbraucht
+Šifra otključava jednom dnevno. Nova stiže sutra u 	Der Code entsperrt einmal pro Tag. Ein neuer kommt morgen um 

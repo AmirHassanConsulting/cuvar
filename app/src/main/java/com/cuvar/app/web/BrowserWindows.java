@@ -105,10 +105,7 @@ public final class BrowserWindows {
      */
     public android.graphics.Rect boundsOf(java.util.function.Predicate<String> matches) {
         try {
-            List<AccessibilityWindowInfo> apps = new ArrayList<>();
-            for (AccessibilityWindowInfo w : svc.getWindows()) {
-                if (w != null && w.getType() == AccessibilityWindowInfo.TYPE_APPLICATION) apps.add(w);
-            }
+            List<AccessibilityWindowInfo> apps = appWindows();
             if (apps.size() < 2) return null;
             for (AccessibilityWindowInfo w : apps) {
                 AccessibilityNodeInfo r = w.getRoot();
@@ -138,9 +135,21 @@ public final class BrowserWindows {
     private List<AccessibilityWindowInfo> appWindows() {
         List<AccessibilityWindowInfo> apps = new ArrayList<>();
         for (AccessibilityWindowInfo w : svc.getWindows()) {
-            if (w != null && w.getType() == AccessibilityWindowInfo.TYPE_APPLICATION) apps.add(w);
+            if (isAppOrLargeOverlay(w)) apps.add(w);
         }
         return apps;
+    }
+
+    /** Prozor aplikacije, ili veliki sistemski prozor (plutajući prozor preko drugih aplikacija). */
+    private boolean isAppOrLargeOverlay(AccessibilityWindowInfo w) {
+        if (w == null) return false;
+        if (w.getType() == AccessibilityWindowInfo.TYPE_APPLICATION) return true;
+        if (w.getType() != AccessibilityWindowInfo.TYPE_SYSTEM) return false;
+        // površina se proverava pre getRoot(), da mali prozori (traka, navigacija) ne troše bateriju
+        android.graphics.Rect b = new android.graphics.Rect();
+        w.getBoundsInScreen(b);
+        android.util.DisplayMetrics dm = svc.getResources().getDisplayMetrics();
+        return AppWindowScan.largeOverlay(b.width(), b.height(), dm.widthPixels, dm.heightPixels);
     }
 
     /** Šifra tipa aktivnog prozora za dijagnostiku (bez paketa): app|sys|ime|acc|split|none|other. */

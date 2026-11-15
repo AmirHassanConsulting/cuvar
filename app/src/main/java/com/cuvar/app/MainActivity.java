@@ -11,6 +11,7 @@ import com.cuvar.app.guard.ForegroundApp;
 import com.cuvar.app.i18n.Lang;
 import com.cuvar.app.rules.AccessibilityShortcut;
 import com.cuvar.app.rules.DailyCode;
+import com.cuvar.app.rules.UnlockCost;
 import com.cuvar.app.rules.DailySchedule;
 import com.cuvar.app.rules.DayLimit;
 import com.cuvar.app.ui.Charts;
@@ -251,7 +252,13 @@ public class MainActivity extends Activity {
     }
 
     private String codeState() {
-        return store.unlock.dailyCodeVisible() ? "visible:" + store.unlock.dailyCode() : "unavailable";
+        if (!store.unlock.dailyCodeVisible()) return "unavailable";
+        return codeUsed() ? "used" : "visible:" + store.unlock.dailyCode();
+    }
+
+    /** Današnje otključavanje šifrom je već iskorišćeno. */
+    private boolean codeUsed() {
+        return UnlockCost.next(store.unlock.unlocksToday()) == null;
     }
 
     /** Menja samo kartice čiji je vremenski sadržaj promenjen; dijalozi i skrol ostaju otvoreni. */
@@ -465,14 +472,19 @@ public class MainActivity extends Activity {
         if (!store.unlock.dailyCodeVisible()) {
             card.addView(Ui.text(this, "Stiže u " + DailyCode.CHANGE_HOUR + ":00", 30, Ui.INK, true), Ui.fill(this, 4));
             card.addView(Ui.text(this, "Šifra stiže u " + DailyCode.CHANGE_HOUR
-                    + ":00, vidi se ovde do " + DailyCode.LOCK_HOUR + ":00 i menja se posle svakog otključavanja.", 14, Ui.MUTED, false), Ui.fill(this, 6));
+                    + ":00, vidi se ovde do " + DailyCode.LOCK_HOUR + ":00 i otključava jednom dnevno.", 14, Ui.MUTED, false), Ui.fill(this, 6));
+            return card;
+        }
+        if (codeUsed()) {
+            card.addView(Ui.text(this, "Iskorišćena", 30, Ui.INK, true), Ui.fill(this, 4));
+            card.addView(Ui.text(this, "Šifra otključava jednom dnevno. Nova stiže sutra u " + DailyCode.CHANGE_HOUR + ":00.",
+                    14, Ui.MUTED, false), Ui.fill(this, 6));
             return card;
         }
         TextView code = Ui.text(this, store.unlock.dailyCode(), 38, Ui.INK, true);
         code.setLetterSpacing(0.2f);
         card.addView(code, Ui.fill(this, 4));
-        card.addView(Ui.text(this, "Svaka šifra važi za jedno otključavanje; posle njega se ovde pojavi nova. Otključava samo do "
-                + DailyCode.LOCK_HOUR + ":00.",
+        card.addView(Ui.text(this, "Šifra otključava jednom dnevno, do " + DailyCode.LOCK_HOUR + ":00.",
                 14, Ui.MUTED, false), Ui.fill(this, 6));
         return card;
     }

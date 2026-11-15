@@ -4,6 +4,7 @@ import com.cuvar.app.GuardService;
 import com.cuvar.app.R;
 import com.cuvar.app.rules.DayLimit;
 import com.cuvar.app.web.BrowserMonitor;
+import com.cuvar.app.web.Browsers;
 import com.cuvar.app.web.Hosts;
 import com.cuvar.app.web.WebAddress;
 
@@ -119,12 +120,22 @@ public final class AppKinds {
         if (known != null) return known;
         String out = p;
         Set<String> guarded = svc.store.guardedApps();
-        if (!guarded.contains(p) && !exempt().contains(p) && !BrowserMonitor.isBrowser(p)) {
-            String label = svc.appLabel(p);
-            for (String g : guarded) {
-                if (Clones.isPackageCopy(p, g) || Clones.isLabelCopy(label, g, svc.appLabel(g))) {
-                    out = g;
-                    break;
+        if (!guarded.contains(p) && !exempt().contains(p)) {
+            if (BrowserMonitor.isBrowser(p)) {
+                // pregledač bez pravila deli pravila sa pregledačem koji ih ima
+                String b = Browsers.ruledBrowserFor(p, guarded);
+                if (b != null) out = b;
+            } else {
+                String label = svc.appLabel(p);
+                for (String g : guarded) {
+                    if (Clones.isPackageCopy(p, g) || Clones.isLabelCopy(label, g, svc.appLabel(g))) {
+                        out = g;
+                        break;
+                    }
+                }
+                if (out.equals(p)) {
+                    String same = Clones.sameAppAs(p, guarded);
+                    if (same != null) out = same;
                 }
             }
         }
@@ -144,7 +155,14 @@ public final class AppKinds {
      * on je zaključan kao aplikacija, inače bi se blokirani sajtovi samo otvorili u njemu.
      */
     public boolean unknownBrowser(String p) {
-        return svc.browserMonitor.isUnknownBrowser(p, svc.store.hasSiteRules());
+        return svc.browserMonitor.isUnknownBrowser(p, svc.store.hasSiteRules() || knownBrowserRuled());
+    }
+
+    /** Da li neki poznati pregledač ima pravilo aplikacije. */
+    private boolean knownBrowserRuled() {
+        Set<String> guarded = svc.store.guardedApps();
+        for (String b : Browsers.BROWSER_PACKAGES) if (guarded.contains(b)) return true;
+        return false;
     }
 
     /** Promene sadržaja trebaju za adresu u pregledaču i, dok je zaštita uključena, za ekrane podešavanja. */

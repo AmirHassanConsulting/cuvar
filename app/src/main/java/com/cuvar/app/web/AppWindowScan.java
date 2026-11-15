@@ -15,4 +15,10 @@ public final class AppWindowScan {
         if (appCount < 1 || frontWindowId < 0) return false;
         return onlyAppWindowId != frontWindowId;
     }
+
+    /** Veliki sistemski prozor (plutajući „chat head“ proširen preko ekrana): površina bar 20% ekrana. */
+    public static boolean largeOverlay(int w, int h, int screenW, int screenH) {
+        if (w <= 0 || h <= 0 || screenW <= 0 || screenH <= 0) return false;
+        return (long) w * h * 5L >= (long) screenW * screenH;
+    }
 }

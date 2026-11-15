@@ -50,6 +50,15 @@ public final class BrowsersTest {
         StringBuilder longText = new StringBuilder("a.com/");
         while (longText.length() <= 200) longText.append('x');
         check(Browsers.hostFromText(longText) == null, "predugačak tekst (sadržaj stranice) se ne čita kao adresa");
+        // Pregledač bez pravila deli pravila sa pregledačem koji ih ima.
+        java.util.Set<String> chrome = new java.util.HashSet<>(java.util.Arrays.asList("com.android.chrome"));
+        check("com.android.chrome".equals(Browsers.ruledBrowserFor("org.mozilla.firefox", chrome)), "Firefox deli pravila Chrome-a");
+        check(Browsers.ruledBrowserFor("com.android.chrome", chrome) == null, "Chrome sa pravilom ostaje svoj");
+        check(Browsers.ruledBrowserFor("com.whatsapp", chrome) == null, "Nije pregledač");
+        check(Browsers.ruledBrowserFor("org.mozilla.firefox", new java.util.HashSet<String>()) == null, "Nijedan nema pravilo");
+        java.util.Set<String> two = new java.util.LinkedHashSet<>(java.util.Arrays.asList("org.mozilla.firefox", "com.brave.browser"));
+        check("com.brave.browser".equals(Browsers.ruledBrowserFor("com.android.chrome", two)), "Prvi po redu iz spiska pregledača");
+        check(Browsers.ruledBrowserFor(null, chrome) == null && Browsers.ruledBrowserFor("com.android.chrome", null) == null, "null");
         System.out.println("BrowsersTest: " + checks + " provera prošlo.");
     }
 

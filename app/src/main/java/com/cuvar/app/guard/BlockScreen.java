@@ -91,8 +91,9 @@ public final class BlockScreen {
     }
 
     public String browserForCurrentBlock() {
-        if (svc.currentPkg != null && BrowserMonitor.isBrowser(svc.currentPkg)) return svc.currentPkg;
-        return svc.rawPkg != null && BrowserMonitor.isBrowser(svc.rawPkg) ? svc.rawPkg : null;
+        // prvo pregledač koji je stvarno napred (currentPkg može biti pregledač čija se pravila dele)
+        if (svc.rawPkg != null && BrowserMonitor.isBrowser(svc.rawPkg)) return svc.rawPkg;
+        return svc.currentPkg != null && BrowserMonitor.isBrowser(svc.currentPkg) ? svc.currentPkg : null;
     }
 
     /**

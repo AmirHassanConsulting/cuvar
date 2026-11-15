@@ -139,7 +139,9 @@ Zahtevi iz starije verzije (čekali su potvrdu) pri prvom pokretanju postaju ova
 - Izmereno vreme, limiti, broj otvaranja, hitno otključavanje i broj
   otključavanja kreću iz početka u **ponoć**.
 - Zakazana popuštanja (i uklanjanje iz pravila) računaju dan od **06:00**.
-- Dnevna šifra se menja u **17:00**.
+- Dnevna šifra se menja u **17:00** i otključava **najviše jednom dnevno**.
+- Promena vremenske zone (i automatska) važi tek od sledećih **06:00** po dosadašnjoj zoni.
+- Automatsko vreme se prati samo dok se sat telefona slaže sa vremenom sa mreže (Android 13+).
 - Sve se računa po "pouzdanom satu": pomeranje sata ili zone ne skraćuje režim,
   ne vraća limite i ne donosi novu šifru.
 
@@ -147,6 +149,11 @@ Zahtevi iz starije verzije (čekali su potvrdu) pri prvom pokretanju postaju ova
 
 - Kopije aplikacija (Parallel Space i slične) potpadaju pod pravila originala,
   a aplikacije za kloniranje su zaključane dok postoje pravila za aplikacije.
+- Zamenske aplikacije (NewPipe, ReVanced, Lite verzije, drugi Reddit klijenti...) dobijaju pravila
+  originala; pregledač bez pravila deli pravila sa pregledačem koji ih ima, a nepoznat pregledač je
+  zaključan i dok neki poznati ima pravilo.
+- Veliki plutajući prozori (chat head) preko zaključane aplikacije se prekrivaju blokadom.
+- "Pozivi prolaze" važi samo za aplikaciju koja zove, ne za sve dok traje poziv.
 - Pregledač u kome Čuvar ne vidi adresu (i pregledač unutar Instagrama i sl.)
   zaključan je dok postoje pravila za sajtove; dok je neki sajt tvrdo blokiran,
   ni on se ne otključava.
