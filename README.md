@@ -174,7 +174,8 @@ Zahtevi iz starije verzije (čekali su potvrdu) pri prvom pokretanju postaju ova
 1. Aplikacija koja je samo u režimu i van režima dobija pauzu od 6 s. Da li
    pauza treba da važi samo za stavke sa sopstvenim pravilom?
 2. Povećanje ukupnog limita ostaje zauvek, pa limit može da raste iz dana u dan.
-   Predlog: povećanje samo za danas.
+   Predlog: povećanje samo za danas, a isključivanje limita od 06:00 umesto od ponoći
+   (kao ostala popuštanja).
 3. "Hitno otključavanje" radi samo 17–22 i uz šifru, pa nije hitno: samo
    preskače pauzu od 60 min. Predlog: preimenovati u "Otključaj bez čekanja"
    ili ukloniti.

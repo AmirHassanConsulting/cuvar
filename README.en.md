@@ -195,7 +195,8 @@ this kind of removal on first start (without checking the window).
 1. An app that is only in a mode also gets the 6 s pause outside the mode. Should
    the pause apply only to items with their own rule?
 2. A raise of the overall limit stays forever, so the limit can grow day by day.
-   Proposal: raise for today only.
+   Proposal: raise for today only, and turning the limit off from 06:00 instead of
+   midnight (like other loosening).
 3. "Emergency unlock" works only 17–22 and with the code, so it is not really an
    emergency: it only skips the 60 min cooldown. Proposal: rename it to "Unlock
    without waiting" or remove it.

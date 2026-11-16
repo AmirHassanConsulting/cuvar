@@ -11,7 +11,7 @@ Start here:
 - [tests/README.en.md](tests/README.en.md) — automated tests and manual phone scenarios
 
 Serbian is the source of truth for all docs. `PLAN-GRESKE.md` (error-handling plan)
-and `AUDIT-*.md` (bypass audits) are internal notes and exist only in Serbian.
+is an internal note and exists only in Serbian.
 
 ## Workflow
 
