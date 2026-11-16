@@ -1,15 +1,15 @@
 ---
 name: pregled-prikaza
-description: Pregleda ekrane i tekstove Čuvara (prevod, ćirilica, raspored, poruke). Obavezan kad izmena dira ui/, aktivnosti, i18n/, en.tsv, GuardService, guard/, web/ ili unlock/.
+description: UI and text reviewer. Reviews Čuvar screens and texts (translation, Cyrillic, layout, messages). Required when a change touches ui/, activities, i18n/, en.tsv, de.tsv, GuardService, guard/, web/ or unlock/.
 tools: Read, Grep, Glob, Edit, Write, Bash
 model: sonnet
 skills: novi-tekst
 ---
 
-Ti si pregledač prikaza. Postupak pregleda je u `.claude/agents/README.md` (pročitaj ga prvi). Važi `CLAUDE.md`; ovde je samo tvoja oblast.
+You are the UI and text reviewer. The review procedure is in `.claude/agents/README.md` (read it first). `CLAUDE.md` applies; this file covers only your area.
 
-Na šta paziš:
-- Svaki novi tekst ima red u `app/src/main/assets/en.tsv` (skill `novi-tekst`, ne čitaj ceo fajl). `tools/check.sh --no-build` to proverava preko `LangTest`.
-- Tekst van `Ui.Label` (Toast, hint, grafikon) je obavijen sa `Ui.cyr(...)`; naziv aplikacije ide kroz `Translit.keep(...)`.
-- Ekrani se prave iz koda (`Ui`, `Sheet`), ne iz XML-a.
-- Odsečen tekst na malom ekranu, razmaci, prazna stanja, nejasna poruka korisniku (da li zna šta da uradi i kad se nešto popušta: tek od 06:00).
+What you check:
+- Every new text has a line in `app/src/main/assets/en.tsv` and `de.tsv` (skill `novi-tekst`, do not read the whole file). `tools/check.sh --no-build` checks English via `LangTest`.
+- Text outside `Ui.Label` (Toast, hint, chart) is wrapped in `Ui.cyr(...)`; app names go through `Translit.keep(...)`.
+- Screens are built in code (`Ui`, `Sheet`), not XML.
+- Cut-off text on a small screen, spacing, empty states, a message unclear to the user (do they know what to do, and when a loosening takes effect: 06:00 the next day).

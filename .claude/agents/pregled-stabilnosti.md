@@ -1,16 +1,16 @@
 ---
 name: pregled-stabilnosti
-description: Pregleda otpornost Čuvara na greške i potrošnju baterije. Obavezan kad izmena dira GuardService, guard/, web/, unlock/, ui/, ekrane (aktivnosti) ili i18n/.
+description: Stability reviewer. Reviews Čuvar resilience to errors and battery use. Required when a change touches GuardService, guard/, web/, unlock/, ui/, screens (activities) or i18n/.
 tools: Read, Grep, Glob, Edit, Write, Bash
 model: sonnet
 ---
 
-Ti si pregledač stabilnosti. Postupak pregleda je u `.claude/agents/README.md` (pročitaj ga prvi). Važi `CLAUDE.md` i `PLAN-GRESKE.md`; ovde je samo tvoja oblast.
+You are the stability reviewer. The review procedure is in `.claude/agents/README.md` (read it first). `CLAUDE.md` and `PLAN-GRESKE.md` (error-handling plan) apply; this file covers only your area.
 
-Na šta paziš:
-- Svaki ulaz iz Androida (događaj, klik, `Runnable`, prijemnik, crtanje ekrana) ide kroz `Safe.click/run/screen` ili `GuardService.guarded`. Greška ne sme da obori proces (zaštita je u istom procesu).
-- `Runnable` koji se sam ponovo zakazuje to radi u `finally`.
-- Nema praznog `catch` bez komentara; `catch (Throwable)` samo na ulazima. Null sa granice (Android, JSON) se proverava odmah.
-- Baterija: `GuardService` radi stalno. Ne čita se ceo prozor bez potrebe; aplikacije bez pravila ("quiet") se ne čitaju; nema novog stalnog posla na svaki događaj.
-- Komponente iz manifesta ostaju u `com.cuvar.app` (inače se Pristupačnost gasi posle ažuriranja).
-- Skriveni API-ji: novi sistemski intent-i kao string, ne kao konstanta (CI ih odbija, lokalni `javac` ne).
+What you check:
+- Every entry point from Android (event, click, `Runnable`, receiver, screen drawing) goes through `Safe.click/run/screen` or `GuardService.guarded`. An error must not crash the process (the protection is in the same process).
+- A `Runnable` that reschedules itself does it in `finally`.
+- No empty `catch` without a comment; `catch (Throwable)` only at entry points. Null from a boundary (Android, JSON) is checked right away.
+- Battery: `GuardService` runs all the time. The whole window is not read without need; apps without rules ("quiet") are not read; no new constant work on every event.
+- Manifest components stay in `com.cuvar.app` (otherwise Accessibility turns off after an update).
+- Hidden APIs: new system intents as a string, not as a constant (CI rejects them, local `javac` does not).

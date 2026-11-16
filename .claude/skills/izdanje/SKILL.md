@@ -1,25 +1,27 @@
 ---
 name: izdanje
-description: Završi izmenu u Čuvaru i objavi je - provera, commit, push na main i praćenje CI build-a. Koristi kad je zadatak gotov i treba ga pushovati.
+description: Release. Finish a change in Čuvar and publish it - check, commit, push to main and follow the CI build. Use when a task is done and needs to be pushed.
 ---
 
-# Izdanje (commit + push na main)
+# Release (commit + push to main)
 
-Svaki push na `main` pravi novo izdanje aplikacije (osim kad su menjani samo `.md`,
-`.claude/**` ili `tools/**`). Ne pushuj polovične izmene.
+Every push to `main` creates a new app release (except when only `.md`, `.claude/**` or
+`tools/**` changed). Do not push half-done changes.
 
 1. `git pull --rebase origin main`
-2. Izmena u kodu (`app/`, `tests/`, gradle) mora da prođe tok iz skill-a `rad-sa-agentima`:
-   review obaveznih pregledača, pa tester u emulatoru ako je pokrenut. `tools/review-stanje.sh`
-   mora reći "Sve je spremno"; hook inače blokira commit i kaže šta fali.
-3. `tools/check.sh` (Windows: `powershell ./tools/check.ps1`). Ispisuje samo greške.
-   - Mora da prođe pre push-a (hook blokira `git push` ako nije).
-   - Ako piše "Build preskočen: nema Android SDK-a", build će proveriti CI. Ne
-     koristi nove sistemske konstante (vidi CLAUDE.md, skriveni API-ji).
-4. `git add` za sve izmene u kodu (commit mora da sadrži tačno pregledano stanje). Commit poruka na engleskom, kratko šta se promenilo.
-5. `git pull --rebase origin main` još jednom, pa `git push origin HEAD:main`.
-6. Proveri CI: lokalno `gh run watch $(gh run list -L1 --json databaseId -q '.[0].databaseId') --exit-status`,
-   a samo ako padne `gh run view --log-failed | tail -60` (ne ceo log).
-   U oblaku: GitHub MCP `actions_list` (perPage 1), pa `get_job_logs` sa `failed_only`.
-7. Javi: broj izdanja (`v<run_number+100>`), da li je CI zelen, ko je pregledao, i da li je
-   provereno u emulatoru i na telefonu.
+2. A code change (`app/`, `tests/`, gradle) must go through the flow from the `rad-sa-agentima`
+   skill: review by the required reviewers, then the emulator tester if one is running.
+   `tools/review-stanje.sh` must say "Sve je spremno" (all ready); otherwise the hook blocks the
+   commit and says what is missing.
+3. `tools/check.sh` (Windows: `powershell ./tools/check.ps1`). It prints only errors.
+   - It must pass before the push (the hook blocks `git push` otherwise).
+   - If it says "Build preskočen: nema Android SDK-a" (build skipped: no Android SDK), CI will
+     check the build. Do not use new system constants (see CLAUDE.md, hidden APIs).
+4. `git add` all code changes (the commit must contain exactly the reviewed state). Commit message
+   in English, briefly what changed.
+5. `git pull --rebase origin main` once more, then `git push origin HEAD:main`.
+6. Check CI: locally `gh run watch $(gh run list -L1 --json databaseId -q '.[0].databaseId') --exit-status`,
+   and only if it fails `gh run view --log-failed | tail -60` (not the whole log).
+   In the cloud: GitHub MCP `actions_list` (perPage 1), then `get_job_logs` with `failed_only`.
+7. Report (in Serbian): the release number (`v<run_number+100>`), whether CI is green, who
+   reviewed, and whether it was checked in the emulator and on a phone.

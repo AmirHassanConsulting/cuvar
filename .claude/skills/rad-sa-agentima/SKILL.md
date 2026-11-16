@@ -1,59 +1,68 @@
 ---
 name: rad-sa-agentima
-description: Tok rada glavnog agenta (orkestratora) u Čuvaru - zadatak, izvođač, paralelni pregledači, ispravke, check, emulator, commit. Koristi za svaku izmenu u app/, tests/ ili gradle fajlovima.
+description: Working with agents. The main agent's (orchestrator's) workflow in Čuvar - task, implementer, parallel reviewers, fixes, check, emulator, commit. Use for every change in app/, tests/ or gradle files.
 ---
 
-# Rad sa agentima (glavni agent = orkestrator)
+# Working with agents (main agent = orchestrator)
 
-Glavni agent (agent `orkestrator` kad je uključen u settings.json) planira, deli posao i spaja nalaze.
-Pitanja o kodu šalje agentu `istrazivac` (haiku, samo čita) umesto da sam čita fajlove. Kod u `app/` i `tests/` ne piše sam
-(izuzetak: Stefan izričito kaže da je sitnica i da ne treba review). Agenti su u
-`.claude/agents/`, postupak pregleda u `.claude/agents/README.md`.
+The main agent (agent `orkestrator` when enabled in settings.json) plans, splits the work and merges
+findings. Questions about the code go to the `istrazivac` agent (researcher; haiku, read-only)
+instead of reading files itself. It does not write code in `app/` and `tests/` itself (exception:
+Stefan explicitly says it is a trivial change and needs no review). The agents are in
+`.claude/agents/` (name glossary and review procedure in `.claude/agents/README.md`).
 
-## Tok
+## Flow
 
-1. `git pull --rebase origin main`, pa `tools/review-novi.sh "naslov"` (arhivira stari `.review/`).
-   Popuni `.review/zadatak.md`: šta, zašto, šta korisnik vidi posle, šta se ne dira.
-2. **izvodjac** piše izmenu. Model: `sonnet` za obično; za `GuardService`, `Store`, `guard/`,
-   `enforce()`/`pendingChanges()` pokreni ga sa `model: opus` (parametar pri pozivu agenta).
-3. `tools/review-stanje.sh` kaže koji su pregledači obavezni. Pokreni ih **paralelno** u jednoj
-   poruci (više poziva agenta odjednom). U ovoj fazi samo pišu nalaze u `.review/nalazi/<ime>.md`.
-   - Pregledači su podrazumevano na `sonnet`. Za izmene u `GuardService`, `Store`, `guard/` i
-     `enforce()` (izvođač na `opus`) pokreni `pregled-pravila` i `pregled-bezbednosti` sa
-     `model: opus`: izmenu jačeg modela ne odobrava samo slabiji.
-   - Drugi krug samo ako je bilo ispravki, i samo pregledači čija oblast je dirnuta (štedi limit).
-4. Ispravke **jedna po jedna** (nikad dva agenta koji menjaju kod istovremeno): nalaz ispravlja
-   pregledač koji ga je našao ili izvođač. Posle svake ispravke ponovo pokreni obavezne pregledače
-   (paralelno), da svi vide i odobre **isto** stanje (`tools/review-ok.sh <ime>`).
-5. Najviše **3 kruga**. Ako se ni tada ne slože, ili isti nalaz agent na slabijem modelu dvaput
-   ne reši: stani. Prvo probaj jači model (`opus`) umesto trećeg kruga; ako ni to ne pomogne, iznesi
-   Stefanu neslaganje sa oba stava (`request_decision` ili poruka) i ne commit-uj.
-6. **proveravac**: `tools/check.sh`. Pad vraća posao izvođaču (pa ponovo review, jer se kod menja).
-7. **tester-emulator** ako izmena dira `GuardService`, `guard/`, `ui/` ili ekrane i `adb devices`
-   vidi uređaj. Bez uređaja: u završnoj poruci napiši "nije provereno u emulatoru".
-8. `tools/review-stanje.sh` mora reći "Sve je spremno", pa `git add` za sve izmene u kodu i commit.
-   Hook blokira commit koda dok bilo šta fali i kaže tačno šta. Dalje: skill `izdanje`.
+1. `git pull --rebase origin main`, then `tools/review-novi.sh "title"` (archives the old `.review/`).
+   Fill in `.review/zadatak.md` (the task, in Serbian): what, why, what the user sees afterwards,
+   what is not touched.
+2. **izvodjac** (implementer) writes the change. Model: `sonnet` for ordinary work; for
+   `GuardService`, `Store`, `guard/`, `enforce()`/`pendingChanges()` run it with `model: opus`
+   (a parameter of the agent call).
+3. `tools/review-stanje.sh` says which reviewers are required. Run them **in parallel** in one
+   message (several agent calls at once). In this phase they only write findings to
+   `.review/nalazi/<name>.md`.
+   - Reviewers default to `sonnet`. For changes in `GuardService`, `Store`, `guard/` and
+     `enforce()` (implementer on `opus`) run `pregled-pravila` and `pregled-bezbednosti` with
+     `model: opus`: a change by a stronger model is not approved only by a weaker one.
+   - A second round only if there were fixes, and only the reviewers whose area was touched
+     (saves the limit).
+4. Fixes **one at a time** (never two agents changing code at the same time): a finding is fixed
+   by the reviewer who found it or by the implementer. After every fix run the required reviewers
+   again (in parallel), so all of them see and approve the **same** state (`tools/review-ok.sh <name>`).
+5. At most **3 rounds**. If they still do not agree, or an agent on a weaker model fails to solve
+   the same finding twice: stop. First try a stronger model (`opus`) instead of a third round; if
+   that does not help either, put the disagreement with both positions to Stefan
+   (`request_decision` or a message) and do not commit.
+6. **proveravac** (checker): `tools/check.sh`. A failure sends the work back to the implementer
+   (then review again, because the code changes).
+7. **tester-emulator** if the change touches `GuardService`, `guard/`, `ui/` or screens and
+   `adb devices` sees a device. Without a device: write "nije provereno u emulatoru" (not checked
+   in the emulator) in the final message.
+8. `tools/review-stanje.sh` must say "Sve je spremno" (all ready), then `git add` all code changes
+   and commit. The hook blocks a code commit while anything is missing and says exactly what.
+   Next: skill `izdanje`.
 
-## Pravila
+## Rules
 
-- Niko ne odobrava sopstvenu izmenu: pregledač koji je ispravio kod odobrava tek kad je neki drugi
-  pregledač već odobrio to stanje (skripta to proverava).
-- Oznake u `.git/cuvar-*-ok` pišu samo skripte; hook ne da glavnom agentu ni izvođaču da pokrenu
-  `review-ok`/`emulator-ok`, niti da direktno pišu oznake.
-- Svaka izmena koda posle odobrenja poništava odobrenja i check (porede se samo putanje koda;
-  izmena `.md` ne poništava).
-- Nalaz se ne briše, samo mu se menja `Status:`.
-- U završnoj poruci: šta je urađeno, ko je šta pregledao, šta je odbijeno i zašto, da li je
-  provereno u emulatoru i na telefonu.
+- Nobody approves their own change: a reviewer who fixed code approves only after another
+  reviewer has already approved that state (the script checks this).
+- Only scripts write the markers in `.git/cuvar-*-ok`; the hook does not let the main agent or the
+  implementer run `review-ok`/`emulator-ok`, or write markers directly.
+- Every code change after approval invalidates the approvals and the check (only code paths are
+  compared; a `.md` change does not invalidate).
+- A finding is never deleted, only its `Status:` changes.
+- In the final message: what was done, who reviewed what, what was rejected and why, whether it
+  was checked in the emulator and on a phone.
 
-## Obim pregleda (iz `tools/oznake.sh`, `obim_pregleda`)
+## Review scope (from `tools/oznake.sh`, `obim_pregleda`)
 
-| Izmena dira | Obavezni |
+| Change touches | Required |
 |---|---|
-| `rules/`, `data/` (`Store`) | pravila + bezbednosti |
-| `GuardService`, `guard/` | sva četiri + emulator |
-| `web/`, `unlock/` | sva četiri |
-| `ui/`, aktivnosti | prikaza + stabilnosti + emulator |
-| `i18n/`, `en.tsv` | prikaza + stabilnosti |
-| samo `tests/` | pravila |
-| ostalo (manifest, gradle, `CuvarApp`) | sva četiri |
+| `rules/`, `data/` (`Store`) | rules + safety |
+| `GuardService`, `guard/` | all four + emulator |
+| `web/`, `unlock/` | all four |
+| `ui/`, activities | UI/text + stability + emulator |
+| `i18n/`, `en.tsv` | UI/text + stability |
+| only `tests/` | rules |
+| other (manifest, gradle, `CuvarApp`) | all four |
