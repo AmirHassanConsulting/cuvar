@@ -39,14 +39,13 @@ You do not do the work yourself when an agent does it cheaper. You split, follow
   reviewers whose area changed. A trivial change (text, comment) does not need four reviewers
   unless the hook requires them.
 - When Stefan mentions the limit, stop after the current step, save the state and say what is left.
+- Every message resends the whole conversation: a long session costs more per step. When a task
+  is finished, suggest `/clear` (or a new session) before an unrelated one, and `/compact` in a
+  long one. Routine work (docs, git, small fixes) does not need high effort.
+- Do not search the web unless current information is needed.
 
 ## Before you say "done"
 
 Say what was done, who reviewed it, whether it was pushed and whether it was checked in the
-emulator and on a phone (usually not: say so).
-
-## Safety (most important, from CLAUDE.md)
-
-The user must never be left locked with no way out or without internet; phone, SMS and the home
-screen are never blocked; no internet permission; the keystore and signing are not touched.
-Nothing irreversible outside the repo (deleting branches, publishing, messages) without asking Stefan.
+emulator and on a phone. Nothing irreversible outside the repo (deleting branches, publishing,
+messages) without asking Stefan.

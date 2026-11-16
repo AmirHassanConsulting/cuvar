@@ -103,6 +103,29 @@ događaje i glavnu proveru `check()`. Njegovi delovi su polja servisa:
 (`currentPkg`, `rawPkg`, `overlayRule`...) je zato `public` u servisu. Menja ga samo
 servis i njegovi delovi, nikad ekrani.
 
+## Build i testovi
+
+- Gradle projekat, modul `app/`: `applicationId com.cuvar.app`, `minSdk 26`,
+  `compileSdk/targetSdk 36`, Java 11. Launcher aktivnost: `MainActivity`.
+- Debug build nema svoj signing config (potpisuje ga Gradle-ov debug ključ), pa je
+  `assembleDebug` dovoljan za emulator/telefon (paket `com.cuvar.app.debug`).
+- Testovi: obične klase sa `main` u `tests/com/cuvar/app/*Test.java`, bez Android SDK-a,
+  nad klasama iz `tests/sources.txt` (pokreće ih `tools/check.sh`, odnosno `tests/run.ps1`).
+  `Store` i `GuardService` zavise od Android-a i ne testiraju se na računaru.
+- Emulator preko adb-a: skill `test-emulator`; scenariji u `tests/README.md` (samo potreban odeljak).
+
+## Agenti (Claude Code)
+
+Glavna sesija je `orkestrator` (`"agent"` u `.claude/settings.json`); tok rada je u skill-u
+`rad-sa-agentima`, postupak pregleda u `.claude/agents/README.md`, radni fajlovi u `.review/`
+(nije u git-u). Model svakog agenta je u polju `model:` u `.claude/agents/<ime>.md`:
+
+| Agent | Model |
+|---|---|
+| `orkestrator` | opus |
+| `istrazivac`, `proveravac`, `tester-emulator` | haiku |
+| `izvodjac`, `pregled-*` | sonnet (opus po pozivu za `GuardService`, `Store`, `guard/`, `enforce()`) |
+
 ## Odluka o blokadi
 
 `check()` skuplja stanje (šta je napred, koji sajt, drugi prozori) i prikazuje rezultat.

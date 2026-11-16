@@ -110,6 +110,30 @@ service: `svc.screen` (`BlockScreen`), `svc.kinds` (`AppKinds`), `svc.accounting
 (`currentPkg`, `rawPkg`, `overlayRule`...) is therefore `public` in the service.
 Only the service and its parts change it, never screens.
 
+## Build and tests
+
+- Gradle project, module `app/`: `applicationId com.cuvar.app`, `minSdk 26`,
+  `compileSdk/targetSdk 36`, Java 11. Launcher activity: `MainActivity`.
+- The debug build has no signing config of its own (Gradle's debug key signs it), so
+  `assembleDebug` is enough for an emulator/phone (package `com.cuvar.app.debug`).
+- Tests: plain classes with `main` in `tests/com/cuvar/app/*Test.java`, no Android SDK,
+  over the classes in `tests/sources.txt` (run by `tools/check.sh` or `tests/run.ps1`).
+  `Store` and `GuardService` depend on Android and aren't tested on a computer.
+- Emulator via adb: `test-emulator` skill; scenarios in `tests/README.en.md` (only the needed section).
+
+## Agents (Claude Code)
+
+The main session is `orkestrator` (`"agent"` in `.claude/settings.json`); the workflow is
+the `rad-sa-agentima` skill, the review procedure is `.claude/agents/README.md`, work files
+are in `.review/` (not in git). Each agent's model is the `model:` field in
+`.claude/agents/<name>.md`:
+
+| Agent | Model |
+|---|---|
+| `orkestrator` | opus |
+| `istrazivac`, `proveravac`, `tester-emulator` | haiku |
+| `izvodjac`, `pregled-*` | sonnet (opus per call for `GuardService`, `Store`, `guard/`, `enforce()`) |
+
 ## Block decision
 
 `check()` gathers the state (what is in the foreground, which site, other windows)
